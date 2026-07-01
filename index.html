@@ -1,152 +1,148 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Social Media Report @rickysarkany</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
-<style>
-body{background:#0C0C0C;color:#fff;font-family:Arial,sans-serif;margin:0}
-.wrap{max-width:1100px;margin:0 auto;padding:0 20px 60px}
-.cover{text-align:center;padding:50px 20px 30px;border-bottom:1px solid #222}
-.ct{font-size:44px;font-weight:900;line-height:1;margin-bottom:8px}
-.ct span{color:#E8C170}
-.cs{color:#888;font-size:13px;letter-spacing:1px;margin-bottom:16px}
-.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.b{padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700}
-.bi{background:#C13584;color:#fff}.bt{background:#FE2C55;color:#fff}
-.bw{background:#222;color:#E8C170;border:1px solid #E8C170}
-.sec{margin-top:36px}
-.sh{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #222}
-.sd{width:4px;height:24px;border-radius:2px}
-.sdig{background:#C13584}.sdtk{background:#FE2C55}.sdmx{background:#E8C170}
-.st{font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.kg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
-.kc{background:#1A1A1A;border-radius:8px;padding:14px;border:1px solid #2a2a2a}
-.kl{font-size:9px;color:#C13584;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:5px}
-.tkl{color:#FE2C55}.kv{font-size:26px;font-weight:900;line-height:1}
-.kch{font-size:11px;font-weight:700;margin-top:4px}.up{color:#4ADE80}.dn{color:#F87171}
-.cr{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
-@media(max-width:600px){.cr{grid-template-columns:1fr}}
-.cb{background:#1A1A1A;border-radius:8px;padding:16px;border:1px solid #2a2a2a}
-.cb h4{font-size:10px;color:#888;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
-.cw{position:relative;height:190px}
-.tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:12px}
-thead tr{background:#252525}
-th{padding:8px 10px;text-align:left;color:#E8C170;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700;white-space:nowrap}
-td{padding:8px 10px;border-bottom:1px solid #1e1e1e;vertical-align:middle}
-tr.tp td{color:#E8C170;font-weight:700;background:#201a0c}
-tr:hover td{background:#1e1e1e}
-.tg{display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700}
-.tc{background:rgba(193,53,132,.15);color:#C13584;border:1px solid #C13584}
-.tr{background:rgba(254,44,85,.15);color:#FE2C55;border:1px solid #FE2C55}
-.ins{background:#161616;border-left:3px solid #E8C170;padding:10px 14px;border-radius:0 6px 6px 0;margin-top:10px;font-size:11px;color:#aaa;line-height:1.5}
-.ins strong{color:#E8C170}
-.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
-.cc{background:#1A1A1A;border-radius:8px;padding:14px;border:1px solid #2a2a2a}
-.cn{font-size:10px;color:#888;font-weight:700;letter-spacing:1px;margin-bottom:4px}
-.ctit{font-size:12px;font-weight:700;margin-bottom:4px}
-.cbod{font-size:11px;color:#aaa;line-height:1.4}
-.ft{margin-top:50px;text-align:center;padding-top:16px;border-top:1px solid #1a1a1a;color:#555;font-size:11px;letter-spacing:1px}
-.ft span{color:#E8C170}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Media Report — @rickysarkany</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0C0C0C; color: #FFFFFF; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; min-height: 100vh; }
+    .cover { background: linear-gradient(135deg, #0C0C0C 0%, #1a0a12 50%, #0C0C0C 100%); border-bottom: 2px solid #C13584; padding: 60px 40px 50px; text-align: center; }
+    .cover .brand { font-size: 11px; letter-spacing: 6px; text-transform: uppercase; color: #C13584; margin-bottom: 20px; }
+    .cover h1 { font-size: 42px; font-weight: 300; letter-spacing: 2px; color: #FFFFFF; margin-bottom: 10px; }
+    .cover h1 span { color: #C13584; font-weight: 700; }
+    .cover .period { font-size: 14px; color: #888; letter-spacing: 3px; text-transform: uppercase; margin-top: 12px; }
+    .cover .generated { font-size: 11px; color: #555; margin-top: 20px; }
+    .section { max-width: 1100px; margin: 0 auto; padding: 50px 30px; }
+    .section-title { font-size: 11px; letter-spacing: 5px; text-transform: uppercase; color: #C13584; margin-bottom: 6px; }
+    .section-title.tiktok { color: #FE2C55; }
+    .section-heading { font-size: 28px; font-weight: 300; color: #FFFFFF; margin-bottom: 36px; padding-bottom: 16px; border-bottom: 1px solid #1e1e1e; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 50px; }
+    .kpi-card { background: #111111; border: 1px solid #1e1e1e; border-radius: 8px; padding: 24px 20px; position: relative; overflow: hidden; }
+    .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #C13584; }
+    .kpi-card.tiktok::before { background: #FE2C55; }
+    .kpi-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #666; margin-bottom: 12px; }
+    .kpi-value { font-size: 30px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px; line-height: 1; }
+    .kpi-delta { font-size: 12px; font-weight: 600; letter-spacing: 1px; }
+    .kpi-delta.up { color: #22c55e; }
+    .kpi-delta.down { color: #ef4444; }
+    .charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 50px; }
+    .chart-card { background: #111111; border: 1px solid #1e1e1e; border-radius: 8px; padding: 28px; }
+    .chart-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #666; margin-bottom: 20px; }
+    .chart-wrapper { position: relative; height: 220px; }
+    .table-container { background: #111111; border: 1px solid #1e1e1e; border-radius: 8px; overflow: hidden; margin-bottom: 50px; }
+    .table-header { padding: 20px 24px; border-bottom: 1px solid #1e1e1e; }
+    .table-header-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #666; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #555; padding: 14px 16px; text-align: left; border-bottom: 1px solid #1a1a1a; background: #0e0e0e; }
+    tbody tr { border-bottom: 1px solid #161616; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { font-size: 12px; color: #ccc; padding: 14px 16px; vertical-align: middle; }
+    tbody tr.gold-row { background: linear-gradient(90deg, rgba(232,193,112,0.08) 0%, transparent 100%); }
+    tbody tr.gold-row td { color: #E8C170; }
+    .er-best { color: #22c55e !important; font-weight: 700; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+    .badge-carousel { background: rgba(193,53,132,0.2); color: #C13584; }
+    .badge-reel { background: rgba(232,193,112,0.2); color: #E8C170; }
+    .caption-cell { max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .caption-link { color: inherit; text-decoration: none; }
+    .conclusions-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 50px; }
+    .conclusion-card { background: #111111; border: 1px solid #1e1e1e; border-radius: 8px; padding: 24px 18px; position: relative; }
+    .conclusion-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #C13584, #FE2C55); }
+    .conclusion-number { font-size: 32px; font-weight: 700; color: #1e1e1e; margin-bottom: 8px; line-height: 1; }
+    .conclusion-text { font-size: 12px; color: #aaa; line-height: 1.6; }
+    .conclusion-text strong { color: #FFFFFF; }
+    .platform-divider { border: none; border-top: 1px solid #1e1e1e; margin: 0; }
+    footer { background: #080808; border-top: 1px solid #1e1e1e; padding: 40px; text-align: center; }
+    footer .next { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    footer .next-date { font-size: 18px; color: #C13584; font-weight: 300; letter-spacing: 2px; }
+    footer .footer-brand { font-size: 10px; color: #333; margin-top: 20px; letter-spacing: 2px; }
+    @media (max-width: 768px) { .kpi-grid { grid-template-columns: repeat(2,1fr); } .charts-row { grid-template-columns: 1fr; } .conclusions-grid { grid-template-columns: repeat(2,1fr); } .cover h1 { font-size: 28px; } }
+  </style>
 </head>
 <body>
-<div class="wrap">
-<div class="cover">
-  <div style="color:#888;font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px">Equipo Sarkany Digital &middot; FW26'</div>
-  <div class="ct">SOCIAL MEDIA<br><span>REPORT</span></div>
-  <div class="cs">@rickysarkany &nbsp;&middot;&nbsp; Instagram &amp; TikTok</div>
-  <div class="badges">
-    <span class="b bi">Instagram</span>
-    <span class="b bt">TikTok</span>
-    <span class="b bw">Semana 22&ndash;28 jun 2026</span>
+  <div class="cover">
+    <div class="brand">Sarkany Digital · Reporte Semanal</div>
+    <h1>@<span>ricky</span>sarkany</h1>
+    <div class="period">Semana del 24 al 30 de junio de 2026</div>
+    <div class="generated">Generado automaticamente el 01/07/2026</div>
   </div>
-</div>
-<div class="sec">
-  <div class="sh"><div class="sd sdig"></div><div><div class="st">Instagram &middot; KPIs de la Semana</div><div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px">vs 15&ndash;21 jun 2026</div></div></div>
-  <div class="kg">
-    <div class="kc"><div class="kl">Views</div><div class="kv">4.56M</div><div class="kch up">&uarr; +53.0%</div></div>
-    <div class="kc"><div class="kl">Likes</div><div class="kv">14.710</div><div class="kch up">&uarr; +2.0%</div></div>
-    <div class="kc"><div class="kl">Comentarios</div><div class="kv">607</div><div class="kch up">&uarr; +157.2%</div></div>
-    <div class="kc"><div class="kl">Shares</div><div class="kv">1.834</div><div class="kch up">&uarr; +95.1%</div></div>
-    <div class="kc"><div class="kl">Guardados</div><div class="kv">497</div><div class="kch up">&uarr; +10.0%</div></div>
-    <div class="kc"><div class="kl">Seguidores</div><div class="kv">1.220</div><div class="kch up">&uarr; +1.8%</div></div>
-    <div class="kc"><div class="kl" style="color:#E8C170">ER</div><div class="kv" style="color:#E8C170">0.39%</div><div class="kch dn">&darr; -27.8%</div></div>
-    <div class="kc"><div class="kl">Reach</div><div class="kv">1.01M</div><div class="kch up">&uarr; +29.4%</div></div>
+  <div class="section">
+    <div class="section-title">Instagram</div>
+    <div class="section-heading">Performance Semanal IG</div>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label">Views</div><div class="kpi-value">4.69M</div><div class="kpi-delta up">&#8593; 49.4% vs sem. anterior</div></div>
+      <div class="kpi-card"><div class="kpi-label">Likes</div><div class="kpi-value">16.1K</div><div class="kpi-delta up">&#8593; 30.0%</div></div>
+      <div class="kpi-card"><div class="kpi-label">Comentarios</div><div class="kpi-value">583</div><div class="kpi-delta up">&#8593; 133.2%</div></div>
+      <div class="kpi-card"><div class="kpi-label">Shares</div><div class="kpi-value">1,753</div><div class="kpi-delta up">&#8593; 80.7%</div></div>
+      <div class="kpi-card"><div class="kpi-label">Guardados</div><div class="kpi-value">493</div><div class="kpi-delta up">&#8593; 9.8%</div></div>
+      <div class="kpi-card"><div class="kpi-label">Reach</div><div class="kpi-value">1.09M</div><div class="kpi-delta up">&#8593; 35.5%</div></div>
+      <div class="kpi-card"><div class="kpi-label">Nuevos Seguidores</div><div class="kpi-value">1,221</div><div class="kpi-delta down">&#8595; 0.7%</div></div>
+      <div class="kpi-card"><div class="kpi-label">Engagement Rate</div><div class="kpi-value">0.40%</div><div class="kpi-delta down">&#8595; 11.0%</div></div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-card"><div class="chart-title">Tendencia 4 Semanas - Views Instagram</div><div class="chart-wrapper"><canvas id="igTrendChart"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">Mix de Contenido</div><div class="chart-wrapper"><canvas id="igMixChart"></canvas></div></div>
+    </div>
+    <div class="table-container">
+      <div class="table-header"><div class="table-header-title">Top 7 Posts - semana 24-30 Jun - mejor views (dorado) - ER mas alto (verde)</div></div>
+      <table><thead><tr><th>#</th><th>Tipo</th><th>Caption</th><th>Views</th><th>Likes</th><th>Coment.</th><th>Shares</th><th>Guardados</th><th>Reach</th><th>ER</th></tr></thead>
+      <tbody>
+        <tr class="gold-row"><td>1</td><td><span class="badge badge-carousel">Carousel</span></td><td class="caption-cell"><a class="caption-link" href="https://www.instagram.com/p/DaBYD06Gdhs/" target="_blank">Faltan 2 horas para nuestro primer LIVE SHOPPING</a></td><td><strong>307,212</strong></td><td>2,216</td><td>174</td><td>920</td><td>167</td><td>100,673</td><td>1.13%</td></tr>
+        <tr><td>2</td><td><span class="badge badge-carousel">Carousel</span></td><td class="caption-cell"><a class="caption-link" href="https://www.instagram.com/p/DaLyKOCmSPO/" target="_blank">BACKSTAGE of our FW26 campaign</a></td><td>276,427</td><td>3,689</td><td>19</td><td>37</td><td>71</td><td>112,147</td><td>1.38%</td></tr>
+        <tr><td>3</td><td><span class="badge badge-carousel">Carousel</span></td><td class="caption-cell"><a class="caption-link" href="https://www.instagram.com/p/DaGaxnXGU0T/" target="_blank">Tus aliadas para esta temperatura polar - Bota Mausi</a></td><td>162,202</td><td>2,416</td><td>9</td><td>100</td><td>38</td><td>64,134</td><td class="er-best">1.58%</td></tr>
+        <tr><td>4</td><td><span class="badge badge-carousel">Carousel</span></td><td class="caption-cell"><a class="caption-link" href="https://www.instagram.com/p/DaI4wOxlf_3/" target="_blank">An everyday mood by @camilaorsimc</a></td><td>71,628</td><td>490</td><td>3</td><td>5</td><td>17</td><td>24,872</td><td>0.72%</td></tr>
+        <tr><td>5</td><td><span class="badge badge-carousel">Carousel</span></td><td class="caption-cell"><a class="caption-link" href="https://www.instagram.com/p/DaERckYGY5V/" target="_blank">@camilaorsimc styling Cartera Loped</a></td><td>57,931</td><td>470</td><td>5</td><td>30</td><td>19</td><td>20,041</td><td>0.90%</td></tr>
+        <tr><td>6</td><td><span class="badge badge-carousel">Carousel</span></td><td class="caption-cell"><a class="caption-link" href="https://www.instagram.com/p/DaOQDvOme2a/" target="_blank">@teresaprettel w Cartera ELANE y Stiletto ZATA</a></td><td>38,468</td><td>308</td><td>4</td><td>9</td><td>10</td><td>14,743</td><td>0.86%</td></tr>
+        <tr><td>7</td><td><span class="badge badge-reel">Reel</span></td><td class="caption-cell"><a class="caption-link" href="https://www.instagram.com/reel/DaGDRQtxWAG/" target="_blank">35% OFF exclusivo con Santander Sorpresa</a></td><td>16,116</td><td>53</td><td>2</td><td>6</td><td>3</td><td>9,756</td><td>0.40%</td></tr>
+      </tbody></table>
+    </div>
   </div>
-</div>
-<div class="sec">
-  <div class="cr">
-    <div class="cb"><h4>Tendencia Views &middot; 4 Semanas</h4><div class="cw"><canvas id="t1"></canvas></div></div>
-    <div class="cb"><h4>Mix de Contenido</h4><div class="cw"><canvas id="t2"></canvas></div></div>
+  <hr class="platform-divider" />
+  <div class="section">
+    <div class="section-title tiktok">TikTok</div>
+    <div class="section-heading">Performance Semanal TK</div>
+    <div class="kpi-grid">
+      <div class="kpi-card tiktok"><div class="kpi-label">Views</div><div class="kpi-value">170.2K</div><div class="kpi-delta down">&#8595; 28.1% vs sem. anterior</div></div>
+      <div class="kpi-card tiktok"><div class="kpi-label">Likes</div><div class="kpi-value">6,908</div><div class="kpi-delta down">&#8595; 46.1%</div></div>
+      <div class="kpi-card tiktok"><div class="kpi-label">Shares</div><div class="kpi-value">137</div><div class="kpi-delta down">&#8595; 29.0%</div></div>
+      <div class="kpi-card tiktok"><div class="kpi-label">Engagement Rate</div><div class="kpi-value">4.14%</div><div class="kpi-delta down">&#8595; 24.7%</div></div>
+    </div>
+    <div class="table-container">
+      <div class="table-header"><div class="table-header-title">Videos publicados - semana 24-30 Jun</div></div>
+      <table><thead><tr><th>#</th><th>Fecha</th><th>Caption</th><th>Views</th><th>Likes</th><th>Coment.</th><th>Shares</th><th>Reach</th><th>Avg Watch</th><th>ER</th></tr></thead>
+      <tbody>
+        <tr class="gold-row"><td>1</td><td>30 Jun</td><td class="caption-cell">Que quieren ver en el proximo?????</td><td>523</td><td>8</td><td>0</td><td>0</td><td>-</td><td>2.72s</td><td>1.53%</td></tr>
+        <tr><td colspan="10" style="text-align:center;color:#444;font-size:11px;letter-spacing:2px;padding:20px;text-transform:uppercase;">Solo 1 video nuevo publicado esta semana - aumentar cadencia en TikTok</td></tr>
+      </tbody></table>
+    </div>
+    <div class="chart-card" style="margin-bottom:50px;"><div class="chart-title">Tendencia 4 Semanas - Views TikTok</div><div class="chart-wrapper" style="height:200px;"><canvas id="tkTrendChart"></canvas></div></div>
   </div>
-  <div class="ins"><strong>W3&rarr;W4:</strong> Recuperaci&oacute;n +53%. Motor: LIVE SHOPPING 303.5K + promo Santander 35% OFF.</div>
-</div>
-<div class="sec">
-  <div class="sh"><div class="sd sdig"></div><div class="st">Top 7 Posts &middot; Ranking por Views</div></div>
-  <div class="tw"><table>
-    <thead><tr><th>#</th><th>Publicaci&oacute;n</th><th>T</th><th>Views</th><th>Likes</th><th>Shares</th><th>ER%</th></tr></thead>
-    <tbody>
-      <tr class="tp"><td>1</td><td>LIVE SHOPPING $39K &middot; 25 jun</td><td><span class="tg tc">CAR</span></td><td>303.5K</td><td>2.197</td><td>912</td><td>1.14%</td></tr>
-      <tr><td>2</td><td>Bota Mausi 35% OFF &middot; 27 jun</td><td><span class="tg tc">CAR</span></td><td>151.8K</td><td>2.259</td><td>93</td><td style="color:#4ADE80">1.58%</td></tr>
-      <tr><td>3</td><td>USHUAIA full moon night &middot; 22 jun</td><td><span class="tg tc">CAR</span></td><td>92.0K</td><td>1.436</td><td>39</td><td style="color:#4ADE80">1.67%</td></tr>
-      <tr><td>4</td><td>An everyday mood &middot; 28 jun</td><td><span class="tg tc">CAR</span></td><td>61.7K</td><td>423</td><td>3</td><td>0.72%</td></tr>
-      <tr><td>5</td><td>Cartera Loped &middot; 26 jun</td><td><span class="tg tc">CAR</span></td><td>54.6K</td><td>437</td><td>27</td><td>0.89%</td></tr>
-      <tr><td>6</td><td>Bota Jali favorito &middot; 23 jun</td><td><span class="tg tc">CAR</span></td><td>51.8K</td><td>527</td><td>24</td><td>1.10%</td></tr>
-      <tr><td>7</td><td>35% OFF REEL &middot; 27 jun</td><td><span class="tg tr">REEL</span></td><td>15.2K</td><td>52</td><td>6</td><td>0.41%</td></tr>
-    </tbody>
-  </table></div>
-  <div class="ins"><strong>Insight:</strong> Lifestyle org&aacute;nico (full moon 1.67%) supera en ER a las promos. LIVE SHOPPING gana en volumen.</div>
-</div>
-<div class="sec">
-  <div class="sh"><div class="sd sdtk"></div><div><div class="st">TikTok &middot; KPIs de la Semana</div><div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px">vs 15&ndash;21 jun 2026</div></div></div>
-  <div class="kg">
-    <div class="kc"><div class="kl tkl">Views</div><div class="kv">233.7K</div><div class="kch dn">&darr; -22.7%</div></div>
-    <div class="kc"><div class="kl tkl">Likes</div><div class="kv">10.478</div><div class="kch dn">&darr; -46.1%</div></div>
-    <div class="kc"><div class="kl tkl">Shares</div><div class="kv">172</div><div class="kch dn">&darr; -50.6%</div></div>
-    <div class="kc"><div class="kl" style="color:#E8C170">ER</div><div class="kv" style="color:#E8C170">4.55%</div><div class="kch" style="color:#888">vs IG: 0.39%</div></div>
+  <hr class="platform-divider" />
+  <div class="section">
+    <div class="section-title">Analisis</div>
+    <div class="section-heading">5 Conclusiones Accionables</div>
+    <div class="conclusions-grid">
+      <div class="conclusion-card"><div class="conclusion-number">01</div><div class="conclusion-text"><strong>El Live Shopping convierte.</strong> 307K views con altisimo share (920). Replicar el formato con previas de 2hs que generan expectativa previa al evento.</div></div>
+      <div class="conclusion-card"><div class="conclusion-number">02</div><div class="conclusion-text"><strong>Carousel es rey en IG.</strong> 6 de 7 posts top fueron carruseles. La narrativa visual multi-imagen supera al Reel en volumen y ER esta semana.</div></div>
+      <div class="conclusion-card"><div class="conclusion-number">03</div><div class="conclusion-text"><strong>Backstage vende sin vender.</strong> El Backstage FW26 con @teresaprettel (276K views, ER 1.38%) confirma que el contenido making of aspiracional amplifica el universo de marca.</div></div>
+      <div class="conclusion-card"><div class="conclusion-number">04</div><div class="conclusion-text"><strong>TikTok: alerta de cadencia.</strong> Con solo 1 video nuevo esta semana, las views cayeron -28.1%. Aumentar a minimo 3-4 videos semanales para mantener distribucion organica.</div></div>
+      <div class="conclusion-card"><div class="conclusion-number">05</div><div class="conclusion-text"><strong>Colaboraciones que amplifican.</strong> Posts con @camilaorsimc y @teresaprettel dominaron el ranking. Priorizar collabs en el calendario FW26 para extender reach.</div></div>
+    </div>
   </div>
-  <div class="ins"><strong>Mejor video:</strong> @MERI @jo @Nachidoldan &mdash; 201.8K views &middot; ER 8.92% &middot; For You Page 94.2%.</div>
-</div>
-<div class="sec">
-  <div class="sh"><div class="sd sdtk"></div><div class="st">TikTok &middot; Top 7 Videos</div></div>
-  <div class="tw"><table>
-    <thead><tr><th>#</th><th>Video</th><th>Views</th><th>ER%</th><th>Watch</th></tr></thead>
-    <tbody>
-      <tr class="tp"><td>1</td><td>@MERI @jo @Nachidoldan &middot; 9 jun</td><td>201.8K</td><td style="color:#4ADE80">8.92%</td><td>9.9s</td></tr>
-      <tr><td>2</td><td>el mood botas @jo &middot; 2 jun</td><td>105.9K</td><td>5.41%</td><td>7.6s</td></tr>
-      <tr><td>3</td><td>en la nieve @jo @MERI @Lola &middot; 2 jun</td><td>31.1K</td><td>0.98%</td><td>4.1s</td></tr>
-      <tr><td>4</td><td>Blog Ushuaia dia 2 &middot; 2 jun</td><td>28.3K</td><td>3.69%</td><td style="color:#E8C170">17.3s</td></tr>
-      <tr><td>5</td><td>outfits ready @Nachidoldan &middot; 2 jun</td><td>23.7K</td><td>1.23%</td><td>4.6s</td></tr>
-      <tr><td>6</td><td>Digna hija de Ruggeri @Cale &middot; 18 jun</td><td>8.5K</td><td>1.11%</td><td>6.7s</td></tr>
-      <tr><td>7</td><td>@jjjuli &middot; 12 jun</td><td>6.5K</td><td>2.01%</td><td>8.2s</td></tr>
-    </tbody>
-  </table></div>
-</div>
-<div class="sec">
-  <div class="sh"><div class="sd sdtk"></div><div class="st">TikTok &middot; Tendencia 4 Semanas</div></div>
-  <div class="cb"><h4>Views Semanales</h4><div class="cw"><canvas id="t3"></canvas></div></div>
-</div>
-<div class="sec">
-  <div class="sh"><div class="sd sdmx"></div><div class="st">Conclusiones y Recomendaciones</div></div>
-  <div class="cg">
-    <div class="cc"><div class="cn">[1] MEJOR CONTENIDO</div><div class="ctit" style="color:#E8C170">LIVE SHOPPING</div><div class="cbod">303.5K &middot; 912 shares &middot; ER 1.14%. Urgencia + precio + CAROUSEL.</div></div>
-    <div class="cc"><div class="cn">[2] MENOR RENDIMIENTO</div><div class="ctit" style="color:#F87171">REEL 35% OFF</div><div class="cbod">15.2K &middot; ER 0.41%. REELs promotivos sin gancho underperforman.</div></div>
-    <div class="cc"><div class="cn">[3] TENDENCIA</div><div class="ctit" style="color:#C13584">Instagram +53%</div><div class="cbod">Recuperaci&oacute;n en V. TikTok -22.7% sin nuevo contenido.</div></div>
-    <div class="cc"><div class="cn">[4] SEGUIR HACIENDO</div><div class="ctit" style="color:#4ADE80">LIVE + lifestyle</div><div class="cbod">Carousels + urgencia. Lifestyle genera mejor ER (1.67%). TikTok: Friends + For You.</div></div>
-    <div class="cc"><div class="cn">[5] REVISAR</div><div class="ctit" style="color:#888">REELs + TikTok urgente</div><div class="cbod">REELs sin trending underperforman. Nuevo video TikTok &mdash; ca&iacute;da ~45%/semana.</div></div>
-  </div>
-</div>
-<div class="ft">Pr&oacute;ximo reporte &middot; lunes 06/07/2026 &nbsp;&middot;&nbsp; <span>@rickysarkany</span> &middot; FW26' &middot; Equipo Sarkany Digital</div>
-</div>
-<script>
-const G={color:'rgba(255,255,255,0.05)'},T={color:'#666',font:{size:10}};
-const fmt=v=>v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(0)+'K':v;
-new Chart(document.getElementById('t1'),{type:'line',data:{labels:['01-07 jun','08-14 jun','15-21 jun','22-28 jun'],datasets:[{data:[5720974,3512201,2983645,4563959],borderColor:'#C13584',backgroundColor:'rgba(193,53,132,0.08)',borderWidth:2.5,pointBackgroundColor:'#C13584',pointRadius:4,tension:0.3,fill:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:G,ticks:T},y:{grid:G,ticks:{...T,callback:fmt},beginAtZero:false}}}});
-new Chart(document.getElementById('t2'),{type:'doughnut',data:{labels:['CAROUSEL 85.7%','REEL 14.3%'],datasets:[{data:[85.7,14.3],backgroundColor:['#C13584','#E8C170'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'bottom',labels:{color:'rgba(255,255,255,0.85)',font:{size:11},padding:12,boxWidth:12}}}}});
-new Chart(document.getElementById('t3'),{type:'bar',data:{labels:['02-07','08-14','15-21','22-28'],datasets:[{data:[1154292,636778,302293,233743],backgroundColor:['#FE2C55','#FE2C55','#FE2C55','rgba(254,44,85,0.5)'],borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:G,ticks:T},y:{grid:G,ticks:{...T,callback:fmt},beginAtZero:true}}}});
-</script>
+  <footer>
+    <div class="next">Proximo reporte</div>
+    <div class="next-date">Lunes 06 de julio de 2026</div>
+    <div class="footer-brand">SARKANY DIGITAL - REPORTE AUTOMATIZADO - @RICKYSARKANY</div>
+  </footer>
+  <script>
+    var igCtx = document.getElementById('igTrendChart').getContext('2d');
+    new Chart(igCtx, { type: 'line', data: { labels: ['Sem 23 (1-7 Jun)','Sem 24 (8-14 Jun)','Sem 25 (15-21 Jun)','Sem 26 (22-28 Jun)'], datasets: [{ label: 'Views IG', data: [3628467,3512201,2983645,4563969], borderColor: '#C13584', backgroundColor: 'rgba(193,53,132,0.08)', borderWidth: 2, pointBackgroundColor: '#C13584', pointRadius: 5, tension: 0.35, fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1a1a1a', borderColor: '#333', borderWidth: 1, titleColor: '#C13584', bodyColor: '#ccc' } }, scales: { x: { grid: { color: '#1a1a1a' }, ticks: { color: '#555', font: { size: 10 } } }, y: { grid: { color: '#1a1a1a' }, ticks: { color: '#555', font: { size: 10 }, callback: function(v){ return (v/1000000).toFixed(1)+'M'; } } } } } });
+    var mixCtx = document.getElementById('igMixChart').getContext('2d');
+    new Chart(mixCtx, { type: 'doughnut', data: { labels: ['Carousel','Reel'], datasets: [{ data: [6,1], backgroundColor: ['#C13584','#E8C170'], borderColor: '#111111', borderWidth: 3 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { position: 'bottom', labels: { color: '#888', font: { size: 10 }, padding: 16, boxWidth: 12 } } } } });
+    var tkCtx = document.getElementById('tkTrendChart').getContext('2d');
+    new Chart(tkCtx, { type: 'bar', data: { labels: ['Sem 23 (1-7 Jun)','Sem 24 (8-14 Jun)','Sem 25 (15-21 Jun)','Sem 26 (22-28 Jun)'], datasets: [{ label: 'Views TK', data: [727819,636778,302293,233743], backgroundColor: 'rgba(254,44,85,0.7)', borderColor: '#FE2C55', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: '#1a1a1a' }, ticks: { color: '#555', font: { size: 10 } } }, y: { grid: { color: '#1a1a1a' }, ticks: { color: '#555', font: { size: 10 }, callback: function(v){ return (v/1000).toFixed(0)+'K'; } } } } } });
+  </script>
 </body>
 </html>
