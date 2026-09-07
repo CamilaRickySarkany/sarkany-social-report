@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media Report â @rickysarkany</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<style>
+  :root {
+    --bg: #0C0C0C;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --border: #2a2a2a;
+    --magenta: #C13584;
+    --red: #FE2C55;
+    --gold: #E8C170;
+    --green: #4CAF50;
+    --text: #F0F0F0;
+    --text-muted: #888;
+    --purple: #8B5CF6;
+    --blue: #3B82F6;
+    --orange: #F97316;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.5; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+  /* COVER */
+  .cover {
+    background: linear-gradient(135deg, #0C0C0C 0%, #1a0a12 50%, #0C0C0C 100%);
+    border-bottom: 1px solid var(--magenta);
+    padding: 60px 20px;
+    text-align: center;
+  }
+  .cover-logo { font-size: 11px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 20px; }
+  .cover h1 { font-size: 42px; font-weight: 800; background: linear-gradient(135deg, #fff 0%, var(--gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+  .cover-period { font-size: 16px; color: var(--text-muted); letter-spacing: 2px; }
+  .cover-handle { font-size: 22px; color: var(--magenta); font-weight: 700; margin-top: 8px; }
+
+  /* SECTION */
+  .section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .section-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .section-icon.ig { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, var(--magenta) 100%); }
+  .section-icon.tk { background: var(--red); }
+  .section-icon.bm { background: var(--purple); }
+  .section-icon.insights { background: var(--gold); }
+  .section-title { font-size: 24px; font-weight: 800; color: #fff; }
+  .section-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-left: 10px; background: rgba(255,255,255,0.08); color: var(--text-muted); border: 1px solid var(--border); }
+
+  /* KPI CARDS */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 32px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .kpi-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .kpi-value { font-size: 24px; font-weight: 800; color: #fff; }
+  .kpi-change { font-size: 12px; margin-top: 4px; }
+  .kpi-prev { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+
+  /* CHARTS ROW */
+  .charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 32px; }
+  .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .chart-title { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .chart-wrap { position: relative; height: 200px; }
+
+  /* TABLES */
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 32px; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { background: var(--surface2); color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 10px 12px; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid #1f1f1f; transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.03); }
+  tbody td { padding: 10px 12px; vertical-align: middle; color: var(--text); font-size: 13px; }
+  .thumb { width: 52px; height: 52px; object-fit: cover; border-radius: 6px; display: block; background: #1a1a1a; }
+  .thumb-cell { width: 60px; padding: 8px 6px 8px 14px !important; }
+  .post-link { color: inherit; text-decoration: none; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 220px; }
+  .post-link:hover { text-decoration: underline; opacity: 0.85; }
+  .row-gold { background: rgba(232,193,112,0.07) !important; }
+  .row-gold td { color: var(--gold) !important; }
+  .er-highlight { color: var(--green) !important; font-weight: 700; }
+  .type-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
+  .type-carousel { background: rgba(193,53,132,0.2); color: var(--magenta); }
+  .type-reel { background: rgba(254,44,85,0.2); color: var(--red); }
+  .type-image { background: rgba(232,193,112,0.2); color: var(--gold); }
+  .type-video { background: rgba(254,44,85,0.2); color: var(--red); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* BENCHMARK CARDS */
+  .brand-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+  .brand-card { background: var(--surface); border-radius: 12px; padding: 16px; border-top: 3px solid transparent; }
+  .brand-card.sarkany { border-top-color: var(--magenta); }
+  .brand-card.prune { border-top-color: var(--purple); }
+  .brand-card.paruolo { border-top-color: var(--blue); }
+  .brand-card.mishka { border-top-color: var(--orange); }
+  .brand-name { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+  .brand-stat { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; color: var(--text-muted); }
+  .brand-stat span:last-child { color: var(--text); font-weight: 600; }
+
+  /* INSIGHTS */
+  .insights-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .insight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .insight-icon { font-size: 22px; margin-bottom: 10px; }
+  .insight-title { font-size: 13px; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+  .insight-text { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+  /* FOOTER */
+  .footer { padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 12px; }
+  .footer strong { color: var(--text); }
+
+  /* RANK NUMBER */
+  .rank { color: var(--text-muted); font-weight: 600; }
+  .rank-1 { color: var(--gold); font-weight: 800; }
+
+  /* TK card highlight */
+  .tk-highlight-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+  .tk-highlight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .tk-highlight-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .tk-highlight-val { font-size: 18px; font-weight: 800; color: var(--red); }
+  .tk-highlight-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  @media (max-width: 768px) {
+    .charts-row { grid-template-columns: 1fr; }
+    .brand-cards { grid-template-columns: 1fr 1fr; }
+    .tk-highlight-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-logo">Sarkany &amp; Sofia â Digital</div>
+  <h1>Social Media Report</h1>
+  <div class="cover-period">Semana del 01/09 al 07/09/2026</div>
+  <div class="cover-handle">@rickysarkany</div>
+</div>
+
+<!-- INSTAGRAM -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-icon ig">ð¸</div>
+      <div>
+        <div class="section-title">Instagram <span style="color:var(--text-muted);font-size:18px">@rickysarkany</span></div>
+        <div class="section-subtitle">Semana 01/09â07/09 vs semana anterior 25/08â31/08</div>
+      </div>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Views</div>
+        <div class="kpi-value">2.8M</div>
+        <div class="kpi-change down">â 50.4%</div>
+        <div class="kpi-prev">Sem. ant.: 5.66M</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Likes</div>
+        <div class="kpi-value">10.6K</div>
+        <div class="kpi-change down">â 75.6%</div>
+        <div class="kpi-prev">Sem. ant.: 43.5K</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Comentarios</div>
+        <div class="kpi-value">310</div>
+        <div class="kpi-change down">â 78.9%</div>
+        <div class="kpi-prev">Sem. ant.: 1,471</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Shares</div>
+        <div class="kpi-value">672</div>
+        <div class="kpi-change down">â 89.2%</div>
+        <div class="kpi-prev">Sem. ant.: 6,207</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Saves</div>
+        <div class="kpi-value">294</div>
+        <div class="kpi-change down">â 80.0%</div>
+        <div class="kpi-prev">Sem. ant.: 1,543</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Reach</div>
+        <div class="kpi-value">921K</div>
+        <div class="kpi-change down">â 37.0%</div>
+        <div class="kpi-prev">Sem. ant.: 1.46M</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Nuevos Seg.</div>
+        <div class="kpi-value">1,175</div>
+        <div class="kpi-change down">â 67.8%</div>
+        <div class="kpi-prev">Sem. ant.: 3,649</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Eng. Rate</div>
+        <div class="kpi-value">0.42%</div>
+        <div class="kpi-change down">â 54.8%</div>
+        <div class="kpi-prev">Sem. ant.: 0.93%</div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">Tendencia 4 semanas â Views IG</div>
+        <div class="chart-wrap"><canvas id="igTrend"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Mix de Contenido</div>
+        <div class="chart-wrap"><canvas id="igMix"></canvas></div>
+      </div>
+    </div>
+
+    <!-- TOP POSTS TABLE -->
+    <div style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">
+      Top 7 Posts â ordenados por Views
+      <span class="pill">â Mejor ER en verde</span>
+      <span class="pill" style="color:var(--gold);border-color:var(--gold);">ð¥ #1 en dorado</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="thumb-cell">Foto</th>
+            <th>#</th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Caption</th>
+            <th class="num">Views</th>
+            <th class="num">Likes</th>
+            <th class="num">Coments</th>
+            <th class="num">Shares</th>
+            <th class="num">Saves</th>
+            <th class="num">Reach</th>
+            <th class="num">ER %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-gold">
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dc8njrwFfcF/" target="_blank"><img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/798688223_18629454946019933_3197532666609690506_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=cTV3XOkHWFcQ7kNvwHWXvkc&_nc_oc=AdqE5wC9DVaBEsO7w6sL2iW7AM3sru09Ukyh9Ap_0gK5ZY1hFJ5IAELj_fdEBXr-bCM&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=fJ7qZOQ2XMQ3Y_fimNd4iQ&oh=00_AQKarTexHAjGNn1mf4QxBI1Lve2D-MIO3h42SzHuok9FtA&oe=6AA4877C" onerror="this.style.opacity=0.1" alt="post"></a></td>
+            <td class="rank-1">1</td>
+            <td>06/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dc8njrwFfcF/" target="_blank" class="post-link" style="color:var(--gold)">Feliz cumpleaÃ±os a nuestro lÃ­der ð â¥ï¸ Gracias por inspirarnos...</a></td>
+            <td class="num">665,141</td>
+            <td class="num">2,521</td>
+            <td class="num">140</td>
+            <td class="num">50</td>
+            <td class="num">39</td>
+            <td class="num">477,526</td>
+            <td class="num">0.41%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/DccFjchmRY9/" target="_blank"><img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/785601905_18625268902019933_1751084553795973900_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=h6-Zv-l6t5wQ7kNvwHkcGDp&_nc_oc=AdqgXEwLQ-Eyx5GRMDQcN0qyVrF412od-DpVL8G-0drEGWEiVDMYXJNUJPVISNBMBd4&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=fJ7qZOQ2XMQ3Y_fimNd4iQ&oh=00_AQJz2qF41tjQGYHG07umcRAI87xBLlXwu0ALOYcf0tCK6w&oe=6AA48A7F" onerror="this.style.opacity=0.1" alt="post"></a></td>
+            <td class="rank">2</td>
+            <td>24/08</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/DccFjchmRY9/" target="_blank" class="post-link">#MargaritaSquad ð¼ Un lujo acompaÃ±arlas siempre â¤ï¸ #ATusPies</a></td>
+            <td class="num">295,917</td>
+            <td class="num">3,744</td>
+            <td class="num">28</td>
+            <td class="num">59</td>
+            <td class="num">101</td>
+            <td class="num">125,671</td>
+            <td class="num">1.33%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dc4W-yLmfTH/" target="_blank"><img class="thumb" src="https://scontent-fra3-2.cdninstagram.com/v/t51.82787-15/797205246_18628900798019933_6282460245945055167_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=r5r4uOlkKBoQ7kNvwHF3jbJ&_nc_oc=Adpt6NjzFs7zvRlGVeB5tZ18PbpTRYuH6WS7fKwyEqG4lWHbk3QAMAKtlAyHe-gE86k&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=fJ7qZOQ2XMQ3Y_fimNd4iQ&oh=00_AQKB9ZfWCAreC48VDp4Fi0unmlu2wsqg0KbBqDSr_Qp16A&oe=6AA4900D" onerror="this.style.opacity=0.1" alt="post"></a></td>
+            <td class="rank">3</td>
+            <td>04/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dc4W-yLmfTH/" target="_blank" class="post-link">Hasta 60% off + 3 cuotas sin intereses ð¥ SOLO POR HOY UN EXTRA 20% OFF...</a></td>
+            <td class="num">148,103</td>
+            <td class="num">2,095</td>
+            <td class="num">89</td>
+            <td class="num">102</td>
+            <td class="num">72</td>
+            <td class="num">64,474</td>
+            <td class="num er-highlight">1.59%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/DczKA5UmV_r/" target="_blank"><img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/792104729_18628270591019933_652659504905727441_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=y3Kmh9mOi7oQ7kNvwE39Kr8&_nc_oc=Adoiios1zc-XPHwBRUb29e1EU103a3uVk_FDuIEWZaTWPtCEtnSjszoFxjYN_ycmV9M&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=fJ7qZOQ2XMQ3Y_fimNd4iQ&oh=00_AQLTvqLiL-Y36zcpN2YfbYGVPflMxcfpg2aCPhYlFHKIxg&oe=6AA48E95" onerror="this.style.opacity=0.1" alt="post"></a></td>
+            <td class="rank">4</td>
+            <td>02/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/DczKA5UmV_r/" target="_blank" class="post-link">PREVIEW SS27 â Nuevos ingresos que no sabÃ­as que necesitabas ð¤</a></td>
+            <td class="num">139,282</td>
+            <td class="num">1,051</td>
+            <td class="num">22</td>
+            <td class="num">130</td>
+            <td class="num">38</td>
+            <td class="num">53,091</td>
+            <td class="num">0.89%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dc59A3iFS0d/" target="_blank"><img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/795875853_18629093920019933_6248546681017580329_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=JVkrfJ9YAmAQ7kNvwE8NRoR&_nc_oc=AdpWJzzUt2bLng-oux2ieZlcJw_uZNsLOtq4y0cZly8ls-_pIGYjGbB2B_40q2Lz9tA&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=fJ7qZOQ2XMQ3Y_fimNd4iQ&oh=00_AQIQwBt75Gax8smM_VcZ-bddwfec_meKVIIjOyaI8cDRKQ&oe=6AA49F29" onerror="this.style.opacity=0.1" alt="post"></a></td>
+            <td class="rank">5</td>
+            <td>05/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dc59A3iFS0d/" target="_blank" class="post-link">SOLO POR HOY EXTRA 20% OFF ð¥ð¥ â Online &amp; en todas nuestras tiendas</a></td>
+            <td class="num">94,787</td>
+            <td class="num">403</td>
+            <td class="num">12</td>
+            <td class="num">47</td>
+            <td class="num">15</td>
+            <td class="num">34,047</td>
+            <td class="num">0.50%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dctr3dWiHej/" target="_blank"><img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/790086538_18627537646019933_6946798693079904807_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=BasVAEExdEcQ7kNvwF1WuRW&_nc_oc=Adojnw817WY6hvFFlDrtFypjI_ueb8pfwMM2HBJrvYdDAeRw4_sP2x4dFQx4bg78fbM&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=fJ7qZOQ2XMQ3Y_fimNd4iQ&oh=00_AQINFx0K4pqebLZ5pTw3HMq9vd5G3VBQSOx7NbRU9ThlQQ&oe=6AA48630" onerror="this.style.opacity=0.1" alt="post"></a></td>
+            <td class="rank">6</td>
+            <td>31/08</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dctr3dWiHej/" target="_blank" class="post-link">Nuestra bota favorita de esta temporada, Bota Vitu, hoy con 50% OFF ð¥</a></td>
+            <td class="num">75,089</td>
+            <td class="num">648</td>
+            <td class="num">5</td>
+            <td class="num">19</td>
+            <td class="num">11</td>
+            <td class="num">31,150</td>
+            <td class="num">0.91%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dcv80DbFUna/" target="_blank"><img class="thumb" src="https://scontent-fra3-2.cdninstagram.com/v/t51.82787-15/791110564_18627827524019933_7674992099723268950_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=5xcLBU49X8kQ7kNvwGxgkgw&_nc_oc=AdrBseZUSnq4-sFozfw-HNcwiez2nIRey5zx7uMV8ziJIpEzwK6WVmC-7W6yArpB-W4&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=fJ7qZOQ2XMQ3Y_fimNd4iQ&oh=00_AQKu0YsiiNOac7qqMwnwLDHh7A12pr6aIxRmc75bU1or-g&oe=6AA47606" onerror="this.style.opacity=0.1" alt="post"></a></td>
+            <td class="rank">7</td>
+            <td>01/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dcv80DbFUna/" target="_blank" class="post-link">Seguimos con FINAL SALE ð¥ð¥ Nuestros favoritos para vos!</a></td>
+            <td class="num">64,220</td>
+            <td class="num">253</td>
+            <td class="num">5</td>
+            <td class="num">26</td>
+            <td class="num">7</td>
+            <td class="num">21,562</td>
+            <td class="num">0.45%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- IG CONTEXT NOTE -->
+    <div style="background:rgba(193,53,132,0.08);border:1px solid rgba(193,53,132,0.3);border-radius:10px;padding:14px 18px;font-size:12px;color:var(--text-muted);margin-bottom:0;">
+      <strong style="color:var(--magenta);">Contexto:</strong> La semana anterior (24â30/08) tuvo un dÃ­a viral el 27/08 con 1.7M views en un solo dÃ­a â efecto extraordinario que infla la base de comparaciÃ³n. La caÃ­da de esta semana es relativa a ese pico excepcional.
+    </div>
+  </div>
+</div>
+
+<!-- TIKTOK -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-icon tk">ðµ</div>
+      <div>
+        <div class="section-title">TikTok <span style="color:var(--text-muted);font-size:18px">@rickysarkany</span></div>
+        <div class="section-subtitle">Semana 01/09â07/09 vs semana anterior 25/08â31/08</div>
+      </div>
+    </div>
+
+    <!-- TK KPI CARDS -->
+    <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="kpi-card">
+        <div class="kpi-label">Views</div>
+        <div class="kpi-value" style="color:var(--red);">61.7K</div>
+        <div class="kpi-change down">â 26.8%</div>
+        <div class="kpi-prev">Sem. ant.: 84.3K</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Likes</div>
+        <div class="kpi-value">1,737</div>
+        <div class="kpi-change down">â 45.2%</div>
+        <div class="kpi-prev">Sem. ant.: 3,167</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Shares</div>
+        <div class="kpi-value">72</div>
+        <div class="kpi-change down">â 24.2%</div>
+        <div class="kpi-prev">Sem. ant.: 95</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Eng. Rate</div>
+        <div class="kpi-value">2.95%</div>
+        <div class="kpi-change down">â 25.3%</div>
+        <div class="kpi-prev">Sem. ant.: 3.95%</div>
+      </div>
+    </div>
+
+    <!-- TK CHART -->
+    <div class="charts-row" style="grid-template-columns:1fr;">
+      <div class="chart-card">
+        <div class="chart-title">Tendencia 4 semanas â Views TikTok</div>
+        <div class="chart-wrap" style="height:180px;"><canvas id="tkTrend"></canvas></div>
+      </div>
+    </div>
+
+    <!-- TK HIGHLIGHT -->
+    <div class="tk-highlight-row">
+      <div class="tk-highlight-card">
+        <div class="tk-highlight-label">Mejor dÃ­a (Views) â 31/08</div>
+        <div class="tk-highlight-val">14,311 views</div>
+        <div class="tk-highlight-sub">350 likes Â· 16 shares Â· 1 comentario</div>
+        <div class="tk-highlight-sub" style="margin-top:8px;font-size:11px;">ER: (350+1+16)/14311 = 2.57%</div>
+      </div>
+      <div class="tk-highlight-card">
+        <div class="tk-highlight-label">Mejor dÃ­a (ER) â 31/08</div>
+        <div class="tk-highlight-val">3.45% ER</div>
+        <div class="tk-highlight-sub">10,756 views Â· 365 likes Â· 9 shares Â· 4 coments</div>
+        <div class="tk-highlight-sub" style="margin-top:8px;font-size:11px;">ER: (365+4+9)/10756 = 3.51%</div>
+      </div>
+    </div>
+
+    <!-- TK DAILY TABLE -->
+    <div style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Performance Diaria â Semana Actual</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th class="num">Views</th>
+            <th class="num">Likes</th>
+            <th class="num">Shares</th>
+            <th class="num">Coments</th>
+            <th class="num">ER %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>31/08</td>
+            <td class="num">10,756</td>
+            <td class="num">365</td>
+            <td class="num">9</td>
+            <td class="num">4</td>
+            <td class="num">3.51%</td>
+          </tr>
+          <tr>
+            <td>01/09</td>
+            <td class="num">10,015</td>
+            <td class="num">292</td>
+            <td class="num">14</td>
+            <td class="num">5</td>
+            <td class="num">3.10%</td>
+          </tr>
+          <tr>
+            <td>02/09</td>
+            <td class="num">11,212</td>
+            <td class="num">298</td>
+            <td class="num">14</td>
+            <td class="num">1</td>
+            <td class="num">2.79%</td>
+          </tr>
+          <tr>
+            <td>03/09</td>
+            <td class="num">7,911</td>
+            <td class="num">224</td>
+            <td class="num">10</td>
+            <td class="num">1</td>
+            <td class="num">2.97%</td>
+          </tr>
+          <tr>
+            <td>04/09</td>
+            <td class="num">7,491</td>
+            <td class="num">208</td>
+            <td class="num">9</td>
+            <td class="num">0</td>
+            <td class="num">2.90%</td>
+          </tr>
+          <tr class="row-gold">
+            <td>05/09 â</td>
+            <td class="num">14,311</td>
+            <td class="num">350</td>
+            <td class="num">16</td>
+            <td class="num">1</td>
+            <td class="num">2.57%</td>
+          </tr>
+          <tr>
+            <td>06/09</td>
+            <td class="num">0</td>
+            <td class="num">0</td>
+            <td class="num">0</td>
+            <td class="num">0</td>
+            <td class="num" style="color:var(--text-muted);">Sin datos</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:-20px;margin-bottom:0;">* Los datos de TikTok reflejan actividad diaria de la cuenta. El dato del 06/09 aÃºn no fue procesado por la plataforma.</div>
+  </div>
+</div>
+
+<!-- BENCHMARK -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-icon bm">ð</div>
+      <div>
+        <div class="section-title">Benchmark Competidoras <span class="pill">Datos PÃºblicos</span></div>
+        <div class="section-subtitle">Semana 01/09â07/09 Â· IG orgÃ¡nico</div>
+      </div>
+    </div>
+
+    <!-- BRAND CARDS -->
+    <div class="brand-cards">
+      <div class="brand-card sarkany">
+        <div class="brand-name" style="color:var(--magenta);">@rickysarkany</div>
+        <div class="brand-stat"><span>Avg likes/post</span><span>1,162</span></div>
+        <div class="brand-stat"><span>Posts semana</span><span>6</span></div>
+        <div class="brand-stat"><span>ER (sobre views)</span><span>0.42%</span></div>
+        <div class="brand-stat"><span>Ranking</span><span style="color:var(--gold);">ð¥ #1</span></div>
+      </div>
+      <div class="brand-card prune">
+        <div class="brand-name" style="color:var(--purple);">@pruneoficial</div>
+        <div class="brand-stat"><span>Seguidores</span><span>1.73M</span></div>
+        <div class="brand-stat"><span>Avg likes/post</span><span>1,052</span></div>
+        <div class="brand-stat"><span>Posts semana</span><span>6</span></div>
+        <div class="brand-stat"><span>ER est.</span><span>0.062%</span></div>
+      </div>
+      <div class="brand-card paruolo">
+        <div class="brand-name" style="color:var(--blue);">@paruolo</div>
+        <div class="brand-stat"><span>Seguidores</span><span>739K</span></div>
+        <div class="brand-stat"><span>Avg likes/post</span><span>287</span></div>
+        <div class="brand-stat"><span>Posts semana</span><span>2</span></div>
+        <div class="brand-stat"><span>ER est.</span><span>0.040%</span></div>
+      </div>
+      <div class="brand-card mishka">
+        <div class="brand-name" style="color:var(--orange);">@mishkabuenosaires</div>
+        <div class="brand-stat"><span>Seguidores</span><span>388K</span></div>
+        <div class="brand-stat"><span>Avg likes/post</span><span>211</span></div>
+        <div class="brand-stat"><span>Posts semana</span><span>5</span></div>
+        <div class="brand-stat"><span>ER est.</span><span>0.056%</span></div>
+      </div>
+    </div>
+
+    <!-- BENCHMARK CHART -->
+    <div class="chart-card" style="margin-bottom:28px;">
+      <div class="chart-title">Avg Likes / Post â Semana Actual</div>
+      <div class="chart-wrap" style="height:180px;"><canvas id="bmChart"></canvas></div>
+    </div>
+
+    <!-- BENCHMARK SUMMARY TABLE -->
+    <div style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Resumen Comparativo</div>
+    <div class="table-wrap" style="margin-bottom:28px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Marca</th>
+            <th class="num">Seguidores</th>
+            <th class="num">Posts</th>
+            <th class="num">Likes Tot.</th>
+            <th class="num">Avg Likes</th>
+            <th class="num">Avg Coments</th>
+            <th class="num">ER est.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-gold">
+            <td><strong style="color:var(--magenta);">@rickysarkany</strong></td>
+            <td class="num">â</td>
+            <td class="num">6</td>
+            <td class="num">6,971</td>
+            <td class="num">1,162</td>
+            <td class="num">43</td>
+            <td class="num">0.42%*</td>
+          </tr>
+          <tr>
+            <td>@pruneoficial</td>
+            <td class="num">1,732,186</td>
+            <td class="num">6</td>
+            <td class="num">6,313</td>
+            <td class="num">1,052</td>
+            <td class="num">17</td>
+            <td class="num">0.062%</td>
+          </tr>
+          <tr>
+            <td>@paruolo</td>
+            <td class="num">739,123</td>
+            <td class="num">2</td>
+            <td class="num">573</td>
+            <td class="num">287</td>
+            <td class="num">10</td>
+            <td class="num">0.040%</td>
+          </tr>
+          <tr>
+            <td>@mishkabuenosaires</td>
+            <td class="num">387,541</td>
+            <td class="num">5</td>
+            <td class="num">1,053</td>
+            <td class="num">211</td>
+            <td class="num">4</td>
+            <td class="num">0.056%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:-20px;margin-bottom:24px;">* ER de Sarkany calculado sobre views (dato privado). ER de competidoras calculado sobre seguidores (dato pÃºblico). No comparables directamente.</div>
+
+    <!-- PRUNE TABLE -->
+    <div style="font-size:13px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">@pruneoficial â Posts de la semana</div>
+    <div class="table-wrap" style="margin-bottom:24px;">
+      <table>
+        <thead>
+          <tr>
+            <th class="thumb-cell">Foto</th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Caption</th>
+            <th class="num">Likes</th>
+            <th class="num">Coments</th>
+            <th class="num">ER</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dc2BUKoANFS/" target="_blank"><img class="thumb" src="https://scontent-fra5-2.cdninstagram.com/v/t51.82787-15/793497716_18618900658036686_9012633328114248301_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=ZYLrXhFoT_8Q7kNvwFWRXZy&_nc_oc=AdpwUY2aX3x4o2rtaa18CkVWkMRSLSj0FQ-8enChmOxpyQc3QkfbmXnT2YulQbuGWSo&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=v2BuddybBSDD6fc8HkG8Yw&oh=00_AQKvvM8yjLMLsLxgICLIJ5G__qDG8aqgbJLsrCUl5vo8OQ&oe=6AA46AFA" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>03/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dc2BUKoANFS/" target="_blank" class="post-link">PRN shoes collection. DescubrÃ­ toda la colecciÃ³n de verano...</a></td>
+            <td class="num">2,357</td>
+            <td class="num">39</td>
+            <td class="num er-highlight">0.138%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dcwags5PQP7/" target="_blank"><img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/788743906_18618151756036686_2769579662566426712_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=qXLi8B5COf0Q7kNvwF6vSAf&_nc_oc=Adr_Ae9DdRWRA1smuciUdrkRwIJ1FypvdAumXNbXEPVpRm-VRb9HG5bJTDq67gFCJ54&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=v2BuddybBSDD6fc8HkG8Yw&oh=00_AQL8YrciOtgbjAxQgz8Nk_nZDsUkmKOirrDPg68rnqGViw&oe=6AA49784" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>01/09</td>
+            <td><span class="type-badge type-image">IMAGE</span></td>
+            <td><a href="https://www.instagram.com/p/Dcwags5PQP7/" target="_blank" class="post-link">LUNETTE BAG â Piezas que transmiten la calidez de un suave verano...</a></td>
+            <td class="num">1,606</td>
+            <td class="num">10</td>
+            <td class="num">0.093%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/DczQ5wRD8cs/" target="_blank"><img class="thumb" src="https://scontent-fra5-2.cdninstagram.com/v/t51.82787-15/790385844_18618538645036686_3260273889036224368_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=1Yz0USJAMScQ7kNvwEtCjwS&_nc_oc=AdqmSgEMfGB0H2pYFHBpsAKfaRtRkbfMoaxpr52_-zP2GO4EWXkjaZ13kfOGG8dwwY0&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=v2BuddybBSDD6fc8HkG8Yw&oh=00_AQIMAHb_aXZcX4xstgMWryJ8erQiZr8GA0_k9qe_sqQ7aA&oe=6AA47A80" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>02/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/DczQ5wRD8cs/" target="_blank" class="post-link">Documentando el back de la producciÃ³n de verano 2026(27)...</a></td>
+            <td class="num">896</td>
+            <td class="num">9</td>
+            <td class="num">0.052%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/DcubZpVgOmW/" target="_blank"><img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/791305130_18617902654036686_4203011469852645206_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=hPqsXGqUJaUQ7kNvwFt01Rr&_nc_oc=AdpVyURHxeAyESwJhXJwGr1SG9hwW3J1rebksVt27M69Af7IwxYlmeCk8_IADochgRU&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=v2BuddybBSDD6fc8HkG8Yw&oh=00_AQLsRMloGxYW7-rW18LABF38fQOckQEbYfldqxN6XcVS4w&oe=6AA48536" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>01/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/DcubZpVgOmW/" target="_blank" class="post-link">PRN JACKETS SS27 â Fluidez dentro de formas orgÃ¡nicas...</a></td>
+            <td class="num">601</td>
+            <td class="num">21</td>
+            <td class="num">0.036%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dc6N56TEUWK/" target="_blank"><img class="thumb" src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/796726088_18619409581036686_3462507588489760437_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=ikdheQkfI38Q7kNvwF5zh2u&_nc_oc=AdrUsaIMkmtncayssmwUiy8iXZxlnj7TO9j9eUsTd1s9_0JBgrPHn3CyZZ_pFVBvfY4&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=v2BuddybBSDD6fc8HkG8Yw&oh=00_AQINg6qdYZ7L9UJSH7P4jbRFfqPngvAlWZ_uEUQ0MjhQ3w&oe=6AA48F74" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>05/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dc6N56TEUWK/" target="_blank" class="post-link">Summer collection 027 â Forms follows summer. The art of structure...</a></td>
+            <td class="num">416</td>
+            <td class="num">6</td>
+            <td class="num">0.024%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dc4ixDpg0j8/" target="_blank"><img class="thumb" src="https://scontent-fra5-2.cdninstagram.com/v/t51.82787-15/797416771_18619206562036686_4078536009212294166_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=aXKif9eE3PcQ7kNvwFAJOTf&_nc_oc=Adrii9_TgHpDSrPV0Dv6oQvhEy3voGUpda2l5lSLGI9f1xe3Q6jfUjVjmWh9wKyEq-g&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=v2BuddybBSDD6fc8HkG8Yw&oh=00_AQKX5iiYOlgX8vX65mUZpMSoWIOD_gFJP33QTDGSg66u_w&oe=6AA49618" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>04/09</td>
+            <td><span class="type-badge type-image">IMAGE</span></td>
+            <td><a href="https://www.instagram.com/p/Dc4ixDpg0j8/" target="_blank" class="post-link">VERANO 26.27 â Una mirada donde la arquitectura, luz y siluetas...</a></td>
+            <td class="num">437</td>
+            <td class="num">17</td>
+            <td class="num">0.026%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PARUOLO TABLE -->
+    <div style="font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">@paruolo â Posts de la semana</div>
+    <div class="table-wrap" style="margin-bottom:24px;">
+      <table>
+        <thead>
+          <tr>
+            <th class="thumb-cell">Foto</th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Caption</th>
+            <th class="num">Likes</th>
+            <th class="num">Coments</th>
+            <th class="num">ER</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-gold">
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dc03nufiUcJ/" target="_blank"><img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t39.30808-6/786628977_1486588633509314_4234030829403729987_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Lqw9AanIsSsQ7kNvwHweSHS&_nc_oc=AdoQP88Z1mgOUvHXqRCzGuy0BcStP6Joyih_-HaBUBmxJ7-fsb00GKr-jHBU7hXqkEw&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=c-nu6HixuM25gPp2xvSxzQ&oh=00_AQLsF3hKPqUexQABB9jCCxxpNrbJLvHxlOXkCw7rV6scsA&oe=6AA48906" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>03/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dc03nufiUcJ/" target="_blank" class="post-link" style="color:var(--gold)">SUN. STONE. TEXTURE. ð¤ Sandalia Rivage â El mar rompe contra la roca...</a></td>
+            <td class="num">453</td>
+            <td class="num">7</td>
+            <td class="num er-highlight">0.062%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/reel/DctL6QNp2Rt/" target="_blank"><img class="thumb" src="https://scontent-fra5-2.cdninstagram.com/v/t51.82787-15/789540059_18622099540037246_4788844907818033117_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=44Tnyo6MotkQ7kNvwE6jhj3&_nc_oc=Adpw2RVGzeYoyLyksttXJhrSJFWMt4Nd4-vIH9V9UEB5o3qOlvfFs9H_oFARmIVO1j0&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=c-nu6HixuM25gPp2xvSxzQ&_nc_tpa=Q5bMBQLGN7019fJJ30D5kdb-nlH0w_S8UU_2PU8XgiGy2YUdroUt2Xal6ojdwonTUOcEFyfzUsgYuo1REA&oh=00_AQIO4iAkxgkOJfuPwqOGGnvAlcqSB1ohuCRSvCPPgiwcZg&oe=6AA48794" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>31/08</td>
+            <td><span class="type-badge type-video">VIDEO</span></td>
+            <td><a href="https://www.instagram.com/reel/DctL6QNp2Rt/" target="_blank" class="post-link">BEHIND THE SCENES ð¬ The Horizon â DescubrÃ­ toda la colecciÃ³n SS27...</a></td>
+            <td class="num">120</td>
+            <td class="num">12</td>
+            <td class="num">0.018%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- MISHKA TABLE -->
+    <div style="font-size:13px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">@mishkabuenosaires â Posts de la semana</div>
+    <div class="table-wrap" style="margin-bottom:24px;">
+      <table>
+        <thead>
+          <tr>
+            <th class="thumb-cell">Foto</th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Caption</th>
+            <th class="num">Likes</th>
+            <th class="num">Coments</th>
+            <th class="num">ER</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-gold">
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/DczKU8Kn2wi/" target="_blank"><img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/792069846_18626023027061959_6215874022630679328_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=rysTtI_2eQUQ7kNvwGwWtOZ&_nc_oc=AdqXq0q_lpo_SNpl9GMsBmDvIQJhE54JrZSnfViTu7dsPnzizV-KO-yX3TwM1xFvxAU&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=WeSEieQTvEuptTe54JHCpQ&oh=00_AQJZVVoB43Wm4D-b4BpzK8UkCnjzXa17ogJJgoE-lXN9cg&oe=6AA48114" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>02/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/DczKU8Kn2wi/" target="_blank" class="post-link" style="color:var(--gold)">New Season Mood â Online and in Stores</a></td>
+            <td class="num">270</td>
+            <td class="num">0</td>
+            <td class="num er-highlight">0.070%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dc4SB06H1lA/" target="_blank"><img class="thumb" src="https://scontent-fra3-2.cdninstagram.com/v/t51.82787-15/795430139_18626688361061959_3106790676654402503_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Fha4weNtQ7MQ7kNvwFpX5cJ&_nc_oc=AdqkI3flp-e4oQG1kCzP3SPItnEMcNhu1sm09Zn9STZcVwMe6bR3vX0n7h0C-cvUILo&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=WeSEieQTvEuptTe54JHCpQ&oh=00_AQLVVy9vLoQHXX-QGDlweINY3jk-pj5-hkqoemyCC_qxnQ&oe=6AA46EA8" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>04/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dc4SB06H1lA/" target="_blank" class="post-link">SS27 Prints â Bota Charles y Cartera Pauline</a></td>
+            <td class="num">231</td>
+            <td class="num">9</td>
+            <td class="num">0.062%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dc9qtmkAbRR/" target="_blank"><img class="thumb" src="https://scontent-fra5-1.cdninstagram.com/v/t39.30808-6/793595748_1524823769680627_8233462652278509888_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=_6pkyazQxTQQ7kNvwEEx-TW&_nc_oc=Ado8B8fHTLCo8ecKWLQ13kxwuwOok9b0P_fqroj7bM8BOgBQq4JOw8qb48c90gUht9Q&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=WeSEieQTvEuptTe54JHCpQ&oh=00_AQJljsLGryza47YybI0ccAtLKRRIYIIgzBJZi7zB3f_tmA&oe=6AA46C09" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>06/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dc9qtmkAbRR/" target="_blank" class="post-link">Bandolera Matt â Online and in Stores</a></td>
+            <td class="num">225</td>
+            <td class="num">0</td>
+            <td class="num">0.058%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/Dc64Ofik_8M/" target="_blank"><img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t39.30808-6/793720332_1524822083014129_8973737084339969854_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=d4Eyn18W6pkQ7kNvwGvINRm&_nc_oc=AdouAgaoWQG3a9RoSGbXokjd1e3a1GW-spHDenSlIX8ZKOMq1e87zJQRRp_K24oBz38&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=WeSEieQTvEuptTe54JHCpQ&oh=00_AQLVz-65ZdevwI0nTJqu0OeFFVRwxXTxJ1TmCqKDNMfQMQ&oe=6AA46FA8" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>05/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/Dc64Ofik_8M/" target="_blank" class="post-link">Shapes in Contrast â Online and in Stores</a></td>
+            <td class="num">191</td>
+            <td class="num">2</td>
+            <td class="num">0.050%</td>
+          </tr>
+          <tr>
+            <td class="thumb-cell"><a href="https://www.instagram.com/p/DcwzlhCn-aH/" target="_blank"><img class="thumb" src="https://scontent-fra5-2.cdninstagram.com/v/t51.82787-15/793000440_18625750627061959_1657397138073230247_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=wLbuYT8acUQQ7kNvwFpLD86&_nc_oc=Adqb-imJjCr_qIRHKUxI_aEywRc__wnkBp4WYoYpuLjQA7x__vi4hBI06UoyiedAgbI&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=WeSEieQTvEuptTe54JHCpQ&oh=00_AQIWk4EWiHnc5psNySt5bfWIoJSdEU-DjfpXpvUl4Td50w&oe=6AA46C0A" onerror="this.style.opacity=0.1" alt=""></a></td>
+            <td>01/09</td>
+            <td><span class="type-badge type-carousel">CAROUSEL</span></td>
+            <td><a href="https://www.instagram.com/p/DcwzlhCn-aH/" target="_blank" class="post-link">Complete the look â Campera Seven, Anteojos Ned, Sandalia Gregoire</a></td>
+            <td class="num">136</td>
+            <td class="num">11</td>
+            <td class="num">0.038%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BENCHMARK INSIGHTS -->
+    <div style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">5 Insights de Benchmark</div>
+    <div class="insights-grid" style="margin-bottom:0;">
+      <div class="insight-card">
+        <div class="insight-icon">ð</div>
+        <div class="insight-title">Sarkany lidera avg likes/post</div>
+        <div class="insight-text">Con 1,162 avg likes/post, Sarkany supera a PrÃ¼ne (1,052), Paruolo (287) y Mishka (211) esta semana. El contenido emocional del cumpleaÃ±os de Ricky (2,521 likes) fue el motor.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">ð</div>
+        <div class="insight-title">PrÃ¼ne: sÃ³lida pero predecible</div>
+        <div class="insight-text">6 posts en la semana con 1,052 avg likes. Su mejor pieza fue "PRN shoes collection" (2,357 likes, 0.138% ER) â el producto fÃ­sico supera al contenido editorial en engagement.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">ð </div>
+        <div class="insight-title">Paruolo: baja frecuencia, bajo impacto</div>
+        <div class="insight-text">Solo 2 posts en la semana. La sandalia en lifestyle outdoor (453 likes) triplicÃ³ al Reel BTS (120 likes). Paruolo descuida el volumen de publicaciÃ³n.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">â¨</div>
+        <div class="insight-title">Mishka: constante pero de bajo vuelo</div>
+        <div class="insight-text">5 posts con avg 211 likes. El mejor ER fue "New Season Mood" (0.070%), superando incluso a algunos posts de PrÃ¼ne. Base de seguidores mÃ¡s pequeÃ±a pero comprometida.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">ð¯</div>
+        <div class="insight-title">Oportunidad: contenido SS27 orgÃ¡nico</div>
+        <div class="insight-text">La preview SS27 de Sarkany (139K views, 0.89% ER) supera en ratio de conversiÃ³n a casi todo el contenido de PrÃ¼ne. Apostar por mÃ¡s drops de nueva colecciÃ³n puede ampliar la brecha.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONCLUSIONES -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-icon insights">ð¡</div>
+      <div>
+        <div class="section-title">Conclusiones Accionables</div>
+        <div class="section-subtitle">5 acciones estratÃ©gicas para la prÃ³xima semana</div>
+      </div>
+    </div>
+    <div class="insights-grid">
+      <div class="insight-card" style="border-color:rgba(254,44,85,0.3);">
+        <div class="insight-icon">ð</div>
+        <div class="insight-title" style="color:var(--red);">TikTok en declive â activar contenido</div>
+        <div class="insight-text">Views cayeron a 61.7K (-27% vs semana previa). La tendencia 4 semanas muestra caÃ­da sostenida desde W1 (139K). Prioridad: publicar al menos 3 videos cortos entre lunes y jueves.</div>
+      </div>
+      <div class="insight-card" style="border-color:rgba(232,193,112,0.3);">
+        <div class="insight-icon">ð</div>
+        <div class="insight-title" style="color:var(--gold);">IG: normalizaciÃ³n post-viral</div>
+        <div class="insight-text">La caÃ­da de IG (-50% views) responde a la base inflada por el viral del 27/08. El piso real de la cuenta son ~400â800K views/semana. El cumpleaÃ±os de Ricky (665K en un dÃ­a) valida el potencial emocional.</div>
+      </div>
+      <div class="insight-card" style="border-color:rgba(76,175,80,0.3);">
+        <div class="insight-icon">ð</div>
+        <div class="insight-title" style="color:var(--green);">ER IG: el contenido comercial puntual funciona</div>
+        <div class="insight-text">El post de 60%+extra20% logrÃ³ el mayor ER de la semana (1.59%) con urgencia y oferta directa. Combinar esa mecÃ¡nica con imÃ¡genes de producto de alta calidad puede ser el formato ganador de sale.</div>
+      </div>
+      <div class="insight-card" style="border-color:rgba(193,53,132,0.3);">
+        <div class="insight-icon">ð </div>
+        <div class="insight-title" style="color:var(--magenta);">CAROUSEL: formato dominante</div>
+        <div class="insight-text">100% de los posts de la semana fueron CAROUSEL. El algoritmo de IG premia el swipe time â mantener el formato. Experimentar con Reels para ampliar reach sin perder ER base.</div>
+      </div>
+      <div class="insight-card" style="border-color:rgba(139,92,246,0.3);">
+        <div class="insight-icon">ð¤</div>
+        <div class="insight-title" style="color:var(--purple);">Influencers = rendimiento</div>
+        <div class="insight-text">El post #MargaritaSquad (295K views, 1.33% ER) fue el de mayor ratio orgÃ¡nico de las Ãºltimas 2 semanas. Las activaciones con influencers generan 2x mÃ¡s engagement. Escalar para SS27.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>PrÃ³ximo reporte:</strong> Lunes 14/09/2026 Â· Social Media Weekly Report @rickysarkany<br>
+  <span style="margin-top:6px;display:block;">Generado automÃ¡ticamente Â· Datos: Windsor.ai Â· Â© Sarkany Digital 2026</span>
+</div>
+
+<script>
+  // IG TREND CHART
+  const igCtx = document.getElementById('igTrend').getContext('2d');
+  new Chart(igCtx, {
+    type: 'line',
+    data: {
+      labels: ['W1 (10-16/08)', 'W2 (17-23/08)', 'W3 (24-30/08)', 'W4 (31/08-06/09)'],
+      datasets: [{
+        label: 'Views IG',
+        data: [5149811, 2722384, 5661798, 2807024],
+        borderColor: '#C13584',
+        backgroundColor: 'rgba(193,53,132,0.12)',
+        borderWidth: 2.5,
+        pointBackgroundColor: '#C13584',
+        pointRadius: 5,
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#888', font: { size: 11 } }, grid: { color: '#1f1f1f' } },
+        y: { ticks: { color: '#888', font: { size: 11 }, callback: v => (v/1000000).toFixed(1)+'M' }, grid: { color: '#1f1f1f' } }
+      }
+    }
+  });
+
+  // IG MIX DONUT
+  const mixCtx = document.getElementById('igMix').getContext('2d');
+  new Chart(mixCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['CAROUSEL', 'REEL', 'IMAGE'],
+      datasets: [{
+        data: [7, 0, 0],
+        backgroundColor: ['#C13584', '#FE2C55', '#E8C170'],
+        borderWidth: 0,
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: '#888', font: { size: 11 }, boxWidth: 12, padding: 10 }
+        }
+      }
+    }
+  });
+
+  // TK TREND CHART
+  const tkCtx = document.getElementById('tkTrend').getContext('2d');
+  new Chart(tkCtx, {
+    type: 'bar',
+    data: {
+      labels: ['W1 (10-16/08)', 'W2 (17-23/08)', 'W3 (24-30/08)', 'W4 (31/08-06/09)'],
+      datasets: [{
+        label: 'Views TikTok',
+        data: [139249, 88929, 84254, 61696],
+        backgroundColor: 'rgba(254,44,85,0.7)',
+        borderColor: '#FE2C55',
+        borderWidth: 1,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#888', font: { size: 11 } }, grid: { color: '#1f1f1f' } },
+        y: { ticks: { color: '#888', font: { size: 11 }, callback: v => (v/1000).toFixed(0)+'K' }, grid: { color: '#1f1f1f' } }
+      }
+    }
+  });
+
+  // BENCHMARK BAR
+  const bmCtx = document.getElementById('bmChart').getContext('2d');
+  new Chart(bmCtx, {
+    type: 'bar',
+    data: {
+      labels: ['@rickysarkany', '@pruneoficial', '@paruolo', '@mishkabuenosaires'],
+      datasets: [{
+        label: 'Avg Likes / Post',
+        data: [1162, 1052, 287, 211],
+        backgroundColor: ['rgba(193,53,132,0.7)', 'rgba(139,92,246,0.7)', 'rgba(59,130,246,0.7)', 'rgba(249,115,22,0.7)'],
+        borderColor: ['#C13584', '#8B5CF6', '#3B82F6', '#F97316'],
+        borderWidth: 1,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#888', font: { size: 11 } }, grid: { color: '#1f1f1f' } },
+        y: { ticks: { color: '#ccc', font: { size: 12, weight: '600' } }, grid: { display: false } }
+      }
+    }
+  });
+</script>
+</body>
+</html>
