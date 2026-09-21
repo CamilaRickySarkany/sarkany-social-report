@@ -3,572 +3,541 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social Media Report — @rickysarkany — Semana 08/09 al 14/09/2026</title>
+<title>Sarkany Social Media Report â Semana 14/09 al 20/09/2026</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0C0C0C; color: #EFEFEF; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-
-  /* COVER */
-  .cover {
-    background: linear-gradient(135deg, #0C0C0C 0%, #1a0a1a 50%, #0C0C0C 100%);
-    border-bottom: 2px solid #C13584;
-    padding: 60px 40px 50px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .cover::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(ellipse at center, rgba(193,53,132,0.08) 0%, transparent 60%);
-  }
-  .cover-logo { font-size: 11px; letter-spacing: 6px; color: #C13584; text-transform: uppercase; margin-bottom: 24px; }
-  .cover-title { font-size: 42px; font-weight: 700; letter-spacing: -1px; color: #FFFFFF; margin-bottom: 12px; }
-  .cover-subtitle { font-size: 14px; letter-spacing: 3px; color: #888; text-transform: uppercase; margin-bottom: 32px; }
-  .cover-week {
-    display: inline-block;
-    border: 1px solid #C13584;
-    padding: 10px 28px;
-    font-size: 16px;
-    letter-spacing: 2px;
-    color: #C13584;
-    border-radius: 2px;
-  }
-  .cover-note {
-    margin-top: 24px;
-    font-size: 12px;
-    color: #555;
-    letter-spacing: 1px;
-  }
-
-  /* SECTION */
-  .section { padding: 50px 40px; border-bottom: 1px solid #1e1e1e; }
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 36px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #1e1e1e;
-  }
-  .section-platform {
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: #888;
-  }
-  .section-title {
-    font-size: 26px;
-    font-weight: 700;
-    color: #FFFFFF;
-  }
-  .platform-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 11px;
-    letter-spacing: 1px;
-    font-weight: 600;
-  }
-  .badge-tiktok { background: rgba(254,44,85,0.15); color: #FE2C55; border: 1px solid #FE2C55; }
-  .badge-info { background: rgba(100,100,100,0.15); color: #888; border: 1px solid #444; font-size: 10px; }
-
-  /* KPI CARDS */
-  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-  .kpi-card {
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 8px;
-    padding: 20px 18px;
-    position: relative;
-    overflow: hidden;
-  }
-  .kpi-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: #FE2C55;
-  }
-  .kpi-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #666; margin-bottom: 10px; }
-  .kpi-value { font-size: 30px; font-weight: 700; color: #FFFFFF; line-height: 1; margin-bottom: 8px; }
-  .kpi-variation { font-size: 12px; font-weight: 600; }
-  .kpi-prev { font-size: 11px; color: #555; margin-top: 4px; }
-  .up { color: #4CAF50; }
-  .down { color: #FE2C55; }
-  .neutral { color: #888; }
-
-  /* CHARTS */
-  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px; }
-  .chart-card {
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 8px;
-    padding: 24px;
-  }
-  .chart-title { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #666; margin-bottom: 20px; }
-  .chart-container { position: relative; height: 200px; }
-
-  /* HIGHLIGHT CARD */
-  .highlight-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
-  .highlight-card {
-    background: #111;
-    border: 1px solid #FE2C55;
-    border-radius: 8px;
-    padding: 20px;
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
-  .highlight-thumb { width: 70px; height: 70px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: #1a1a1a; }
-  .highlight-label { font-size: 10px; letter-spacing: 2px; color: #FE2C55; text-transform: uppercase; margin-bottom: 6px; }
-  .highlight-caption { font-size: 14px; color: #EFEFEF; line-height: 1.4; margin-bottom: 8px; }
-  .highlight-stats { font-size: 12px; color: #888; }
-
-  /* TABLES */
-  .table-wrap { overflow-x: auto; margin-bottom: 16px; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th {
-    text-align: left;
-    padding: 10px 12px;
-    background: #111;
-    color: #555;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    border-bottom: 1px solid #222;
-    white-space: nowrap;
-  }
-  td {
-    padding: 10px 12px;
-    border-bottom: 1px solid #191919;
-    color: #CCC;
-    vertical-align: middle;
-  }
-  tr:hover td { background: rgba(255,255,255,0.02); }
-  .thumb { width: 52px; height: 52px; object-fit: cover; border-radius: 6px; display: block; background: #1a1a1a; }
-  .thumb-cell { width: 60px; padding: 8px 6px 8px 14px !important; }
-  .post-link { color: inherit; text-decoration: none; }
-  .post-link:hover { text-decoration: underline; opacity: 0.85; }
-  .row-gold { background: rgba(232,193,112,0.07) !important; }
-  .row-gold td { color: #E8C170 !important; }
-  .er-highlight { color: #4CAF50 !important; font-weight: 700; }
-  .num { text-align: right; white-space: nowrap; }
-
-  /* ALERT / UNAVAILABLE */
-  .alert-card {
-    background: #111;
-    border: 1px solid #333;
-    border-left: 3px solid #555;
-    border-radius: 8px;
-    padding: 20px 24px;
-    margin-bottom: 20px;
-    color: #666;
-    font-size: 13px;
-    line-height: 1.6;
-  }
-  .alert-card strong { color: #888; }
-
-  /* CONCLUSIONS */
-  .conclusions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-  .conclusion-card {
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 8px;
-    padding: 20px;
-  }
-  .conclusion-icon { font-size: 22px; margin-bottom: 10px; }
-  .conclusion-title { font-size: 13px; font-weight: 700; color: #EFEFEF; margin-bottom: 8px; }
-  .conclusion-text { font-size: 12px; color: #777; line-height: 1.6; }
-
-  /* FOOTER */
-  .footer { padding: 30px 40px; text-align: center; border-top: 1px solid #1e1e1e; }
-  .footer-text { font-size: 11px; letter-spacing: 2px; color: #444; text-transform: uppercase; }
-  .footer-next { font-size: 13px; color: #666; margin-top: 8px; }
-
-  @media (max-width: 768px) {
-    .cover { padding: 40px 20px 36px; }
-    .cover-title { font-size: 28px; }
-    .section { padding: 36px 20px; }
-    .charts-row { grid-template-columns: 1fr; }
-    .highlight-row { grid-template-columns: 1fr; }
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0C0C0C;color:#E8E8E8;font-family:'Helvetica Neue',Arial,sans-serif;font-size:14px}
+a{color:inherit;text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 24px 60px}
+/* COVER */
+.cover{background:linear-gradient(135deg,#1a0010 0%,#0C0C0C 50%,#100015 100%);padding:60px 40px;text-align:center;border-bottom:1px solid #C13584}
+.cover h1{font-size:42px;font-weight:900;letter-spacing:6px;text-transform:uppercase;background:linear-gradient(90deg,#C13584,#E8C170);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cover .week{font-size:16px;color:#999;margin-top:12px;letter-spacing:2px;text-transform:uppercase}
+.cover .brand{font-size:13px;color:#C13584;margin-top:8px;letter-spacing:4px;text-transform:uppercase}
+/* SECTIONS */
+.section{padding:40px 0}
+.section-title{font-size:22px;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;padding-bottom:12px;border-bottom:2px solid #C13584}
+.section-subtitle{color:#888;font-size:12px;letter-spacing:2px;margin-bottom:30px;text-transform:uppercase}
+.tiktok .section-title{border-color:#FE2C55}
+.benchmark .section-title{border-color:#E8C170}
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px}
+.kpi-card{background:#141414;border:1px solid #222;border-radius:10px;padding:18px 16px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#C13584}
+.tiktok .kpi-card::before{background:#FE2C55}
+.kpi-label{font-size:11px;color:#888;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.kpi-value{font-size:28px;font-weight:800;color:#FFF;line-height:1}
+.kpi-prev{font-size:11px;color:#555;margin-top:6px}
+.kpi-var{font-size:12px;font-weight:700;margin-top:4px}
+.kpi-var.up{color:#4CAF50}
+.kpi-var.down{color:#e74c3c}
+/* CHARTS */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:30px}
+.chart-box{background:#141414;border:1px solid #222;border-radius:10px;padding:20px}
+.chart-box h3{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:16px}
+.chart-box canvas{max-height:200px}
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin-bottom:30px}
+th{background:#1a1a1a;color:#888;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:10px 8px;text-align:left;border-bottom:1px solid #2a2a2a}
+td{padding:10px 8px;border-bottom:1px solid #1a1a1a;vertical-align:middle;color:#CCC}
+tr:hover td{background:#161616}
+.thumb{width:52px;height:52px;object-fit:cover;border-radius:6px;display:block;background:#1a1a1a}
+.thumb-cell{width:60px;padding:8px 6px 8px 14px !important}
+.post-link{color:inherit;text-decoration:none}
+.post-link:hover{text-decoration:underline;opacity:.85}
+.row-gold{background:rgba(232,193,112,0.07) !important}
+.row-gold td{color:#E8C170 !important}
+.er-highlight{color:#4CAF50 !important;font-weight:700}
+.type-badge{font-size:10px;padding:3px 7px;border-radius:20px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.type-carousel{background:rgba(193,53,132,0.2);color:#C13584}
+.type-reel{background:rgba(254,44,85,0.2);color:#FE2C55}
+.type-image{background:rgba(232,193,112,0.2);color:#E8C170}
+/* INSIGHT CARDS */
+.insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.insight-card{background:#141414;border:1px solid #222;border-radius:10px;padding:18px;border-left:3px solid #C13584}
+.insight-card.tktok{border-left-color:#FE2C55}
+.insight-card.gold{border-left-color:#E8C170}
+.insight-title{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#C13584;margin-bottom:8px}
+.insight-card.tktok .insight-title{color:#FE2C55}
+.insight-card.gold .insight-title{color:#E8C170}
+.insight-text{font-size:13px;color:#AAA;line-height:1.5}
+/* FEATURED VIDEO */
+.featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.featured-card{background:#141414;border:1px solid #222;border-radius:10px;padding:18px}
+.featured-card h4{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:10px}
+.featured-card .f-val{font-size:32px;font-weight:900;color:#FE2C55}
+.featured-card .f-sub{font-size:13px;color:#888;margin-top:4px}
+.featured-card .f-caption{font-size:13px;color:#CCC;margin-top:10px;font-style:italic}
+/* FOOTER */
+footer{background:#111;border-top:1px solid #222;padding:30px;text-align:center}
+footer p{color:#444;font-size:12px;letter-spacing:2px;text-transform:uppercase}
+footer strong{color:#C13584}
+/* BENCHMARK */
+.pill{display:inline-block;font-size:10px;padding:3px 10px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;background:rgba(232,193,112,0.15);color:#E8C170;margin-left:12px;vertical-align:middle;font-weight:700}
+.brand-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.brand-kpi-card{background:#141414;border:1px solid #222;border-radius:10px;padding:18px;border-top:3px solid}
+.brand-kpi-card.sarkany{border-top-color:#C13584}
+.brand-kpi-card.prune{border-top-color:#9b59b6}
+.brand-kpi-card.paruolo{border-top-color:#3498db}
+.brand-kpi-card.mishka{border-top-color:#e67e22}
+.bk-brand{font-size:11px;font-weight:800;letter-spacing:2px;margin-bottom:10px}
+.bk-metric{font-size:12px;color:#888;margin-top:5px}
+.bk-metric span{color:#DDD;font-weight:700}
+.na-note{color:#555;font-size:12px;text-align:center;padding:20px;background:#111;border-radius:8px;margin:10px 0}
+@media(max-width:900px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .charts-row{grid-template-columns:1fr}
+  .brand-kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .featured-grid{grid-template-columns:1fr}
+  .insights-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
-<!-- COVER -->
 <div class="cover">
-  <div class="cover-logo">Ricky Sarkany — Social Intelligence</div>
-  <div class="cover-title">Social Media Report</div>
-  <div class="cover-subtitle">@rickysarkany</div>
-  <div class="cover-week">Semana del 08/09 al 14/09/2026</div>
-  <div class="cover-note">Generado automáticamente · Lunes 14/09/2026 · 09:00 hs</div>
+  <h1>SARKANY</h1>
+  <div class="brand">Social Media Report</div>
+  <div class="week">Semana del 14/09 al 20/09/2026</div>
 </div>
 
-<!-- AVISO CONECTORES -->
-<div class="section" style="padding-bottom: 20px;">
-  <div class="alert-card">
-    <strong>⚠️ Estado de conectores:</strong> Instagram y Benchmark (instagram_public) no están configurados en Windsor.ai para esta cuenta. Este reporte incluye únicamente datos de <strong>TikTok</strong>. Para habilitar el reporte completo, conectar el datasource <em>instagram</em> en <a href="https://onboard.windsor.ai?datasource=instagram" style="color:#C13584;">onboard.windsor.ai</a>.
-  </div>
-</div>
+<div class="container">
 
-<!-- TIKTOK SECTION -->
-<div class="section">
-  <div class="section-header">
-    <div>
-      <div class="section-platform">Plataforma</div>
-      <div class="section-title">TikTok — @rickysarkany</div>
-    </div>
-    <span class="platform-badge badge-tiktok">TikTok Organic</span>
-  </div>
+<!-- âââ INSTAGRAM âââ -->
+<div class="section instagram">
+  <div class="section-title">Instagram @rickysarkany</div>
+  <div class="section-subtitle">MÃ©tricas del 14/09 al 20/09/2026 vs semana anterior (07/09â13/09)</div>
 
-  <!-- KPI CARDS -->
   <div class="kpi-grid">
     <div class="kpi-card">
-      <div class="kpi-label">Views Totales</div>
-      <div class="kpi-value">312.5K</div>
-      <div class="kpi-variation up">↑ 357% vs semana anterior</div>
-      <div class="kpi-prev">Semana anterior: 68.4K</div>
+      <div class="kpi-label">Views</div>
+      <div class="kpi-value">3.2M</div>
+      <div class="kpi-var up">â 40.3%</div>
+      <div class="kpi-prev">Sem. ant.: 2,280,621</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Likes Totales</div>
-      <div class="kpi-value">31.6K</div>
-      <div class="kpi-variation up">↑ 1,547% vs semana anterior</div>
-      <div class="kpi-prev">Semana anterior: 1,920</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Shares</div>
-      <div class="kpi-value">1,495</div>
-      <div class="kpi-variation up">↑ 1,700% vs semana anterior</div>
-      <div class="kpi-prev">Semana anterior: 83</div>
+      <div class="kpi-label">Likes</div>
+      <div class="kpi-value">18,650</div>
+      <div class="kpi-var up">â 119.4%</div>
+      <div class="kpi-prev">Sem. ant.: 8,501</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Comentarios</div>
-      <div class="kpi-value">76</div>
-      <div class="kpi-variation up">↑ 485% vs semana anterior</div>
-      <div class="kpi-prev">Semana anterior: 13</div>
+      <div class="kpi-value">178</div>
+      <div class="kpi-var up">â 11.3%</div>
+      <div class="kpi-prev">Sem. ant.: 160</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">ER Semanal</div>
-      <div class="kpi-value" style="color:#4CAF50;">10.63%</div>
-      <div class="kpi-variation up">↑ vs 2.95% semana anterior</div>
-      <div class="kpi-prev">(likes+coments+shares)/views</div>
+      <div class="kpi-label">Shares</div>
+      <div class="kpi-value">722</div>
+      <div class="kpi-var up">â 41.8%</div>
+      <div class="kpi-prev">Sem. ant.: 509</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Seguidores netos</div>
-      <div class="kpi-value" style="color:#FE2C55;">−97</div>
-      <div class="kpi-variation neutral">Tendencia negativa leve</div>
-      <div class="kpi-prev">Alto viral, bajo follow-through</div>
+      <div class="kpi-label">Saves</div>
+      <div class="kpi-value">472</div>
+      <div class="kpi-var up">â 68.0%</div>
+      <div class="kpi-prev">Sem. ant.: 281</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Reach</div>
+      <div class="kpi-value">885.8K</div>
+      <div class="kpi-var up">â 27.6%</div>
+      <div class="kpi-prev">Sem. ant.: 694,077</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Nuevos Seguidores</div>
+      <div class="kpi-value">1,009</div>
+      <div class="kpi-var down">â 25.2%</div>
+      <div class="kpi-prev">Sem. ant.: 1,349</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Engagement Rate</div>
+      <div class="kpi-value">0.63%</div>
+      <div class="kpi-var up">â 51.2%</div>
+      <div class="kpi-prev">Sem. ant.: 0.41%</div>
     </div>
   </div>
 
-  <!-- CHARTS -->
   <div class="charts-row">
-    <div class="chart-card">
-      <div class="chart-title">Tendencia 4 semanas — Views TikTok</div>
-      <div class="chart-container">
-        <canvas id="tkTrendChart"></canvas>
-      </div>
+    <div class="chart-box">
+      <h3>Tendencia 4 Semanas â Views IG</h3>
+      <canvas id="igTrend"></canvas>
     </div>
-    <div class="chart-card">
-      <div class="chart-title">Views diarios — Semana actual</div>
-      <div class="chart-container">
-        <canvas id="tkDailyChart"></canvas>
-      </div>
+    <div class="chart-box">
+      <h3>Mix de Contenido</h3>
+      <canvas id="igMix"></canvas>
     </div>
   </div>
 
-  <!-- HIGHLIGHT CARDS -->
-  <div class="highlight-row">
-    <div class="highlight-card">
-      <img class="highlight-thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYgGVSG5fTjDICkrIzJDxPDAIV4rIHfgLAeLjM~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=c7adc06f&x-expires=1789473600&x-signature=RYcfmPHFtOgHqOKS%2BbrA6IJwpDM%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="thumb">
-      <div>
-        <div class="highlight-label">🏆 Mejor video — Views</div>
-        <div class="highlight-caption">Existen dos tipos de Sarkany Friends @emily fly🗡️ @valen ramos 😂</div>
-        <div class="highlight-stats">186,624 views · 22,719 likes · 632 shares · 10.34s avg watch · ER 12.52%</div>
-      </div>
-    </div>
-    <div class="highlight-card" style="border-color:#4CAF50;">
-      <img class="highlight-thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYEiWBat5WPKY8DWdtExAkPqBAlniQBib7XVI~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=ebad7b8e&x-expires=1789473600&x-signature=wUk6%2FJM2TcA5NEwihD%2B1npVpnl0%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="thumb">
-      <div>
-        <div class="highlight-label" style="color:#4CAF50;">⚡ Mejor ER — Engagement</div>
-        <div class="highlight-caption">Todo dado por Martin @emily fly🗡️ 😂♥️</div>
-        <div class="highlight-stats">136,244 views · 17,460 likes · 1,546 shares · ER <strong style="color:#4CAF50;">13.95%</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOP VIDEOS TABLE -->
-  <div class="chart-title" style="margin-bottom:16px;">Top 9 Videos — Semana (ordenados por views)</div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="thumb-cell">Thumb</th>
-          <th>#</th>
-          <th>Fecha</th>
-          <th>Caption</th>
-          <th class="num">Views</th>
-          <th class="num">Likes</th>
-          <th class="num">Coments</th>
-          <th class="num">Shares</th>
-          <th class="num">Reach</th>
-          <th class="num">Avg Watch</th>
-          <th class="num">ER %</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="row-gold">
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7684294727318932757?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank"><img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYgGVSG5fTjDICkrIzJDxPDAIV4rIHfgLAeLjM~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=c7adc06f&x-expires=1789473600&x-signature=RYcfmPHFtOgHqOKS%2BbrA6IJwpDM%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="thumb"></a></td>
-          <td>1</td>
-          <td>11/09</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7684294727318932757?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">Existen dos tipos de Sarkany Friends @emily fly🗡️ @valen ramos 😂</a></td>
-          <td class="num">186,624</td>
-          <td class="num">22,719</td>
-          <td class="num">10</td>
-          <td class="num">632</td>
-          <td class="num">136,696</td>
-          <td class="num">10.34s</td>
-          <td class="num">12.52%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7684668572978728213?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank"><img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYEiWBat5WPKY8DWdtExAkPqBAlniQBib7XVI~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=ebad7b8e&x-expires=1789473600&x-signature=wUk6%2FJM2TcA5NEwihD%2B1npVpnl0%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="thumb"></a></td>
-          <td>2</td>
-          <td>12/09</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7684668572978728213?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">Todo dado por Martin @emily fly🗡️ 😂♥️</a></td>
-          <td class="num">136,244</td>
-          <td class="num">17,460</td>
-          <td class="num">4</td>
-          <td class="num">1,546</td>
-          <td class="num">65,323</td>
-          <td class="num">7.03s</td>
-          <td class="num er-highlight">13.95%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7684010271555194133?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank"><img class="thumb" src="https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAhIq8eEBDFopcWjmsFOgZIERAmmB5wfEiBqsx~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=c72c7581&x-expires=1789473600&x-signature=%2BUe%2BPxpPO7mrnW9zrXCIzXGkJQ0%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="thumb"></a></td>
-          <td>3</td>
-          <td>10/09</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7684010271555194133?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">Broadway 🍿🎬😂 @definapenia_</a></td>
-          <td class="num">12,375</td>
-          <td class="num">1,561</td>
-          <td class="num">31</td>
-          <td class="num">48</td>
-          <td class="num">9,251</td>
-          <td class="num">9.04s</td>
-          <td class="num">13.25%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7685127399381699861?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank"><img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8anPAytrIYqGBXqVSirOiGCIEDtBg6Aco0id~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=9c0581da&x-expires=1789473600&x-signature=SS4xor5ZerM1vys9lL5NmDpr9f4%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="thumb"></a></td>
-          <td>4</td>
-          <td>13/09</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7685127399381699861?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">#SKHouse by @definapenia_ rankeando personassshhh</a></td>
-          <td class="num">8,660</td>
-          <td class="num">779</td>
-          <td class="num">13</td>
-          <td class="num">2</td>
-          <td class="num">—</td>
-          <td class="num">17.01s</td>
-          <td class="num">9.17%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7683540262836047124?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank"><img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0RCrBTRAfEIKCzqtWUFEsMoIB5fJRChagDaE8~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=9d7f8913&x-expires=1789473600&x-signature=%2F3suFgVqETunGSWhkZy4%2FIw1xTg%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&sc=cover&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER" onerror="this.style.opacity=0.1" alt="thumb"></a></td>
-          <td>5</td>
-          <td>09/09</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7683540262836047124?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">YA SALIOOOOOO ❤️‍🔥❤️‍🔥❤️‍🔥 @teresaprettel</a></td>
-          <td class="num">8,886</td>
-          <td class="num">604</td>
-          <td class="num">5</td>
-          <td class="num">6</td>
-          <td class="num">7,180</td>
-          <td class="num">5.23s</td>
-          <td class="num">6.92%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7683907541692239125?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank"><img class="thumb" src="https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIvDfADoxu6BUFRfqZqXkBcEgIDiB6GIZDlrEy~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=d1f38f7a&x-expires=1789473600&x-signature=Y%2BWkuka%2FzkIB1g6yix6U7A%2BAu8Q%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="thumb"></a></td>
-          <td>6</td>
-          <td>10/09</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7683907541692239125?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">@teresaprettel nuestra modelo española ♥️ rankeando los zapatos de la nueva colección Solar Pulse.</a></td>
-          <td class="num">3,146</td>
-          <td class="num">154</td>
-          <td class="num">2</td>
-          <td class="num">7</td>
-          <td class="num">2,253</td>
-          <td class="num">8.67s</td>
-          <td class="num">5.18%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7682830721223789844?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank"><img class="thumb" src="https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqDcdeWcBPIuAFRnBaQvdpBVnE5gMfkOV5DE4~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=df12aaf0&x-expires=1789473600&x-signature=thtCh3eHAk%2BEBTijEXfdZTi9KPU%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="thumb"></a></td>
-          <td>7</td>
-          <td>07/09</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7682830721223789844?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">Botas Geni nuevo ingreso - Fuego totaaaal ❤️‍🔥</a></td>
-          <td class="num">1,886</td>
-          <td class="num">51</td>
-          <td class="num">0</td>
-          <td class="num">2</td>
-          <td class="num">1,514</td>
-          <td class="num">3.37s</td>
-          <td class="num">2.81%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7684668408549362965?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank"><img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4hFoEB2IeRcd0XnZfzAKQWuqnD2tDNWpDEgAB~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=39378946&x-expires=1789473600&x-signature=rjrNjVPjaOQspZiVtFkCkANXEPk%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="thumb"></a></td>
-          <td>8</td>
-          <td>12/09</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7684668408549362965?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">Imposible no tentarse con la temporada de verano 👠😂 @Guille Giles</a></td>
-          <td class="num">1,343</td>
-          <td class="num">25</td>
-          <td class="num">1</td>
-          <td class="num">7</td>
-          <td class="num">589</td>
-          <td class="num">4.39s</td>
-          <td class="num">2.46%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7685127610178735381?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank"><img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4YqQwQffGAuDt3KeDLTGGqHmRFAQFYnQxeUnI~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=92946129&x-expires=1789473600&x-signature=2%2BJGy8zoRfl7U9nPDT2wa5u3CQ4%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="thumb"></a></td>
-          <td>9</td>
-          <td>13/09</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7685127610178735381?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">hermosa @rbdelfi</a></td>
-          <td class="num">895</td>
-          <td class="num">42</td>
-          <td class="num">1</td>
-          <td class="num">1</td>
-          <td class="num">—</td>
-          <td class="num">3.73s</td>
-          <td class="num">4.92%</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <h3 style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px">Top 7 Posts â Semana 14/09 al 20/09</h3>
+  <table>
+    <thead>
+      <tr>
+        <th class="thumb-cell">Foto</th>
+        <th>#</th>
+        <th>Fecha</th>
+        <th>Tipo</th>
+        <th>Caption</th>
+        <th>Views</th>
+        <th>Likes</th>
+        <th>Coments</th>
+        <th>Shares</th>
+        <th>Saves</th>
+        <th>Reach</th>
+        <th>ER %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-gold">
+        <td class="thumb-cell"><a href="https://www.instagram.com/p/Dde7RWOmYYT/" target="_blank"><img src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/818251073_18633930670019933_1294923241973978127_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=PGkeNHtLkdkQ7kNvwGiFr3G&_nc_oc=AdrYe1KvwJv4evihImt5H5znbeQmHPuX6OBvj7jo_wahNKiTtLklYpjJlWcYbCFl060&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=qM_uwe-HprVhX47ViE9TEw&oh=00_AQJTN9pLK3I-BnUo0j7Yp-MrmM-uTK02zd4FFPZIQZJAaw&oe=6AB706A7" class="thumb" onerror="this.style.opacity=0.1" alt="post"></a></td>
+        <td style="color:#E8C170;font-weight:900">1</td>
+        <td>19/09</td>
+        <td><span class="type-badge type-carousel">Carousel</span></td>
+        <td><a href="https://www.instagram.com/p/Dde7RWOmYYT/" target="_blank" class="post-link">Custom made para Futttura LATAM Tour ð¸ @tinistoessel siempre a tus pies</a></td>
+        <td>634,259</td>
+        <td>10,340</td>
+        <td>73</td>
+        <td>79</td>
+        <td>167</td>
+        <td>302,517</td>
+        <td class="er-highlight">1.68%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.instagram.com/p/DdXHKh8GYud/" target="_blank"><img src="https://scontent-fra5-2.cdninstagram.com/v/t51.82787-15/812940373_18632936704019933_7616408089923028975_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=SSO__9VLmA4Q7kNvwHaUExN&_nc_oc=AdoNuqlu0HNdxD5VbHOanLWHBd1EM8hEAtl2DZCRQ8Vnr94m4V94G9teYDMsXG7LYMU&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=qM_uwe-HprVhX47ViE9TEw&oh=00_AQKDmF5-vh1MbOkTjmO_RqcdjHyYw83G4K0E257FUx-Y-g&oe=6AB6FD2A" class="thumb" onerror="this.style.opacity=0.1" alt="post"></a></td>
+        <td>2</td>
+        <td>16/09</td>
+        <td><span class="type-badge type-carousel">Carousel</span></td>
+        <td><a href="https://www.instagram.com/p/DdXHKh8GYud/" target="_blank" class="post-link">SOLAR PULSE â¢ SS27 â Now in stores & online</a></td>
+        <td>140,072</td>
+        <td>1,180</td>
+        <td>22</td>
+        <td>274</td>
+        <td>70</td>
+        <td>61,406</td>
+        <td>1.10%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.instagram.com/p/DdZevuJFZV_/" target="_blank"><img src="https://scontent-fra3-2.cdninstagram.com/v/t51.82787-15/814408856_18633218638019933_1703974542877552540_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=DDt3EWCuaUUQ7kNvwF1EAN6&_nc_oc=AdohdyqvLIlPyjHAqJYG2LaT-7fr04i6X_WsY4Da7ngtUVThS8L6yMriI29P16bDpT8&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=qM_uwe-HprVhX47ViE9TEw&oh=00_AQL9JkVDGKHtCl4qfzdixPsUUuT4NvP2RlWPTvyAYoLgww&oe=6AB6FB59" class="thumb" onerror="this.style.opacity=0.1" alt="post"></a></td>
+        <td>3</td>
+        <td>17/09</td>
+        <td><span class="type-badge type-carousel">Carousel</span></td>
+        <td><a href="https://www.instagram.com/p/DdZevuJFZV_/" target="_blank" class="post-link">Nuestras texanas favoritas ya disponibles ð«</a></td>
+        <td>91,421</td>
+        <td>831</td>
+        <td>6</td>
+        <td>30</td>
+        <td>25</td>
+        <td>43,935</td>
+        <td>0.98%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.instagram.com/p/DdUz67Omcx3/" target="_blank"><img src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/812817341_18632656459019933_6824384006360441697_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=ffqedVrm23QQ7kNvwF6ptaN&_nc_oc=AdpXQZOA-VLN1CHy5wpS-cBKC0MN57NakiPE1IORVI-MZV_NVx0Ke32Cb4ugPBKZwy8&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=qM_uwe-HprVhX47ViE9TEw&oh=00_AQKlw24BYUQxlh91pM4NJBoikJSdiKLSY0PVkcSC4HSvPw&oe=6AB6FF1D" class="thumb" onerror="this.style.opacity=0.1" alt="post"></a></td>
+        <td>4</td>
+        <td>15/09</td>
+        <td><span class="type-badge type-carousel">Carousel</span></td>
+        <td><a href="https://www.instagram.com/p/DdUz67Omcx3/" target="_blank" class="post-link">Introducing Sandalia Huji â SOLAR PULSE disponible online y en todas nuestras tiendas</a></td>
+        <td>78,802</td>
+        <td>839</td>
+        <td>18</td>
+        <td>52</td>
+        <td>26</td>
+        <td>37,665</td>
+        <td>1.19%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.instagram.com/p/DdhEly7lYg4/" target="_blank"><img src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/800231269_18634226896019933_1475608195704508610_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=wm-8gpwRIzIQ7kNvwFigRaP&_nc_oc=Adr6iVovldi2efMBFP3sc5bXc3sEMxxi80SG0qysYZ8vARyNxHo6Sqzt_Y5Lsl2QP2E&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=qM_uwe-HprVhX47ViE9TEw&oh=00_AQJ2jpSFMHsISphSabxFZ63eLoeKyxVCiYfVtvKqvCHuLg&oe=6AB6E193" class="thumb" onerror="this.style.opacity=0.1" alt="post"></a></td>
+        <td>5</td>
+        <td>20/09</td>
+        <td><span class="type-badge type-carousel">Carousel</span></td>
+        <td><a href="https://www.instagram.com/p/DdhEly7lYg4/" target="_blank" class="post-link">SARKANY EYEWEAR SS27 ð¤ Perfect shades for the summer</a></td>
+        <td>77,060</td>
+        <td>704</td>
+        <td>5</td>
+        <td>29</td>
+        <td>34</td>
+        <td>30,184</td>
+        <td>1.00%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.instagram.com/p/DdR6OMsmfCF/" target="_blank"><img src="https://scontent-fra5-2.cdninstagram.com/v/t51.82787-15/808414774_18632312008019933_4857988376297198098_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=ylLcCYxkazkQ7kNvwH_geNZ&_nc_oc=AdoqJ2X5vo91niVFV9AVi6yia8pK-_TR_Jr_uLf-Sf0TTt_8rc2d1Qw_ClN7P-k_LsQ&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=qM_uwe-HprVhX47ViE9TEw&oh=00_AQL29dXC27pc8IMqbBZeV_eETs33fTNbxofHnF8p3FbwXA&oe=6AB6ECEA" class="thumb" onerror="this.style.opacity=0.1" alt="post"></a></td>
+        <td>6</td>
+        <td>14/09</td>
+        <td><span class="type-badge type-carousel">Carousel</span></td>
+        <td><a href="https://www.instagram.com/p/DdR6OMsmfCF/" target="_blank" class="post-link">Sandalias by Les Artisans â¢ Handmade just for you #atuspies</a></td>
+        <td>57,859</td>
+        <td>512</td>
+        <td>28</td>
+        <td>14</td>
+        <td>12</td>
+        <td>24,852</td>
+        <td>0.98%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.instagram.com/p/Ddbo1BJFSbl/" target="_blank"><img src="https://scontent-fra3-2.cdninstagram.com/v/t51.82787-15/811437635_18633472159019933_7808063313756901578_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=aC_W4gLvJZEQ7kNvwG-rN8t&_nc_oc=AdqVPvoG9ERWYBiNsPl9y5HFWeVIO6KoT9nPbjyAjp9NyREZPv8ey_2gBQtsSsA4bb0&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=qM_uwe-HprVhX47ViE9TEw&oh=00_AQJX8QRqPdvei0C9_fCiLqQ_n3Ev-caKLg-VixqBt7MYjw&oe=6AB706DC" class="thumb" onerror="this.style.opacity=0.1" alt="post"></a></td>
+        <td>7</td>
+        <td>18/09</td>
+        <td><span class="type-badge type-carousel">Carousel</span></td>
+        <td><a href="https://www.instagram.com/p/Ddbo1BJFSbl/" target="_blank" class="post-link">Iconic shoes ð¤ SS27 â Nueva colecciÃ³n in stores & online</a></td>
+        <td>49,747</td>
+        <td>314</td>
+        <td>4</td>
+        <td>22</td>
+        <td>9</td>
+        <td>21,135</td>
+        <td>0.70%</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
-<!-- INSTAGRAM PLACEHOLDER -->
+<!-- âââ TIKTOK âââ -->
+<div class="section tiktok">
+  <div class="section-title">TikTok @ricky.sarkany</div>
+  <div class="section-subtitle">MÃ©tricas del 14/09 al 19/09/2026 vs semana anterior (07/09â13/09)</div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Views</div>
+      <div class="kpi-value">159.3K</div>
+      <div class="kpi-var down">â 61.8%</div>
+      <div class="kpi-prev">Sem. ant.: 417,486</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Likes</div>
+      <div class="kpi-value">12,895</div>
+      <div class="kpi-var down">â 70.9%</div>
+      <div class="kpi-prev">Sem. ant.: 44,289</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Shares</div>
+      <div class="kpi-value">592</div>
+      <div class="kpi-var down">â 75.0%</div>
+      <div class="kpi-prev">Sem. ant.: 2,368</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Engagement Rate</div>
+      <div class="kpi-value">8.52%</div>
+      <div class="kpi-var down">â 24.0%</div>
+      <div class="kpi-prev">Sem. ant.: 11.20%</div>
+    </div>
+  </div>
+
+  <div class="featured-grid">
+    <div class="featured-card">
+      <h4>ð¥ Mejor Video por Views (sem. actual)</h4>
+      <div class="f-val">32,856</div>
+      <div class="f-sub">views totales</div>
+      <div class="f-caption">"Siempre 2 min antes de salir @definapenia_ @emily fly @valen ramos" â 14/09</div>
+    </div>
+    <div class="featured-card">
+      <h4>â¡ Mejor Video por ER (sem. actual)</h4>
+      <div class="f-val">17.0%</div>
+      <div class="f-sub">engagement rate Â· avg watch: 34.09s</div>
+      <div class="f-caption">"Sos todo @definapenia_" â 16/09 Â· 23,764 views Â· 3,854 likes</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px">Top 7 Videos â Ãltimos 14 dÃ­as</h3>
+  <table>
+    <thead>
+      <tr>
+        <th class="thumb-cell">Thumb</th>
+        <th>Fecha</th>
+        <th>Caption</th>
+        <th>Views</th>
+        <th>Likes</th>
+        <th>Coments</th>
+        <th>Shares</th>
+        <th>Reach</th>
+        <th>Avg Watch</th>
+        <th>ER %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-gold">
+        <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7684294727318932757?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank"><img src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYgGVSG5fTjDICkrIzJDxQDAIV4rIHfgLAeLjM~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=621c2b9c&x-expires=1790078400&x-signature=kU5KIa7Sr28rtyu%2BAEiRFDl%2BkNo%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my2&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" class="thumb" onerror="this.style.opacity=0.1" alt="video"></a></td>
+        <td>11/09</td>
+        <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7684294727318932757" target="_blank" class="post-link">Existen dos tipos de Sarkany Friends @emily fly @valen ramos ð</a></td>
+        <td style="color:#E8C170;font-weight:900">203,083</td>
+        <td>24,311</td>
+        <td>10</td>
+        <td>681</td>
+        <td>180,448</td>
+        <td>9.94s</td>
+        <td>12.31%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7684668572978728213" target="_blank"><img src="https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYEiWBat5WPKY8DWdtExAkPqBAlniQBib7XVI~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=b9d5e548&x-expires=1790078400&x-signature=ixgEqvCzXW44FUJhMg%2Botjcmzoo%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my2&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" class="thumb" onerror="this.style.opacity=0.1" alt="video"></a></td>
+        <td>12/09</td>
+        <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7684668572978728213" target="_blank" class="post-link">Todo dado por Martin @emily fly ðâ¥ï¸</a></td>
+        <td>149,637</td>
+        <td>18,754</td>
+        <td>4</td>
+        <td>1,678</td>
+        <td>131,390</td>
+        <td>6.99s</td>
+        <td>13.66%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7685440833222495495" target="_blank"><img src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUqofd0IeBGbMgjglFLqAKeGAQQVLG88eKoR5g~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=19e4aabe&x-expires=1790078400&x-signature=dYiyLuDDvTEjY6iaDsg5bFzvUK0%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my2&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" class="thumb" onerror="this.style.opacity=0.1" alt="video"></a></td>
+        <td>14/09</td>
+        <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7685440833222495495" target="_blank" class="post-link">Siempre 2 min antes de salir @definapenia_ @emily fly @valen ramos</a></td>
+        <td>32,856</td>
+        <td>2,195</td>
+        <td>0</td>
+        <td>115</td>
+        <td>28,546</td>
+        <td>5.91s</td>
+        <td>7.01%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7686262562358430984" target="_blank"><img src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owiBaxD5FbxdqFrxXRIMABxEflGIIcDfgqxrSE~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=c9448008&x-expires=1790078400&x-signature=gACVllSC5tzXarezZiHePJKF2II%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my2&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" class="thumb" onerror="this.style.opacity=0.1" alt="video"></a></td>
+        <td>16/09</td>
+        <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7686262562358430984" target="_blank" class="post-link">Sos todo @definapenia_</a></td>
+        <td>23,764</td>
+        <td>3,854</td>
+        <td>45</td>
+        <td>140</td>
+        <td>19,348</td>
+        <td>34.09s</td>
+        <td class="er-highlight">17.00%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7685127399381699861" target="_blank"><img src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8anPAytrIYqGBXqVSirOiGCIEDtBg6Aco0id~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=76240804&x-expires=1790078400&x-signature=6OgdzxBkdAbXRciHigYs6pIuyN8%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my2&s=TIKTOK_FOR_DEVELOPER&sc=cover&biz_tag=tt_video" class="thumb" onerror="this.style.opacity=0.1" alt="video"></a></td>
+        <td>13/09</td>
+        <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7685127399381699861" target="_blank" class="post-link">#SKHouse by @definapenia_ rankeando personassshhh</a></td>
+        <td>16,279</td>
+        <td>1,619</td>
+        <td>20</td>
+        <td>4</td>
+        <td>14,521</td>
+        <td>17.86s</td>
+        <td>10.08%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7684010271555194133" target="_blank"><img src="https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAhIq8eEBDFopcWjmsFOgZIERAmmB5wfEiBqsx~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=38e9a498&x-expires=1790078400&x-signature=rLWiCasusczK8EmgJYVCXF0BHVU%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my2&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" class="thumb" onerror="this.style.opacity=0.1" alt="video"></a></td>
+        <td>10/09</td>
+        <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7684010271555194133" target="_blank" class="post-link">Broadway ð¿ð¬ð @definapenia_</a></td>
+        <td>13,933</td>
+        <td>1,774</td>
+        <td>38</td>
+        <td>50</td>
+        <td>12,539</td>
+        <td>8.69s</td>
+        <td>13.38%</td>
+      </tr>
+      <tr>
+        <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7683540262836047124" target="_blank"><img src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0RCrBTRAfEIKCzqtWUFEsMoIB5fJRChagDaE8~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=626c3ce9&x-expires=1790078400&x-signature=n%2BWiGCC%2FeyeJzRfuoDGaqdZMY0k%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my2&s=TIKTOK_FOR_DEVELOPER&sc=cover&biz_tag=tt_video" class="thumb" onerror="this.style.opacity=0.1" alt="video"></a></td>
+        <td>09/09</td>
+        <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7683540262836047124" target="_blank" class="post-link">YA SALIOOOOOO â¤ï¸âð¥â¤ï¸âð¥â¤ï¸âð¥ @teresaprettel</a></td>
+        <td>9,929</td>
+        <td>644</td>
+        <td>8</td>
+        <td>6</td>
+        <td>8,294</td>
+        <td>4.89s</td>
+        <td>6.64%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- âââ BENCHMARK âââ -->
+<div class="section benchmark">
+  <div class="section-title">Benchmark Competidoras <span class="pill">Datos no disponibles esta semana</span></div>
+  <div class="section-subtitle">Conector instagram_public â pendiente de configuraciÃ³n</div>
+  <div class="na-note">El conector <strong>instagram_public</strong> no estÃ¡ configurado para esta cuenta. Para ver benchmark de @pruneoficial, @paruolo y @mishkabuenosaires, activarlo en Windsor.ai â onboard.windsor.ai?datasource=instagram_public</div>
+</div>
+
+<!-- âââ CONCLUSIONES âââ -->
 <div class="section">
-  <div class="section-header">
-    <div>
-      <div class="section-platform">Plataforma</div>
-      <div class="section-title">Instagram — @rickysarkany</div>
-    </div>
-    <span class="platform-badge badge-info">Sin conexión</span>
-  </div>
-  <div class="alert-card">
-    Los datos de Instagram no están disponibles. El conector <strong>instagram</strong> no está configurado en Windsor.ai. Para activarlo, ir a <a href="https://onboard.windsor.ai?datasource=instagram" style="color:#C13584;">onboard.windsor.ai</a> y conectar la cuenta de Instagram Business ID <strong>17841400597960858</strong>.
-  </div>
-</div>
+  <div class="section-title" style="border-color:#E8C170">Conclusiones Accionables</div>
+  <div class="section-subtitle">Semana 14/09â20/09/2026</div>
 
-<!-- BENCHMARK PLACEHOLDER -->
-<div class="section">
-  <div class="section-header">
-    <div>
-      <div class="section-platform">Análisis Competitivo</div>
-      <div class="section-title">Benchmark Competidoras</div>
+  <div class="insights-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="insight-card gold">
+      <div class="insight-title">ð¥ Efecto Tini</div>
+      <div class="insight-text">El post de @tinistoessel (Custom made Futttura Tour) generÃ³ 634K views y un ER del 1.68% â 10x el promedio de la semana. Priorizar collab con celebridades de alto alcance.</div>
     </div>
-    <span class="platform-badge badge-info">Sin conexión</span>
-  </div>
-  <div class="alert-card">
-    El conector <strong>instagram_public</strong> no está configurado. Para habilitar el benchmark contra @pruneoficial, @paruolo y @mishkabuenosaires, conectar el datasource en Windsor.ai.
-  </div>
-</div>
-
-<!-- CONCLUSIONES -->
-<div class="section">
-  <div class="section-header">
-    <div>
-      <div class="section-platform">Análisis</div>
-      <div class="section-title">Conclusiones Accionables</div>
+    <div class="insight-card">
+      <div class="insight-title">ð¸ Carousel Domina IG</div>
+      <div class="insight-text">10 de 10 posts de la semana son Carousel. Formato ganador indiscutido: avg 104K views/post con el Tini. Mantener apuesta en Carousel para SS27.</div>
     </div>
-  </div>
-  <div class="conclusions-grid">
-    <div class="conclusion-card" style="border-top: 2px solid #FE2C55;">
-      <div class="conclusion-icon">🚀</div>
-      <div class="conclusion-title">Semana viral en TikTok — ↑357% views</div>
-      <div class="conclusion-text">La semana 37 registró 312,487 views vs 68,366 de la semana anterior. Dos videos superaron las 100K vistas impulsados por el formato "Sarkany Friends" con influencers reales de la marca.</div>
+    <div class="insight-card">
+      <div class="insight-title">ð IG en alza</div>
+      <div class="insight-text">IG views +40.3%, ER +51.2% vs semana anterior. La colecciÃ³n Solar Pulse SS27 estÃ¡ traccionando. Sep 16 con 274 shares es el post mÃ¡s viralizado (excl. Tini).</div>
     </div>
-    <div class="conclusion-card" style="border-top: 2px solid #4CAF50;">
-      <div class="conclusion-icon">🎭</div>
-      <div class="conclusion-title">Formato ganador: contenido UGC con influencers</div>
-      <div class="conclusion-text">"Existen dos tipos de Sarkany Friends" (186K views, 12.52% ER) y "Todo dado por Martin" (136K views, 13.95% ER) confirman que el humor orgánico con influencers cercanos a la marca convierte mejor.</div>
+    <div class="insight-card tktok">
+      <div class="insight-title">â ï¸ TikTok â CaÃ­da post-viral</div>
+      <div class="insight-text">Views cayeron -61.8% vs sem. anterior que tuvo contenido viral (203K + 149K). Normal efecto post-pico. El video "Sos todo" con 34s avg watch y 17% ER muestra que el formato personal conecta.</div>
     </div>
-    <div class="conclusion-card" style="border-top: 2px solid #E8C170;">
-      <div class="conclusion-icon">⏱️</div>
-      <div class="conclusion-title">Watch time elevado en contenido de ranking</div>
-      <div class="conclusion-text">#SKHouse by @definapenia_ logró el mayor avg watch time: 17.01s. El formato "ranking / lista" retiene a la audiencia más tiempo. Replicar este formato en las próximas semanas.</div>
+    <div class="insight-card tktok">
+      <div class="insight-title">â¡ Formato ganador TK</div>
+      <div class="insight-text">Los videos con influencers del equipo (@definapenia_, @emily fly, @valen ramos) generan el mayor ER y retenciÃ³n. Apostar por contenido autÃ©ntico y contenido de detrÃ¡s de escena.</div>
     </div>
-    <div class="conclusion-card" style="border-top: 2px solid #C13584;">
-      <div class="conclusion-icon">📉</div>
-      <div class="conclusion-title">Alto viral, bajo follow-through (−97 seguidores)</div>
-      <div class="conclusion-text">A pesar del pico de views, la cuenta perdió 97 seguidores netos. El contenido viral atrae audiencias no-target. Complementar con contenido que refuerce el universo Sarkany y motive el follow.</div>
-    </div>
-    <div class="conclusion-card" style="border-top: 2px solid #888;">
-      <div class="conclusion-icon">📊</div>
-      <div class="conclusion-title">Conectar Instagram para reporte completo</div>
-      <div class="conclusion-text">Sin datos de IG y benchmark, el análisis es parcial. Priorizar la configuración del conector instagram en Windsor.ai para incluir los 8 KPIs de cuenta, top posts y comparativa competidoras.</div>
+    <div class="insight-card gold">
+      <div class="insight-title">ð¯ PrÃ³ximos pasos</div>
+      <div class="insight-text">Replicar la fÃ³rmula Tini con otras celebridades del tour Futttura. Aprovechar el momentum SS27 con lanzamientos escalonados. Activar benchmark competidoras en Windsor.ai.</div>
     </div>
   </div>
 </div>
 
-<!-- FOOTER -->
-<div class="footer">
-  <div class="footer-text">Ricky Sarkany — Social Intelligence Report</div>
-  <div class="footer-next">Próximo reporte: Lunes 21/09/2026 — 09:00 hs</div>
-</div>
+</div><!-- /container -->
+
+<footer>
+  <p>PrÃ³ximo reporte: <strong>Lunes 28/09/2026</strong> â Generado automÃ¡ticamente el 21/09/2026</p>
+  <p style="margin-top:8px">Sarkany Digital Â· camezaga@rickysarkany.com</p>
+</footer>
 
 <script>
-// TikTok 4-week trend
-var tkTrendCtx = document.getElementById('tkTrendChart').getContext('2d');
-new Chart(tkTrendCtx, {
+// IG Trend Chart
+var ctx1 = document.getElementById('igTrend').getContext('2d');
+new Chart(ctx1, {
   type: 'line',
   data: {
-    labels: ['W34', 'W35', 'W36', 'W37'],
+    labels: ['W35 (24-30 Ago)', 'W36 (31 Ago-6 Sep)', 'W37 (7-13 Sep)', 'W38 (14-20 Sep)'],
     datasets: [{
-      label: 'Views',
-      data: [88929, 84254, 68366, 312487],
-      borderColor: '#FE2C55',
-      backgroundColor: 'rgba(254,44,85,0.08)',
+      label: 'Views IG',
+      data: [5661800, 2807170, 2280621, 3200190],
+      borderColor: '#C13584',
+      backgroundColor: 'rgba(193,53,132,0.1)',
       tension: 0.4,
       fill: true,
-      pointBackgroundColor: '#FE2C55',
-      pointRadius: 5
+      pointBackgroundColor: '#C13584',
+      pointRadius: 5,
+      borderWidth: 2
     }]
   },
   options: {
     responsive: true,
-    maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
+    plugins: {legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+Number(c.raw).toLocaleString('es-AR')+' views'}}}},
     scales: {
-      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#666' } },
-      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#666', callback: function(v) { return v >= 1000 ? (v/1000).toFixed(0)+'K' : v; } } }
+      x:{grid:{color:'#1e1e1e'},ticks:{color:'#666',font:{size:10}}},
+      y:{grid:{color:'#1e1e1e'},ticks:{color:'#666',font:{size:10},callback:function(v){return (v/1000000).toFixed(1)+'M'}}}
     }
   }
 });
 
-// Daily views
-var tkDailyCtx = document.getElementById('tkDailyChart').getContext('2d');
-new Chart(tkDailyCtx, {
-  type: 'bar',
+// IG Content Mix
+var ctx2 = document.getElementById('igMix').getContext('2d');
+new Chart(ctx2, {
+  type: 'doughnut',
   data: {
-    labels: ['Lu 07', 'Ma 08', 'Mi 09', 'Ju 10', 'Vi 11', 'Sa 12', 'Do 13'],
+    labels: ['Carousel', 'Reels', 'Image'],
     datasets: [{
-      label: 'Views',
-      data: [9610, 7774, 13930, 11761, 112168, 157244, 0],
-      backgroundColor: function(ctx) {
-        var val = ctx.parsed.y;
-        return val > 100000 ? '#FE2C55' : 'rgba(254,44,85,0.4)';
-      },
-      borderRadius: 4
+      data: [10, 2, 0],
+      backgroundColor: ['#C13584','#FE2C55','#E8C170'],
+      borderWidth: 0,
+      hoverOffset: 6
     }]
   },
   options: {
     responsive: true,
-    maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#666' } },
-      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#666', callback: function(v) { return v >= 1000 ? (v/1000).toFixed(0)+'K' : v; } } }
+    plugins: {
+      legend:{labels:{color:'#888',font:{size:11}}},
+      tooltip:{callbacks:{label:function(c){return ' '+c.label+': '+c.raw+' posts'}}}
     }
   }
 });
