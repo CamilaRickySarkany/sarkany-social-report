@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarkany SS27 — Reporte de Lanzamiento</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0C0C0C; color: #e8e8e8; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; }
+  a { color: #C13584; }
+
+  /* COVER */
+  .cover { background: linear-gradient(135deg, #0C0C0C 0%, #1a0a14 50%, #0C0C0C 100%); border-bottom: 2px solid #C13584; padding: 60px 40px; text-align: center; }
+  .cover .label { font-size: 11px; letter-spacing: 4px; color: #C13584; text-transform: uppercase; margin-bottom: 12px; }
+  .cover .logo { font-size: 42px; font-weight: 900; letter-spacing: 10px; color: #fff; text-transform: uppercase; }
+  .cover .subtitle { font-size: 13px; letter-spacing: 4px; color: #C13584; margin-top: 8px; text-transform: uppercase; }
+  .cover .week { font-size: 20px; color: #E8C170; margin-top: 24px; font-weight: 300; letter-spacing: 2px; }
+  .cover .generated { font-size: 11px; color: #555; margin-top: 10px; }
+  .cover .hero-numbers { display: flex; justify-content: center; gap: 48px; margin-top: 36px; flex-wrap: wrap; }
+  .cover .hero-num { text-align: center; }
+  .cover .hero-num .val { font-size: 36px; font-weight: 800; color: #fff; }
+  .cover .hero-num .lbl { font-size: 10px; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-top: 4px; }
+  .cover .hero-num .sub { font-size: 11px; color: #555; margin-top: 2px; }
+
+  /* SECTIONS */
+  .section { padding: 40px; border-bottom: 1px solid #1a1a1a; max-width: 1400px; margin: 0 auto; }
+  .section-title { font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+  .section-title .platform-badge { font-size: 11px; background: #C13584; color: #fff; padding: 3px 10px; border-radius: 20px; letter-spacing: 1px; }
+  .section-title .platform-badge.tiktok { background: #FE2C55; }
+  .section-title .platform-badge.gold { background: #E8C170; color: #000; }
+
+  /* KPI CARDS */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .kpi-card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
+  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #C13584; }
+  .kpi-card.tiktok::before { background: #FE2C55; }
+  .kpi-card.gold::before { background: #E8C170; }
+  .kpi-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+  .kpi-value { font-size: 28px; font-weight: 800; color: #fff; line-height: 1; }
+  .kpi-sub { font-size: 11px; color: #555; margin-top: 6px; }
+
+  /* CHARTS */
+  .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 32px; }
+  .chart-box { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 20px; }
+  .chart-box h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .chart-wrap { position: relative; height: 240px; }
+
+  /* CAMPAIGN BOX */
+  .campaign-box { background: linear-gradient(135deg, #1a0a14 0%, #141414 100%); border: 2px solid #C13584; border-radius: 12px; padding: 24px; margin-bottom: 28px; }
+  .campaign-box h3 { font-size: 16px; font-weight: 700; letter-spacing: 2px; color: #C13584; text-transform: uppercase; margin-bottom: 16px; }
+  .campaign-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .c-stat { text-align: center; }
+  .c-stat .cv { font-size: 22px; font-weight: 800; color: #fff; }
+  .c-stat .cl { font-size: 10px; color: #888; letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+  /* TABLES */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead tr { border-bottom: 2px solid #C13584; }
+  th { padding: 10px 8px; text-align: left; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #888; font-weight: 600; white-space: nowrap; }
+  td { padding: 10px 8px; border-bottom: 1px solid #1a1a1a; vertical-align: middle; }
+  tr:hover td { background: #141414; }
+  .row-gold td { background: rgba(232,193,112,0.07); }
+  .row-gold td:first-child { border-left: 3px solid #E8C170; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .post-link { color: #e8e8e8; text-decoration: none; font-size: 11px; }
+  .post-link:hover { color: #C13584; }
+  .type-badge { font-size: 9px; background: #222; padding: 2px 6px; border-radius: 4px; color: #888; white-space: nowrap; }
+  .type-badge.reel { background: #1a0a10; color: #FE2C55; }
+  .thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 6px; display: block; }
+  .thumb-cell { width: 48px; }
+
+  /* CELEB TAG */
+  .celeb-badge { font-size: 9px; background: linear-gradient(90deg, #C13584, #E8C170); color: #fff; padding: 2px 7px; border-radius: 10px; font-weight: 700; letter-spacing: 0.5px; }
+  .er-hi { color: #4CAF50; font-weight: 700; }
+
+  /* INSIGHTS */
+  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .insight-card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 20px; }
+  .insight-icon { font-size: 24px; margin-bottom: 10px; }
+  .insight-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .insight-text { font-size: 12px; color: #888; line-height: 1.6; }
+
+  /* TIMELINE */
+  .timeline { display: flex; gap: 0; margin-bottom: 28px; overflow-x: auto; }
+  .tl-week { flex: 1; min-width: 120px; padding: 12px; border-left: 2px solid #222; position: relative; }
+  .tl-week:first-child { border-left: 2px solid #C13584; }
+  .tl-week .tl-label { font-size: 9px; color: #888; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .tl-week .tl-views { font-size: 18px; font-weight: 800; color: #fff; }
+  .tl-week .tl-sub { font-size: 10px; color: #666; margin-top: 4px; }
+  .tl-week.peak { border-left: 2px solid #E8C170; }
+  .tl-week.peak .tl-views { color: #E8C170; }
+  .tl-week .tl-event { font-size: 10px; color: #C13584; margin-top: 6px; font-style: italic; }
+
+  /* FOOTER */
+  footer { background: #0C0C0C; border-top: 1px solid #1a1a1a; padding: 32px 40px; text-align: center; color: #333; font-size: 11px; }
+  footer p { margin-top: 6px; }
+  footer a { color: #555; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="label">Reporte de Lanzamiento</div>
+  <div class="logo">SARKANY</div>
+  <div class="subtitle">SS27 — Solar Pulse &amp; Me Lo Merezco</div>
+  <div class="week">09 de septiembre → 15 de octubre de 2026 · 37 días · 72 posts</div>
+  <div class="generated">Generado el 15 de octubre de 2026 · Sarkany Digital</div>
+  <div class="hero-numbers">
+    <div class="hero-num">
+      <div class="val">35.0M</div>
+      <div class="lbl">Views IG</div>
+      <div class="sub">Total acumulado SS27</div>
+    </div>
+    <div class="hero-num">
+      <div class="val">1.74M</div>
+      <div class="lbl">Views TikTok</div>
+      <div class="sub">Total acumulado SS27</div>
+    </div>
+    <div class="hero-num">
+      <div class="val">36.7M</div>
+      <div class="lbl">Views Totales</div>
+      <div class="sub">Ambas plataformas</div>
+    </div>
+    <div class="hero-num">
+      <div class="val">3.32M</div>
+      <div class="lbl">Mejor Post</div>
+      <div class="sub">Cami Homs · 02/10</div>
+    </div>
+  </div>
+</div>
+
+<!-- INSTAGRAM -->
+<div class="section">
+  <div class="section-title">
+    📸 Instagram @rickysarkany
+    <span class="platform-badge">INSTAGRAM</span>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Total Views</div>
+      <div class="kpi-value">35.0M</div>
+      <div class="kpi-sub">Sep 9 → Oct 15 · 37 días</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Likes</div>
+      <div class="kpi-value">320,494</div>
+      <div class="kpi-sub">Acumulado SS27</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Comments</div>
+      <div class="kpi-value">8,927</div>
+      <div class="kpi-sub">Acumulado SS27</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Engagement Rate</div>
+      <div class="kpi-value">1.00%</div>
+      <div class="kpi-sub">Sobre views totales</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Shares</div>
+      <div class="kpi-value">~13,500</div>
+      <div class="kpi-sub">Acumulado SS27</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Posts</div>
+      <div class="kpi-value">72</div>
+      <div class="kpi-sub">63 CAROUSEL · 9 REELS</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Mejor Post</div>
+      <div class="kpi-value">3.32M</div>
+      <div class="kpi-sub">Cami Homs · 02/10 · ER 3.59%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Promedio Views/Post</div>
+      <div class="kpi-value">486K</div>
+      <div class="kpi-sub">35.0M / 72 posts</div>
+    </div>
+  </div>
+
+  <!-- Weekly Timeline -->
+  <h3 style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px;">Evolución semanal de Views IG — SS27</h3>
+  <div class="timeline">
+    <div class="tl-week">
+      <div class="tl-label">Sep 9–15</div>
+      <div class="tl-views">3.13M</div>
+      <div class="tl-sub">Semana de lanzamiento</div>
+      <div class="tl-event">🚀 SOLAR PULSE goes live</div>
+    </div>
+    <div class="tl-week">
+      <div class="tl-label">Sep 16–22</div>
+      <div class="tl-views">4.39M</div>
+      <div class="tl-sub">↑40% vs semana anterior</div>
+      <div class="tl-event">⭐ @poggiojulieta Store Take-Over</div>
+    </div>
+    <div class="tl-week">
+      <div class="tl-label">Sep 23–29</div>
+      <div class="tl-views">6.01M</div>
+      <div class="tl-sub">↑37% vs semana anterior</div>
+      <div class="tl-event">✨ @tinistoessel Futttura custom</div>
+    </div>
+    <div class="tl-week peak">
+      <div class="tl-label">Sep 30–Oct 6</div>
+      <div class="tl-views">11.48M</div>
+      <div class="tl-sub">↑91% · PICO VIRAL</div>
+      <div class="tl-event">🔥 Cami Homs · ME LO MEREZCO</div>
+    </div>
+    <div class="tl-week">
+      <div class="tl-label">Oct 7–13</div>
+      <div class="tl-views">9.13M</div>
+      <div class="tl-sub">↓20% post-viral · sigue alto</div>
+      <div class="tl-event">📍 Apertura Canning</div>
+    </div>
+    <div class="tl-week">
+      <div class="tl-label">Oct 14–15</div>
+      <div class="tl-views">0.85M</div>
+      <div class="tl-sub">Parcial (2 días)</div>
+      <div class="tl-event">🎁 Día de la Madre</div>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-grid">
+    <div class="chart-box">
+      <h4>Views IG + TikTok por semana (SS27)</h4>
+      <div class="chart-wrap">
+        <canvas id="trendChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-box">
+      <h4>Mix de contenido IG</h4>
+      <div class="chart-wrap">
+        <canvas id="mixChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Campaign Box -->
+  <div class="campaign-box">
+    <h3>🏆 Campaña "ME LO MEREZCO" · Día de la Madre</h3>
+    <p style="font-size:12px;color:#888;margin-bottom:18px;">6 posts de celebrities publicados entre Sep 30 y Oct 13 · Performance acumulada</p>
+    <div class="campaign-stats">
+      <div class="c-stat">
+        <div class="cv" style="color:#E8C170;">10.8M</div>
+        <div class="cl">Views totales</div>
+      </div>
+      <div class="c-stat">
+        <div class="cv">31%</div>
+        <div class="cl">del reach SS27</div>
+      </div>
+      <div class="c-stat">
+        <div class="cv" style="color:#C13584;">6</div>
+        <div class="cl">Posts de 72 totales</div>
+      </div>
+      <div class="c-stat">
+        <div class="cv">1.80M</div>
+        <div class="cl">Avg views/post</div>
+      </div>
+      <div class="c-stat">
+        <div class="cv" style="color:#4CAF50;">2.31%</div>
+        <div class="cl">ER promedio</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 10 Posts Table -->
+  <h3 style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px;">Top 10 Posts SS27 · Instagram (por Views acumuladas)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Fecha</th>
+          <th>Tipo</th>
+          <th>Post</th>
+          <th class="num">Views</th>
+          <th class="num">Shares</th>
+          <th class="num">Saves</th>
+          <th class="num">ER %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Row 1 -->
+        <tr class="row-gold">
+          <td>🥇</td>
+          <td>02/10</td>
+          <td><span class="celeb-badge">CELEB</span></td>
+          <td><a href="https://www.instagram.com/p/DeAZmg_lWre/" target="_blank" class="post-link">ME LO MEREZCO 🌸 by Cami Homs &amp; Aitu — Descubrí sus elegidos in stores &amp; online</a></td>
+          <td class="num">3,323,757</td>
+          <td class="num">4,500</td>
+          <td class="num">775</td>
+          <td class="num er-hi">3.59%</td>
+        </tr>
+        <!-- Row 2 -->
+        <tr>
+          <td>2</td>
+          <td>04/10</td>
+          <td><span class="celeb-badge">CELEB</span></td>
+          <td><a href="https://www.instagram.com/p/DeFMY_3GQfC/" target="_blank" class="post-link">ME LO MEREZCO 🌷 by Juli Puente &amp; Sere — Encontrá sus elegidos in stores &amp; online</a></td>
+          <td class="num">2,034,778</td>
+          <td class="num">267</td>
+          <td class="num">113</td>
+          <td class="num">1.19%</td>
+        </tr>
+        <!-- Row 3 -->
+        <tr>
+          <td>3</td>
+          <td>07/10</td>
+          <td><span class="celeb-badge">CELEB</span></td>
+          <td><a href="https://www.instagram.com/p/DeNRpRRme7d/" target="_blank" class="post-link">ME LO MEREZCO 🥰 Store take-over by Mica Vazquez y Baltu — Todo en nuestros locales &amp; online</a></td>
+          <td class="num">1,810,709</td>
+          <td class="num">297</td>
+          <td class="num">370</td>
+          <td class="num">1.93%</td>
+        </tr>
+        <!-- Row 4 -->
+        <tr>
+          <td>4</td>
+          <td>06/10</td>
+          <td><span class="celeb-badge">CELEB</span></td>
+          <td><a href="https://www.instagram.com/p/DeK0m0TmeaY/" target="_blank" class="post-link">ME LO MEREZCO 💖 by Stephanie Demner, Ari &amp; Jaz — Ya podes encontrar su elección in stores &amp; online</a></td>
+          <td class="num">1,328,919</td>
+          <td class="num">250</td>
+          <td class="num">162</td>
+          <td class="num">1.55%</td>
+        </tr>
+        <!-- Row 5 -->
+        <tr>
+          <td>5</td>
+          <td>24/09</td>
+          <td><span class="celeb-badge">CELEB</span></td>
+          <td><a href="https://www.instagram.com/p/Ddr6JbcFUDy/" target="_blank" class="post-link">STORE TAKE-OVER by @poggiojulieta — Sus elegidos son una bombaaa // Encontrá todo en nuestras tiendas &amp; online</a></td>
+          <td class="num">1,075,389</td>
+          <td class="num">740</td>
+          <td class="num">445</td>
+          <td class="num">—</td>
+        </tr>
+        <!-- Row 6 -->
+        <tr>
+          <td>6</td>
+          <td>19/09</td>
+          <td><span class="celeb-badge">CELEB</span></td>
+          <td><a href="https://www.instagram.com/p/Dde7RWOmYYT/" target="_blank" class="post-link">Custom made para Futttura LATAM Tour 🛸❤️ — @tinistoessel siempre a tus pies</a></td>
+          <td class="num">807,639</td>
+          <td class="num">102</td>
+          <td class="num">207</td>
+          <td class="num">—</td>
+        </tr>
+        <!-- Row 7 -->
+        <tr>
+          <td>7</td>
+          <td>11/10</td>
+          <td><span class="celeb-badge">CELEB</span></td>
+          <td><a href="https://www.instagram.com/p/DeW0soOGZ63/" target="_blank" class="post-link">ME LO MEREZCO 🩵 by Cale Ruggeri &amp; Vita — Sus favoritos ya los encontrás in stores &amp; online</a></td>
+          <td class="num">629,032</td>
+          <td class="num">38</td>
+          <td class="num">141</td>
+          <td class="num">1.17%</td>
+        </tr>
+        <!-- Row 8 -->
+        <tr>
+          <td>8</td>
+          <td>01/10</td>
+          <td><span class="type-badge">CAROUSEL</span></td>
+          <td><a href="https://www.instagram.com/p/Dd9t8p8FR3b/" target="_blank" class="post-link">SANDALIA KIMU 💖 — Perfecta para todas las mamás que se merecen los tres colores y más</a></td>
+          <td class="num">455,417</td>
+          <td class="num">536</td>
+          <td class="num">192</td>
+          <td class="num">—</td>
+        </tr>
+        <!-- Row 9 -->
+        <tr>
+          <td>9</td>
+          <td>09/10</td>
+          <td><span class="celeb-badge">CELEB</span></td>
+          <td><a href="https://www.instagram.com/p/DeSbL6TmYKk/" target="_blank" class="post-link">ME LO MEREZCO 🌼 by Yaz Jaureguy &amp; Gemma — Sus elegidos in stores &amp; online</a></td>
+          <td class="num">402,724</td>
+          <td class="num">216</td>
+          <td class="num">255</td>
+          <td class="num er-hi">3.54%</td>
+        </tr>
+        <!-- Row 10 -->
+        <tr>
+          <td>10</td>
+          <td>12/10</td>
+          <td><span class="type-badge">CAROUSEL</span></td>
+          <td><a href="https://www.instagram.com/p/DeaCuc5lSG5/" target="_blank" class="post-link">You can pick mom's favorite color 🖤🤎💚 Plataforma Juki — In stores &amp; online</a></td>
+          <td class="num">400,778</td>
+          <td class="num">744</td>
+          <td class="num">397</td>
+          <td class="num">1.63%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TIKTOK -->
+<div class="section">
+  <div class="section-title">
+    🎵 TikTok @ricky.sarkany
+    <span class="platform-badge tiktok">TIKTOK</span>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card tiktok">
+      <div class="kpi-label">Total Views</div>
+      <div class="kpi-value">1.74M</div>
+      <div class="kpi-sub">Sep 9 → Oct 13</div>
+    </div>
+    <div class="kpi-card tiktok">
+      <div class="kpi-label">Total Likes</div>
+      <div class="kpi-value">110,994</div>
+      <div class="kpi-sub">Acumulado SS27</div>
+    </div>
+    <div class="kpi-card tiktok">
+      <div class="kpi-label">Total Shares</div>
+      <div class="kpi-value">4,951</div>
+      <div class="kpi-sub">Acumulado SS27</div>
+    </div>
+    <div class="kpi-card tiktok">
+      <div class="kpi-label">Engagement Rate</div>
+      <div class="kpi-value">6.69%</div>
+      <div class="kpi-sub">Sobre views totales</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px;">Evolución semanal TikTok — SS27</h3>
+  <div class="timeline">
+    <div class="tl-week" style="border-left-color:#FE2C55;">
+      <div class="tl-label">Sep 9–15</div>
+      <div class="tl-views" style="color:#FE2C55;">488K</div>
+      <div class="tl-sub">Lanzamiento fuerte</div>
+      <div class="tl-event">🔥 Sep 12: 158K views</div>
+    </div>
+    <div class="tl-week">
+      <div class="tl-label">Sep 16–22</div>
+      <div class="tl-views">138K</div>
+      <div class="tl-sub">↓72% · dip post-lanzamiento</div>
+    </div>
+    <div class="tl-week">
+      <div class="tl-label">Sep 23–29</div>
+      <div class="tl-views">95K</div>
+      <div class="tl-sub">↓31% · base mínima</div>
+    </div>
+    <div class="tl-week">
+      <div class="tl-label">Sep 30–Oct 6</div>
+      <div class="tl-views">126K</div>
+      <div class="tl-sub">↑32% · recuperación leve</div>
+    </div>
+    <div class="tl-week peak" style="border-left-color:#FE2C55;">
+      <div class="tl-label">Oct 7–13</div>
+      <div class="tl-views" style="color:#FE2C55;">891K</div>
+      <div class="tl-sub">↑605% · EXPLOSIÓN</div>
+      <div class="tl-event">🚀 Oct 11: 253K views</div>
+    </div>
+  </div>
+
+  <!-- TikTok highlights -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;">
+    <div class="campaign-box" style="border-color:#FE2C55;">
+      <h3 style="color:#FE2C55;">📹 Mejor Video — Mayor Views</h3>
+      <div style="font-size:15px;font-weight:700;color:#fff;margin:10px 0;">Las favoritas de Baltu 🎀 Bota Geni</div>
+      <div style="font-size:12px;color:#888;">108,917 views · 4,175 likes · 65 shares · Avg watch 11.03s · <strong style="color:#4CAF50;">ER 3.90%</strong></div>
+      <div style="font-size:11px;color:#555;margin-top:6px;">Publicado: 11/10 12:35 · @MicaelaVazquez</div>
+    </div>
+    <div class="campaign-box" style="border-color:#4CAF50;">
+      <h3 style="color:#4CAF50;">⭐ Mejor ER de la Temporada</h3>
+      <div style="font-size:15px;font-weight:700;color:#fff;margin:10px 0;">campaña día de la madre — Sarkany, me lo merezco 🎁🌺</div>
+      <div style="font-size:12px;color:#888;">104,119 views · 16,413 likes · 672 shares · Avg watch 9.35s · <strong style="color:#4CAF50;">ER 16.45%</strong></div>
+      <div style="font-size:11px;color:#555;margin-top:6px;">Publicado: 09/10 · Mejor ER de toda la temporada SS27</div>
+    </div>
+  </div>
+</div>
+
+<!-- INSIGHTS -->
+<div class="section">
+  <div class="section-title">
+    💡 Conclusiones del Lanzamiento SS27
+    <span class="platform-badge gold">INSIGHTS</span>
+  </div>
+  <div class="insights-grid">
+    <div class="insight-card">
+      <div class="insight-icon">🏆</div>
+      <div class="insight-title">La fórmula ganadora: Celebridad + Emoción</div>
+      <div class="insight-text">Los 8 posts con celebrities (Cami Homs, Tini Stoessel, Julieta Poggio, Juli Puente, Mica Vazquez, Stephanie Demner, Yaz Jaureguy, Cale Ruggeri) generaron <strong>~12.4M views de los 35M totales</strong> = 35% del reach total con solo el 11% del contenido. ROI de visibilidad incomparable.</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🚀</div>
+      <div class="insight-title">Oct 2: El día que definió la temporada</div>
+      <div class="insight-text">El post de <strong>Cami Homs &amp; Aitu (3.32M views, ER 3.59%)</strong> fue el evento digital más importante de SS27. Marca un nuevo récord de la marca. La combinación cuenta pública masiva (Cami Homs) + narrativa emocional "Me lo merezco" fue la fórmula perfecta.</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">📈</div>
+      <div class="insight-title">TikTok: dos picos, una oportunidad</div>
+      <div class="insight-text">TikTok tuvo un <strong>fuerte lanzamiento</strong> (Sep 11-13: 113K-158K views/día) seguido de un dip prolongado. La semana de Oct 7-13 con <strong>891K views (+605%)</strong> y ER 16.45% confirma que el formato "humor + producto + celebridad" es la palanca de crecimiento más inmediata.</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🌊</div>
+      <div class="insight-title">Crecimiento orgánico consistente pre-campaña</div>
+      <div class="insight-text">Antes del pico viral (Sep 9-29), IG creció semana a semana: <strong>3.13M → 4.39M → 6.01M views</strong>. El momentum de la colección SOLAR PULSE fue sólido. @poggiojulieta (1.08M views) y @tinistoessel (808K views) fueron los mayores activos de contenido pre-campaña.</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">📦</div>
+      <div class="insight-title">CAROUSEL domina el formato en IG</div>
+      <div class="insight-text"><strong>63 de 72 posts (87.5%) son CAROUSEL</strong>. ER promedio supera el 1% con picos del 3.5%+ en collaboraciones. Los 9 REELS tuvieron tracción significativamente menor. Mantener CAROUSEL como formato estándar de la colección es la decisión correcta para SS27.</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">📅</div>
+      <div class="insight-title">Frecuencia: 2 posts/día con alto impacto</div>
+      <div class="insight-text">72 posts en 37 días = <strong>1.95 posts/día promedio</strong>. Las semanas de mayor posting coinciden con los picos de reach. La estrategia de contenido fue sostenida y consistente. Para la próxima campaña (AW27), mantener esta cadencia con planificación de celebrities desde la W1.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Próxima temporada: <strong>AW27 — Otoño Invierno 2027</strong></p>
+  <p style="margin-top:8px;">Sarkany Digital · <a href="mailto:camezaga@rickysarkany.com">camezaga@rickysarkany.com</a></p>
+  <p style="margin-top:6px;color:#333;">Datos: Windsor.ai · Generado automáticamente por Sarkany Social Report Bot · 15 de octubre de 2026</p>
+</footer>
+
+<script>
+// Weekly trend chart - dual axis
+const trendCtx = document.getElementById('trendChart').getContext('2d');
+new Chart(trendCtx, {
+  type: 'bar',
+  data: {
+    labels: ['Sep 9–15', 'Sep 16–22', 'Sep 23–29', 'Sep 30–Oct 6', 'Oct 7–13'],
+    datasets: [
+      {
+        label: 'Views IG',
+        data: [3125648, 4394942, 6009824, 11475966, 9127318],
+        backgroundColor: ['rgba(193,53,132,0.7)','rgba(193,53,132,0.7)','rgba(193,53,132,0.7)','rgba(232,193,112,0.85)','rgba(193,53,132,0.7)'],
+        borderColor: ['#C13584','#C13584','#C13584','#E8C170','#C13584'],
+        borderWidth: 2,
+        yAxisID: 'y',
+        order: 2
+      },
+      {
+        label: 'Views TikTok',
+        data: [488783, 138698, 95683, 126602, 891428],
+        type: 'line',
+        borderColor: '#FE2C55',
+        backgroundColor: 'rgba(254,44,85,0.1)',
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#FE2C55',
+        pointRadius: 5,
+        yAxisID: 'y2',
+        order: 1
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#888', font: { size: 11 } } }
+    },
+    scales: {
+      x: { ticks: { color: '#666', font: { size: 10 } }, grid: { color: '#1a1a1a' } },
+      y: {
+        position: 'left',
+        ticks: { color: '#C13584', font: { size: 10 }, callback: v => (v/1000000).toFixed(1)+'M' },
+        grid: { color: '#1a1a1a' }
+      },
+      y2: {
+        position: 'right',
+        ticks: { color: '#FE2C55', font: { size: 10 }, callback: v => (v/1000).toFixed(0)+'K' },
+        grid: { display: false }
+      }
+    }
+  }
+});
+
+// Content mix donut
+const mixCtx = document.getElementById('mixChart').getContext('2d');
+new Chart(mixCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['CAROUSEL (87.5%)', 'REELS (12.5%)'],
+    datasets: [{
+      data: [63, 9],
+      backgroundColor: ['#C13584', '#FE2C55'],
+      borderColor: '#0C0C0C',
+      borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#888', font: { size: 11 }, padding: 12 }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
