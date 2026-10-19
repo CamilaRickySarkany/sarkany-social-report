@@ -3,639 +3,932 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sarkany Social Report — Semana del 07/10 al 13/10/2026</title>
+<title>Sarkany Social Report — Semana 13/10 al 19/10/2026</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
 <style>
+  :root {
+    --bg: #0C0C0C;
+    --card: #141414;
+    --card2: #1a1a1a;
+    --magenta: #C13584;
+    --red: #FE2C55;
+    --gold: #E8C170;
+    --green: #4CAF50;
+    --text: #FFFFFF;
+    --muted: #888;
+    --border: #2a2a2a;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #0C0C0C; color: #e8e8e8; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; }
-  a { color: #C13584; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.5; }
 
   /* COVER */
-  .cover { background: linear-gradient(135deg, #0C0C0C 0%, #1a0a14 50%, #0C0C0C 100%); border-bottom: 2px solid #C13584; padding: 60px 40px; text-align: center; }
-  .cover .logo { font-size: 36px; font-weight: 900; letter-spacing: 8px; color: #fff; text-transform: uppercase; }
-  .cover .subtitle { font-size: 13px; letter-spacing: 4px; color: #C13584; margin-top: 8px; text-transform: uppercase; }
-  .cover .week { font-size: 20px; color: #E8C170; margin-top: 24px; font-weight: 300; letter-spacing: 2px; }
-  .cover .generated { font-size: 11px; color: #555; margin-top: 10px; }
+  .cover {
+    background: linear-gradient(135deg, #0C0C0C 0%, #1a0a14 50%, #0C0C0C 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(193,53,132,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover-logo { font-size: 11px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-bottom: 16px; }
+  .cover-title { font-size: 36px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .cover-title span { color: var(--magenta); }
+  .cover-subtitle { font-size: 14px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .cover-week { font-size: 18px; color: var(--gold); font-weight: 600; margin-top: 12px; }
 
-  /* SECTIONS */
-  .section { padding: 40px; border-bottom: 1px solid #1a1a1a; max-width: 1400px; margin: 0 auto; }
-  .section-title { font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
-  .section-title .platform-badge { font-size: 11px; background: #C13584; color: #fff; padding: 3px 10px; border-radius: 20px; letter-spacing: 1px; }
-  .section-title .platform-badge.tiktok { background: #FE2C55; }
-  .section-title .platform-badge.bench { background: #E8C170; color: #000; }
+  /* LAYOUT */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 48px 0 32px; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .section-icon { font-size: 22px; }
+  .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  .section-handle { font-size: 13px; color: var(--muted); margin-left: 4px; }
 
-  /* KPI CARDS */
+  /* KPI GRID */
   .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-  .kpi-card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
-  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #C13584; }
-  .kpi-card.tiktok::before { background: #FE2C55; }
-  .kpi-card .kpi-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
-  .kpi-card .kpi-value { font-size: 28px; font-weight: 800; color: #fff; line-height: 1; }
-  .kpi-card .kpi-prev { font-size: 11px; color: #555; margin-top: 6px; }
-  .kpi-card .kpi-var { font-size: 12px; font-weight: 700; margin-top: 4px; }
-  .kpi-var.up { color: #4CAF50; }
-  .kpi-var.down { color: #FE2C55; }
+  @media (max-width: 768px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--magenta);
+  }
+  .kpi-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .kpi-value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+  .kpi-prev { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .kpi-delta { font-size: 12px; font-weight: 600; margin-top: 4px; }
+  .kpi-delta.up { color: var(--green); }
+  .kpi-delta.down { color: var(--red); }
 
-  /* CHARTS */
-  .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 32px; }
-  .chart-box { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 24px; }
-  .chart-box h3 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
-  .chart-container { position: relative; height: 200px; }
+  /* CHARTS ROW */
+  .charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 32px; }
+  @media (max-width: 900px) { .charts-row { grid-template-columns: 1fr; } }
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .chart-title { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+  .chart-wrap { position: relative; }
 
   /* TABLE */
-  .table-wrap { overflow-x: auto; }
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
   table { width: 100%; border-collapse: collapse; }
-  th { background: #1a1a1a; color: #888; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 12px 10px; text-align: left; border-bottom: 1px solid #2a2a2a; white-space: nowrap; }
-  td { padding: 10px 10px; border-bottom: 1px solid #1a1a1a; vertical-align: middle; color: #ccc; font-size: 12px; }
+  th {
+    background: var(--card);
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: middle;
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+  }
+  tr:last-child td { border-bottom: none; }
   tr:hover td { background: rgba(255,255,255,0.02); }
+  .row-gold { background: rgba(232,193,112,0.07) !important; }
+  .row-gold td { color: #E8C170 !important; }
+  .er-highlight { color: #4CAF50 !important; font-weight: 700; }
   .thumb { width: 52px; height: 52px; object-fit: cover; border-radius: 6px; display: block; background: #1a1a1a; }
   .thumb-cell { width: 60px; padding: 8px 6px 8px 14px !important; }
   .post-link { color: inherit; text-decoration: none; }
   .post-link:hover { text-decoration: underline; opacity: 0.85; }
-  .row-gold { background: rgba(232,193,112,0.07) !important; }
-  .row-gold td { color: #E8C170 !important; }
-  .er-highlight { color: #4CAF50 !important; font-weight: 700; }
-  .type-badge { font-size: 9px; background: #1e1e1e; border: 1px solid #333; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
-  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .caption-cell { max-width: 220px; }
+  .caption-text { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 12px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+  .tag-carousel { background: rgba(193,53,132,0.2); color: var(--magenta); }
+  .tag-reel { background: rgba(254,44,85,0.2); color: var(--red); }
+  .tag-image { background: rgba(232,193,112,0.2); color: var(--gold); }
+  .num { font-variant-numeric: tabular-nums; }
 
   /* BENCHMARK */
-  .bench-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
-  .bench-card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 20px; }
-  .bench-card .brand-name { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 14px; border-top: 3px solid #C13584; padding-top: 14px; }
-  .bench-card.p2 .brand-name { border-color: #9B59B6; }
-  .bench-card.p3 .brand-name { border-color: #3498DB; }
-  .bench-card.p4 .brand-name { border-color: #E67E22; }
-  .bench-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
-  .bench-key { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 1px; }
-  .bench-val { font-size: 12px; font-weight: 600; color: #ccc; }
-  .bench-note { font-size: 11px; color: #666; margin-top: 20px; line-height: 1.6; padding: 14px; background: #111; border-radius: 8px; border-left: 3px solid #E8C170; }
+  .bench-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  @media (max-width: 900px) { .bench-grid { grid-template-columns: repeat(2, 1fr); } }
+  .bench-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bench-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .bench-card.sarkany::before { background: var(--magenta); }
+  .bench-card.prune::before { background: #9B59B6; }
+  .bench-card.paruolo::before { background: #3498DB; }
+  .bench-card.mishka::before { background: #E67E22; }
+  .bench-handle { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .bench-name { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+  .bench-stat { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .bench-stat-label { font-size: 11px; color: var(--muted); }
+  .bench-stat-value { font-size: 13px; font-weight: 600; }
+  .bench-note { font-size: 10px; color: var(--muted); margin-top: 10px; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid var(--border); line-height: 1.6; }
 
   /* INSIGHTS */
-  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .insight-card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 20px; }
+  .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .insight-grid { grid-template-columns: 1fr; } }
+  .insight-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+  }
   .insight-icon { font-size: 24px; margin-bottom: 10px; }
-  .insight-title { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #C13584; margin-bottom: 8px; }
-  .insight-text { font-size: 12px; color: #aaa; line-height: 1.6; }
+  .insight-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--gold); letter-spacing: 0.3px; }
+  .insight-body { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.7; }
 
   /* FOOTER */
-  footer { padding: 30px 40px; text-align: center; border-top: 1px solid #1a1a1a; color: #444; font-size: 11px; letter-spacing: 1px; }
-  footer a { color: #C13584; }
+  .footer { padding: 32px 0; text-align: center; }
+  .footer-text { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+  .footer-next { font-size: 13px; color: var(--gold); font-weight: 600; margin-top: 6px; }
 
-  /* HIGHLIGHT BOX */
-  .highlight-box { background: linear-gradient(135deg, #1a0a14, #141414); border: 1px solid #C13584; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-  .highlight-box .hl-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #C13584; margin-bottom: 6px; }
-  .highlight-box .hl-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-  .highlight-box .hl-stats { font-size: 12px; color: #888; }
-
-  @media (max-width: 900px) {
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    .charts-grid { grid-template-columns: 1fr; }
-    .bench-grid { grid-template-columns: repeat(2, 1fr); }
-    .insights-grid { grid-template-columns: 1fr; }
-  }
+  /* UTILITIES */
+  .num-fmt { font-variant-numeric: tabular-nums; }
+  .tiktok-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+  .tiktok-best { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .best-video-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; gap: 14px; align-items: flex-start; }
+  .best-video-thumb { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; flex-shrink: 0; background: #1a1a1a; }
+  .best-video-info { flex: 1; min-width: 0; }
+  .best-video-badge { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 6px; }
+  .badge-views { background: rgba(193,53,132,0.2); color: var(--magenta); }
+  .badge-er { background: rgba(76,175,80,0.2); color: var(--green); }
+  .best-video-caption { font-size: 12px; color: rgba(255,255,255,0.85); line-height: 1.4; margin-bottom: 8px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .best-video-stats { font-size: 11px; color: var(--muted); }
+  .best-video-stats span { color: rgba(255,255,255,0.7); }
 </style>
 </head>
 <body>
 
 <!-- COVER -->
 <div class="cover">
-  <div class="logo">Ricky Sarkany</div>
-  <div class="subtitle">Social Media Report</div>
-  <div class="week">Semana del 07/10 al 13/10/2026</div>
-  <div class="generated">Generado automáticamente el martes 13 de octubre de 2026</div>
+  <div class="cover-logo">Sarkany Digital Intelligence</div>
+  <div class="cover-title">Social Media <span>Report</span></div>
+  <div class="cover-subtitle">Performance Weekly</div>
+  <div class="cover-week">Semana del 13/10 al 19/10/2026</div>
 </div>
 
-<!-- INSTAGRAM -->
-<div class="section">
-  <div class="section-title">
-    📸 Instagram @rickysarkany
-    <span class="platform-badge">IG</span>
-  </div>
+<div class="container">
 
-  <!-- KPI Cards -->
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">Views</div>
-      <div class="kpi-value">7.46M</div>
-      <div class="kpi-var down">↓ 29.3%</div>
-      <div class="kpi-prev">Sem. ant.: 10.56M</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Likes</div>
-      <div class="kpi-value">81,022</div>
-      <div class="kpi-var down">↓ 50.6%</div>
-      <div class="kpi-prev">Sem. ant.: 163,956</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Comentarios</div>
-      <div class="kpi-value">1,272</div>
-      <div class="kpi-var down">↓ 80.7%</div>
-      <div class="kpi-prev">Sem. ant.: 6,595</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Shares</div>
-      <div class="kpi-value">2,203</div>
-      <div class="kpi-var down">↓ 66.0%</div>
-      <div class="kpi-prev">Sem. ant.: 6,482</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Saves</div>
-      <div class="kpi-value">1,505</div>
-      <div class="kpi-var down">↓ 4.6%</div>
-      <div class="kpi-prev">Sem. ant.: 1,578</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Reach</div>
-      <div class="kpi-value">2.31M</div>
-      <div class="kpi-var down">↓ 20.9%</div>
-      <div class="kpi-prev">Sem. ant.: 2.93M</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Nuevos Seguidores</div>
-      <div class="kpi-value">1,707</div>
-      <div class="kpi-var down">↓ 20.7%</div>
-      <div class="kpi-prev">Sem. ant.: 2,152</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Engagement Rate</div>
-      <div class="kpi-value">1.15%</div>
-      <div class="kpi-var down">↓ 32.0%</div>
-      <div class="kpi-prev">Sem. ant.: 1.69%</div>
-    </div>
-  </div>
-
-  <!-- Charts -->
-  <div class="charts-grid">
-    <div class="chart-box">
-      <h3>Tendencia 4 Semanas — Views IG</h3>
-      <div class="chart-container">
-        <canvas id="trendChart"></canvas>
+  <!-- ══════════════════════════════════════════════
+       SECCIÓN INSTAGRAM
+  ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📸</div>
+      <div>
+        <div class="section-title">Instagram <span class="section-handle">@rickysarkany</span></div>
       </div>
     </div>
-    <div class="chart-box">
-      <h3>Mix de Contenido IG</h3>
-      <div class="chart-container">
-        <canvas id="mixChart"></canvas>
+
+    <!-- KPI CARDS -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Views</div>
+        <div class="kpi-value num">5.12M</div>
+        <div class="kpi-delta down">↓ 40.4% vs semana anterior</div>
+        <div class="kpi-prev">Sem. ant.: 8.59M</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Likes</div>
+        <div class="kpi-value num">28,550</div>
+        <div class="kpi-delta down">↓ 69.1% vs semana anterior</div>
+        <div class="kpi-prev">Sem. ant.: 92,497</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Comentarios</div>
+        <div class="kpi-value num">416</div>
+        <div class="kpi-delta down">↓ 92.9% vs semana anterior</div>
+        <div class="kpi-prev">Sem. ant.: 5,891 (pico Demner)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Shares</div>
+        <div class="kpi-value num">1,562</div>
+        <div class="kpi-delta down">↓ 35.7% vs semana anterior</div>
+        <div class="kpi-prev">Sem. ant.: 2,428</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Saves</div>
+        <div class="kpi-value num">730</div>
+        <div class="kpi-delta down">↓ 54.9% vs semana anterior</div>
+        <div class="kpi-prev">Sem. ant.: 1,619</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Reach</div>
+        <div class="kpi-value num">1.49M</div>
+        <div class="kpi-delta down">↓ 43.0% vs semana anterior</div>
+        <div class="kpi-prev">Sem. ant.: 2.62M</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Nuevos Seguidores</div>
+        <div class="kpi-value num">1,278</div>
+        <div class="kpi-delta down">↓ 43.7% vs semana anterior</div>
+        <div class="kpi-prev">Sem. ant.: 2,268</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Engagement Rate</div>
+        <div class="kpi-value num">0.61%</div>
+        <div class="kpi-delta down">↓ vs 1.19% sem. anterior</div>
+        <div class="kpi-prev">Base: (L+C+S+Sv)/Views</div>
       </div>
     </div>
+
+    <!-- CHARTS -->
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">Tendencia 4 semanas — Views IG</div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="igTrendChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Mix de Contenido</div>
+        <div class="chart-wrap" style="height:220px; display:flex; align-items:center; justify-content:center;">
+          <canvas id="igMixChart" style="max-width:200px;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP 7 POSTS TABLE -->
+    <div class="chart-title" style="margin-bottom:16px;">Top 7 Posts — Últimas 2 semanas (por views)</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="thumb-cell">Foto</th>
+            <th>#</th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Caption</th>
+            <th>Views</th>
+            <th>Likes</th>
+            <th>Coments</th>
+            <th>Shares</th>
+            <th>Saves</th>
+            <th>Reach</th>
+            <th>ER%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- #1 Best by views — row-gold -->
+          <tr class="row-gold">
+            <td class="thumb-cell">
+              <a href="https://www.instagram.com/p/DeNRpRRme7d/" target="_blank">
+                <img class="thumb" src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/840363425_18640142575019933_4167850659593215624_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=DR2iidy7KLgQ7kNvwG6dfD0&_nc_oc=Adp7eBiDyO51MgH8tZQmZB2nM2o_gQcvndnlQxiauWOCbpVQ_iSH4kv4GKCevLcChiU&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=ylnDJZ6aHP-mYoGWY1b-hA&oh=00_AQMOh26N55vthBwDD9XxPklJiBX2KiOzJz80AS-rhmP1KQ&oe=6ADBE102" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>1</td>
+            <td>07/10</td>
+            <td><span class="tag tag-carousel">Carousel</span></td>
+            <td class="caption-cell">
+              <a href="https://www.instagram.com/p/DeNRpRRme7d/" target="_blank" class="post-link">
+                <div class="caption-text">ME LO MEREZCO 🥰 Store take-over by Mica Vazquez y Baltu · Todo en nuestros locales &amp; online</div>
+              </a>
+            </td>
+            <td class="num">1,967,643</td>
+            <td class="num">36,896</td>
+            <td class="num">130</td>
+            <td class="num">328</td>
+            <td class="num">396</td>
+            <td class="num">981,058</td>
+            <td class="num">1.92%</td>
+          </tr>
+          <!-- #2 -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.instagram.com/p/DeK0m0TmeaY/" target="_blank">
+                <img class="thumb" src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/838650284_18639848518019933_6242040801345127900_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=WLhcwfYSj2QQ7kNvwEWmq1Z&_nc_oc=Ado3i6D2DQF2wpVos5305YUrEp6s0zFfC9QtlzoLrjx3E9TEaIWD9t8_yPdie5Ug--k&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=ylnDJZ6aHP-mYoGWY1b-hA&oh=00_AQOSAffMWayoa8HAq9caroDG8r1I7YzSBmoRC791Rj3Xxg&oe=6ADBDD41" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>2</td>
+            <td>06/10</td>
+            <td><span class="tag tag-carousel">Carousel</span></td>
+            <td class="caption-cell">
+              <a href="https://www.instagram.com/p/DeK0m0TmeaY/" target="_blank" class="post-link">
+                <div class="caption-text">ME LO MEREZCO 💖 by Stephanie Demner, Ari &amp; Jaz · Ya podes encontrar su elección in stores &amp; online</div>
+              </a>
+            </td>
+            <td class="num">1,360,250</td>
+            <td class="num">15,016</td>
+            <td class="num">5,255</td>
+            <td class="num">252</td>
+            <td class="num">166</td>
+            <td class="num">529,181</td>
+            <td class="num">1.52%</td>
+          </tr>
+          <!-- #3 -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.instagram.com/p/DeW0soOGZ63/" target="_blank">
+                <img class="thumb" src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/843449475_18641291107019933_315767414369263682_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=QHI6UhgLD_0Q7kNvwHICIg-&_nc_oc=AdpGT_RYoxMcLMJmFv-1UZKdleYElVdYkIP7_A5xd52WpVgnIpsA-wzoG3kWwVZntIs&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=ylnDJZ6aHP-mYoGWY1b-hA&oh=00_AQMRCVZ34y0JMGn9iZbD3z_Zr6ePbw6JSF7QZ4HeSoIGsw&oe=6ADBD631" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>3</td>
+            <td>11/10</td>
+            <td><span class="tag tag-carousel">Carousel</span></td>
+            <td class="caption-cell">
+              <a href="https://www.instagram.com/p/DeW0soOGZ63/" target="_blank" class="post-link">
+                <div class="caption-text">ME LO MEREZCO 🩵 by Cale Ruggeri &amp; Vita · Sus favoritos ya los encontrás in stores &amp; online</div>
+              </a>
+            </td>
+            <td class="num">657,139</td>
+            <td class="num">7,462</td>
+            <td class="num">36</td>
+            <td class="num">40</td>
+            <td class="num">150</td>
+            <td class="num">292,959</td>
+            <td class="num">1.17%</td>
+          </tr>
+          <!-- #4 -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.instagram.com/p/DehH6rUmYow/" target="_blank">
+                <img class="thumb" src="https://scontent-fra3-2.cdninstagram.com/v/t51.82787-15/848072559_18642735583019933_8146952516041172835_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=ioZjyY4ii5AQ7kNvwGjn6uH&_nc_oc=Adq4DlZVsanjL1h-wO7GDeZSs5dzrp4IV71nHhhKRFNlH_xjNKAMrIox6vuLf_xbDrE&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=ylnDJZ6aHP-mYoGWY1b-hA&oh=00_AQNvQB1xd6viXUnbc7wH41ddVcY8VzXcAYK3HgrPOT8x7g&oe=6ADBFCD0" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>4</td>
+            <td>15/10</td>
+            <td><span class="tag tag-carousel">Carousel</span></td>
+            <td class="caption-cell">
+              <a href="https://www.instagram.com/p/DehH6rUmYow/" target="_blank" class="post-link">
+                <div class="caption-text">Me lo merezco 🌸 nuestras tiendas están llenas de regalos · @bbva_argentina 30% off + 9 cuotas sin interés</div>
+              </a>
+            </td>
+            <td class="num">632,096</td>
+            <td class="num">4,220</td>
+            <td class="num">33</td>
+            <td class="num">201</td>
+            <td class="num">156</td>
+            <td class="num">338,460</td>
+            <td class="num">0.73%</td>
+          </tr>
+          <!-- #5 — HIGHEST ER -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.instagram.com/p/DeSbL6TmYKk/" target="_blank">
+                <img class="thumb" src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/841978551_18640863310019933_4109212103794081993_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=IoD-Hl094QkQ7kNvwGKme86&_nc_oc=Adqk_WRnblDdFy1zYGUdmFuPJldVmpAyrCZe7KbKYLtlN_rb9sY6hPIYoYpExqy0hRw&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=ylnDJZ6aHP-mYoGWY1b-hA&oh=00_AQOByvrOmdSc3ttSUpoGYV6Nc3JJiRvvsWRVupp3_N3y2g&oe=6ADBEF1D" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>5</td>
+            <td>09/10</td>
+            <td><span class="tag tag-carousel">Carousel</span></td>
+            <td class="caption-cell">
+              <a href="https://www.instagram.com/p/DeSbL6TmYKk/" target="_blank" class="post-link">
+                <div class="caption-text">ME LO MEREZCO 🌼 by Yaz Jaureguy &amp; Gemma · Sus elegidos in stores &amp; online</div>
+              </a>
+            </td>
+            <td class="num">423,686</td>
+            <td class="num">14,265</td>
+            <td class="num">46</td>
+            <td class="num">226</td>
+            <td class="num">267</td>
+            <td class="num">181,527</td>
+            <td class="num er-highlight">3.49%</td>
+          </tr>
+          <!-- #6 -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.instagram.com/p/DeaCuc5lSG5/" target="_blank">
+                <img class="thumb" src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/843103995_18640717978019933_5010541246726784377_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=heuSt3uq1lsQ7kNvwEk3heO&_nc_oc=Adql9tmUJ5jIjO0a8ThLptOf9sSVQ4fI3g1Q2Et0evP8GlYJhtkP-mjuN43y6cKkL0U&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=ylnDJZ6aHP-mYoGWY1b-hA&oh=00_AQO6EkoWZX7ckyFJdBhXJ6jnkcCeuBm0OXdgglYs9dmjxw&oe=6ADBC7E2" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>6</td>
+            <td>12/10</td>
+            <td><span class="tag tag-carousel">Carousel</span></td>
+            <td class="caption-cell">
+              <a href="https://www.instagram.com/p/DeaCuc5lSG5/" target="_blank" class="post-link">
+                <div class="caption-text">You can pick mom's favorite color 🖤🤎💚 Plataforma Juki · In stores &amp; online</div>
+              </a>
+            </td>
+            <td class="num">420,713</td>
+            <td class="num">5,668</td>
+            <td class="num">203</td>
+            <td class="num">769</td>
+            <td class="num">416</td>
+            <td class="num">160,899</td>
+            <td class="num">1.68%</td>
+          </tr>
+          <!-- #7 -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.instagram.com/p/DeVG5BHFQ1D/" target="_blank">
+                <img class="thumb" src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/840642604_18640705690019933_4850530941454581632_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=qsXfWkgecgAQ7kNvwEFFT6A&_nc_oc=Adq59ZiHj7gdVFbMvBfGC4f_7Ukzp6nFlrFkospbXLqtlQUVBThyIriSRhOivBqRYNs&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AM6HXa8EAAAA&_nc_gid=ylnDJZ6aHP-mYoGWY1b-hA&oh=00_AQNkrK701JUErstJH4sg0Xqiy7eQye9wDw8DnTOmxVbiGQ&oe=6ADBDD19" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>7</td>
+            <td>10/10</td>
+            <td><span class="tag tag-carousel">Carousel</span></td>
+            <td class="caption-cell">
+              <a href="https://www.instagram.com/p/DeVG5BHFQ1D/" target="_blank" class="post-link">
+                <div class="caption-text">Plataforma Kima &amp; Plataforma Sessio 💖 El regalo perfecto para mamá · FREE SHIPPING a todo el país</div>
+              </a>
+            </td>
+            <td class="num">288,795</td>
+            <td class="num">3,458</td>
+            <td class="num">90</td>
+            <td class="num">337</td>
+            <td class="num">158</td>
+            <td class="num">121,512</td>
+            <td class="num">1.40%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- end IG section -->
+
+  <!-- ══════════════════════════════════════════════
+       SECCIÓN TIKTOK
+  ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🎵</div>
+      <div>
+        <div class="section-title">TikTok <span class="section-handle">@ricky.sarkany</span></div>
+      </div>
+    </div>
+
+    <!-- TikTok KPIs -->
+    <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="kpi-card" style="--accent: var(--red);">
+        <div class="kpi-label">Views</div>
+        <div class="kpi-value num">492,621</div>
+        <div class="kpi-delta down">↓ 37.1% vs semana anterior</div>
+        <div class="kpi-prev">Sem. ant.: 782,919</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Likes</div>
+        <div class="kpi-value num">8,962</div>
+        <div class="kpi-delta down">↓ 77.3% vs semana anterior</div>
+        <div class="kpi-prev">Sem. ant.: 39,418</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Shares</div>
+        <div class="kpi-value num">373</div>
+        <div class="kpi-delta down">↓ 73.9% vs semana anterior</div>
+        <div class="kpi-prev">Sem. ant.: 1,427</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Engagement Rate</div>
+        <div class="kpi-value num">1.91%</div>
+        <div class="kpi-delta down">↓ vs 5.24% sem. anterior</div>
+        <div class="kpi-prev">Base: (L+C+S)/Views</div>
+      </div>
+    </div>
+
+    <!-- Best Videos Cards -->
+    <div class="tiktok-best">
+      <div class="best-video-card">
+        <a href="https://www.tiktok.com/@ricky.sarkany/video/7695388036560981268?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank">
+          <img class="best-video-thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owKCDTeG4QNXjCVIjedEWlavWChAqILfLEPXgA~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=fcbfe915&x-expires=1792497600&x-signature=y%2FEbXv3RVJblLyA5WmR9yda%2Ffm0%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="">
+        </a>
+        <div class="best-video-info">
+          <span class="best-video-badge badge-views">🏆 Más Visto</span>
+          <div class="best-video-caption">Las favoritas de Baltu 😂 Bota Geni ♥️ @Micaela Vazquez</div>
+          <div class="best-video-stats">112,961 views · <span>4,297 likes</span> · ER: 3.87% · Avg Watch: 10.97s</div>
+        </div>
+      </div>
+      <div class="best-video-card">
+        <a href="https://www.tiktok.com/@ricky.sarkany/video/7694778287872281876?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank">
+          <img class="best-video-thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4aBB2sHlIBiiBgIxYJZ5A9kExWIAPiYmXcA9~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=e44d5e90&x-expires=1792497600&x-signature=LGiVi1IhOuNI%2BdVytTb0sXhVAO0%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="">
+        </a>
+        <div class="best-video-info">
+          <span class="best-video-badge badge-er">✨ Mayor ER</span>
+          <div class="best-video-caption">campaña para el día de la madre - Sarkany, me lo merezco 💋👠♥️</div>
+          <div class="best-video-stats">110,712 views · <span>17,387 likes</span> · ER: 16.38% · Avg Watch: 8.41s</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TikTok Table -->
+    <div class="chart-title" style="margin-bottom:16px;">Top 7 Videos TikTok</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="thumb-cell">Thumb</th>
+            <th>Fecha</th>
+            <th>Caption</th>
+            <th>Views</th>
+            <th>Likes</th>
+            <th>Coments</th>
+            <th>Shares</th>
+            <th>Reach</th>
+            <th>Avg Watch</th>
+            <th>ER%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- #1 Best views -->
+          <tr class="row-gold">
+            <td class="thumb-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7695388036560981268?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank">
+                <img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owKCDTeG4QNXjCVIjedEWlavWChAqILfLEPXgA~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=fcbfe915&x-expires=1792497600&x-signature=y%2FEbXv3RVJblLyA5WmR9yda%2Ffm0%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>11/10</td>
+            <td class="caption-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7695388036560981268?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">
+                <div class="caption-text">Las favoritas de Baltu 😂 Bota Geni ♥️ @Micaela Vazquez</div>
+              </a>
+            </td>
+            <td class="num">112,961</td>
+            <td class="num">4,297</td>
+            <td class="num">8</td>
+            <td class="num">66</td>
+            <td class="num">112,508</td>
+            <td>10.97s</td>
+            <td class="num">3.87%</td>
+          </tr>
+          <!-- #2 Best ER -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7694778287872281876?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank">
+                <img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4aBB2sHlIBiiBgIxYJZ5A9kExWIAPiYmXcA9~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=e44d5e90&x-expires=1792497600&x-signature=LGiVi1IhOuNI%2BdVytTb0sXhVAO0%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>09/10</td>
+            <td class="caption-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7694778287872281876?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">
+                <div class="caption-text">campaña para el día de la madre - Sarkany, me lo merezco 💋👠♥️</div>
+              </a>
+            </td>
+            <td class="num">110,712</td>
+            <td class="num">17,387</td>
+            <td class="num">48</td>
+            <td class="num">702</td>
+            <td class="num">101,220</td>
+            <td>8.41s</td>
+            <td class="num er-highlight">16.38%</td>
+          </tr>
+          <!-- #3 -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7695376521350941972?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank">
+                <img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseuVDgN9FGtAAAXQNeICRJWE4LDjluIjdMBeI~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=7b91d5e5&x-expires=1792497600&x-signature=JZkQuU5s8AexfB9PRCMO1FAsnRg%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>11/10</td>
+            <td class="caption-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7695376521350941972?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">
+                <div class="caption-text">el bailecito del final 😂 @Micaela Vazquez Baltu el mejor Sarkany Friend</div>
+              </a>
+            </td>
+            <td class="num">108,935</td>
+            <td class="num">16,219</td>
+            <td class="num">33</td>
+            <td class="num">513</td>
+            <td class="num">95,717</td>
+            <td>8.9s</td>
+            <td class="num">15.39%</td>
+          </tr>
+          <!-- #4 -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7695154852560784661?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank">
+                <img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ocVM4LG8jIDKJIMTzKIIDrCArBwAq69elVeeoL~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=a833cd9b&x-expires=1792497600&x-signature=DHI%2FT4v3fEXM2IQCAfa4squWSBw%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>10/10</td>
+            <td class="caption-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7695154852560784661?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">
+                <div class="caption-text">Me lo merezco by @Camila Homs ♥️ Sarkany - día de la madre</div>
+              </a>
+            </td>
+            <td class="num">46,110</td>
+            <td class="num">1,971</td>
+            <td class="num">20</td>
+            <td class="num">51</td>
+            <td class="num">45,505</td>
+            <td>7.55s</td>
+            <td class="num">4.43%</td>
+          </tr>
+          <!-- #5 -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7695781368998972692?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank">
+                <img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4OfxE4DVC6ujSeFESiccAIbID4MfmjAhjIGvU~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=17568502&x-expires=1792497600&x-signature=VegwglPf0Foy4DrtP570HsqX1H0%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>12/10</td>
+            <td class="caption-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7695781368998972692?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">
+                <div class="caption-text">@Micaela Vazquez ya tiene su regalito. Sandalias appa ♥️</div>
+              </a>
+            </td>
+            <td class="num">18,176</td>
+            <td class="num">1,244</td>
+            <td class="num">4</td>
+            <td class="num">9</td>
+            <td class="num">17,127</td>
+            <td>8.54s</td>
+            <td class="num">6.92%</td>
+          </tr>
+          <!-- #6 -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7696213732522724629?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank">
+                <img class="thumb" src="https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUJJCfE0BAP1iC9CvOiczAIaZAuIYoDw7bIuiA~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=71497d2a&x-expires=1792497600&x-signature=8ikvYX2P6ZIXXgeWBX34aHMlrnc%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>13/10</td>
+            <td class="caption-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7696213732522724629?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">
+                <div class="caption-text">Una nueva misión para Baltu ♥️</div>
+              </a>
+            </td>
+            <td class="num">5,513</td>
+            <td class="num">300</td>
+            <td class="num">0</td>
+            <td class="num">24</td>
+            <td class="num">5,280</td>
+            <td>6.99s</td>
+            <td class="num">5.88%</td>
+          </tr>
+          <!-- #7 -->
+          <tr>
+            <td class="thumb-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7695796842319301889?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank">
+                <img class="thumb" src="https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooEYzIHBvc9ACK7EAajQdEUXgCM2iis6ItBns~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=c037e5c5&x-expires=1792497600&x-signature=usulltZk8xBpLATRT9rHCYUqAPU%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover" onerror="this.style.opacity=0.1" alt="">
+              </a>
+            </td>
+            <td>12/10</td>
+            <td class="caption-cell">
+              <a href="https://www.tiktok.com/@ricky.sarkany/video/7695796842319301889?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">
+                <div class="caption-text">Los amamos! @Micaela Vazquez</div>
+              </a>
+            </td>
+            <td class="num">3,868</td>
+            <td class="num">271</td>
+            <td class="num">0</td>
+            <td class="num">0</td>
+            <td class="num">3,600</td>
+            <td>6.08s</td>
+            <td class="num">7.01%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- end TikTok section -->
+
+  <!-- ══════════════════════════════════════════════
+       SECCIÓN BENCHMARK
+  ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📊</div>
+      <div>
+        <div class="section-title">Benchmark Competidoras IG — Semana 13/10 al 19/10</div>
+      </div>
+    </div>
+
+    <div class="bench-grid">
+      <!-- Sarkany -->
+      <div class="bench-card sarkany">
+        <div class="bench-handle">@rickysarkany</div>
+        <div class="bench-name">SARKANY</div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Posts semana</span>
+          <span class="bench-stat-value">6</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Views totales</span>
+          <span class="bench-stat-value" style="color:var(--magenta);">5.12M</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">ER (sobre views)</span>
+          <span class="bench-stat-value er-highlight">0.61%</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Avg likes/post</span>
+          <span class="bench-stat-value">4,758</span>
+        </div>
+      </div>
+      <!-- Prune -->
+      <div class="bench-card prune">
+        <div class="bench-handle">@pruneoficial</div>
+        <div class="bench-name">Prüne Oficial</div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Seguidores</span>
+          <span class="bench-stat-value">1.74M</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Posts semana</span>
+          <span class="bench-stat-value">17</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">ER avg (sobre seg.)</span>
+          <span class="bench-stat-value">0.038%</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Avg likes/post</span>
+          <span class="bench-stat-value">627</span>
+        </div>
+      </div>
+      <!-- Paruolo -->
+      <div class="bench-card paruolo">
+        <div class="bench-handle">@paruolo</div>
+        <div class="bench-name">Paruolo</div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Seguidores</span>
+          <span class="bench-stat-value">739K</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Posts semana</span>
+          <span class="bench-stat-value">2</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">ER avg (sobre seg.)</span>
+          <span class="bench-stat-value">0.032%</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Avg likes/post</span>
+          <span class="bench-stat-value">235</span>
+        </div>
+      </div>
+      <!-- Mishka -->
+      <div class="bench-card mishka">
+        <div class="bench-handle">@mishkabuenosaires</div>
+        <div class="bench-name">MISHKA</div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Seguidores</span>
+          <span class="bench-stat-value">390K</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Posts semana</span>
+          <span class="bench-stat-value">6</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">ER avg (sobre seg.)</span>
+          <span class="bench-stat-value">0.185%</span>
+        </div>
+        <div class="bench-stat">
+          <span class="bench-stat-label">Avg likes/post</span>
+          <span class="bench-stat-value">711</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bench-note">
+      <strong>Nota metodológica:</strong> El ER de @rickysarkany se calcula sobre <em>views</em> (datos privados disponibles vía API). El ER de las competidoras se calcula sobre <em>seguidores</em> (única métrica disponible en datos públicos). Los valores no son directamente comparables entre sí. Mishka lidera entre competidoras con 0.185% ER (sobre seg.) gracias a su campaña #SUPERMOMS con madres reales. Prøne dominó en volumen con 17 posts esta semana.
+    </div>
+  </div><!-- end benchmark -->
+
+  <!-- ══════════════════════════════════════════════
+       CONCLUSIONES ACCIONABLES
+  ══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">⚡</div>
+      <div>
+        <div class="section-title">Conclusiones Accionables</div>
+      </div>
+    </div>
+
+    <div class="insight-grid">
+      <div class="insight-card">
+        <div class="insight-icon">🤝</div>
+        <div class="insight-title">El poder de las colaboraciones</div>
+        <div class="insight-body">Los 3 posts más vistos de las últimas 2 semanas involucran celebrities: Mica Vazquez+Baltu (1.97M views), Stephanie Demner (1.36M), Cale Ruggeri (657K). Las colaboraciones con personalidades públicas multiplican el alcance orgánico hasta ×7 vs. contenido de producto puro. <strong>Recomendación:</strong> sostener 1-2 activaciones con influencers por semana.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">🎠</div>
+        <div class="insight-title">Formato ganador: Carousel</div>
+        <div class="insight-body">El 100% del contenido publicado en las últimas 2 semanas es Carousel. El formato demuestra consistencia en performance. <strong>Oportunidad:</strong> incorporar Reels para diversificar el mix y acceder al boost orgánico que el algoritmo de IG premia al formato video. El canal TikTok ya lo demuestra con ER hasta 16.38%.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">📉</div>
+        <div class="insight-title">Caída post-campaña esperada</div>
+        <div class="insight-body">Las caídas de la semana actual (IG -40.4% views, TikTok -37.1% views) son consecuencia directa del pico generado por la semana de activaciones Día de la Madre + influencers. La semana anterior fue excepcional. El baseline real del canal está entre W1 (4.5M) y W3 (8.6M). <strong>Foco:</strong> recuperar nivel W3 la semana próxima.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">🎵</div>
+        <div class="insight-title">TikTok: el Baltu-efecto</div>
+        <div class="insight-body">Micaela Vazquez y Baltu generaron los 3 videos con mayor reach y ER de TikTok en las últimas 2 semanas. El video "Las favoritas de Baltu" lidera en views (112K) con un avg watch de 10.97s — altísimo para el formato. El duelo Baltu/Mica Vazquez es contenido nativo de TikTok. <strong>Acción:</strong> producir más contenido detrás de escena con este perfil.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">🏆</div>
+        <div class="insight-title">Prüne: alta frecuencia, bajo engagement</div>
+        <div class="insight-body">Prüne publicó 17 posts esta semana (vs. 6 de Sarkany) con un ER de 0.038% sobre seguidores. Su estrategia es volumen + estética coherente. Mishka, con 6 posts, logra 0.185% de ER gracias a contenido emocional real (#SUPERMOMS). <strong>La calidad y la emoción ganan sobre la frecuencia.</strong></div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">🗓️</div>
+        <div class="insight-title">Próximos pasos</div>
+        <div class="insight-body">
+          <strong>Esta semana:</strong> transición post-Día de la Madre. Iniciar contenido de temporada verano/primavera.<br><br>
+          <strong>Semana próxima:</strong> planificar 1 activación con influencer mid-tier para mantener reach. Explorar contenido tipo Reel para IG. Evaluar repetir el formato "mis favoritos" de TikTok con nueva celebridad.
+        </div>
+      </div>
+    </div>
+  </div><!-- end conclusiones -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-text">SARKANY DIGITAL · camezaga@rickysarkany.com</div>
+    <div class="footer-next">Próximo reporte: Lunes 26/10/2026</div>
   </div>
 
-  <!-- Top 7 Posts -->
-  <h3 style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px;">Top 7 Posts — Últimos 14 días (por Views)</h3>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="thumb-cell">Foto</th>
-          <th>#</th>
-          <th>Fecha</th>
-          <th>Tipo</th>
-          <th>Caption</th>
-          <th class="num">Views</th>
-          <th class="num">Likes</th>
-          <th class="num">Coments</th>
-          <th class="num">Shares</th>
-          <th class="num">Saves</th>
-          <th class="num">Reach</th>
-          <th class="num">ER %</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Row 1 GOLD: best views = Oct 2 Cami Homs -->
-        <tr class="row-gold">
-          <td class="thumb-cell">
-            <a href="https://www.instagram.com/p/DeAZmg_lWre/" target="_blank">
-              <img src="https://scontent-fra3-2.cdninstagram.com/v/t51.82787-15/834190972_18638315998019933_5408862297455871911_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=O0d97tqLWN0Q7kNvwHItMnR&_nc_oc=Adp-N54T3HMJ6VZOlE9tu5JVJE8Yl_kobxZ2YLKBocZkgkmW-qr3vgTMGxvhJXhvN9M&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&edm=AM6HXa8EAAAA&oh=00_AQPU4Nqc5kc3u2ACT8MOcJ8aYqfz04emBp7urK0rDS-eNQ&oe=6AD3E668" class="thumb" onerror="this.style.opacity=0.1" alt="post">
-            </a>
-          </td>
-          <td>1</td>
-          <td>02/10</td>
-          <td><span class="type-badge">CAROUSEL</span></td>
-          <td><a href="https://www.instagram.com/p/DeAZmg_lWre/" target="_blank" class="post-link">ME LO MEREZCO 🌸 by Cami Homs &amp; Aitu — Descubrí sus elegidos in stores &amp; online</a></td>
-          <td class="num">3,297,808</td>
-          <td class="num">111,953</td>
-          <td class="num">1,306</td>
-          <td class="num">4,483</td>
-          <td class="num">766</td>
-          <td class="num">1,433,257</td>
-          <td class="num er-highlight">3.59%</td>
-        </tr>
-        <!-- Row 2 -->
-        <tr>
-          <td class="thumb-cell">
-            <a href="https://www.instagram.com/p/DeFMY_3GQfC/" target="_blank">
-              <img src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/834249282_18638396266019933_6325670960566652460_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=PV1acCg5FUsQ7kNvwEv2K29&_nc_oc=AdpqwPb1EY4ctdMet6qe-kT_2gX5chkaPTPf9MAue20rOjfgR0ViBQTrfPO3xV-aTVI&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AM6HXa8EAAAA&oh=00_AQMvaK1vP6J1TENpQEdWBGxRRelVXHP75Tvu0-bISSKkKA&oe=6AD3DA6F" class="thumb" onerror="this.style.opacity=0.1" alt="post">
-            </a>
-          </td>
-          <td>2</td>
-          <td>04/10</td>
-          <td><span class="type-badge">CAROUSEL</span></td>
-          <td><a href="https://www.instagram.com/p/DeFMY_3GQfC/" target="_blank" class="post-link">ME LO MEREZCO 🌷 by Juli Puente &amp; Sere — Encontrá sus elegidos in stores &amp; online</a></td>
-          <td class="num">2,026,774</td>
-          <td class="num">23,546</td>
-          <td class="num">181</td>
-          <td class="num">267</td>
-          <td class="num">111</td>
-          <td class="num">460,568</td>
-          <td class="num">1.19%</td>
-        </tr>
-        <!-- Row 3 -->
-        <tr>
-          <td class="thumb-cell">
-            <a href="https://www.instagram.com/p/DeNRpRRme7d/" target="_blank">
-              <img src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/840363425_18640142575019933_4167850659593215624_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=mN146n32_0wQ7kNvwFH6VTS&_nc_oc=AdoNhE2_-CYB1RARDSrAyJOIaJ1FFEPTq2ebEaQ9JSdgvLoKjaAubZroPvGSXM1yD6I&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AM6HXa8EAAAA&oh=00_AQOm3QOimCyhyVnw7xI1RfDvAaD3hMjk-V0eCBo2Cublyw&oe=6AD3F802" class="thumb" onerror="this.style.opacity=0.1" alt="post">
-            </a>
-          </td>
-          <td>3</td>
-          <td>07/10</td>
-          <td><span class="type-badge">CAROUSEL</span></td>
-          <td><a href="https://www.instagram.com/p/DeNRpRRme7d/" target="_blank" class="post-link">ME LO MEREZCO 🥰 Store take-over by Mica Vazquez y Baltu — Todo en nuestros locales &amp; online</a></td>
-          <td class="num">1,745,509</td>
-          <td class="num">32,919</td>
-          <td class="num">127</td>
-          <td class="num">290</td>
-          <td class="num">355</td>
-          <td class="num">844,169</td>
-          <td class="num">1.93%</td>
-        </tr>
-        <!-- Row 4 -->
-        <tr>
-          <td class="thumb-cell">
-            <a href="https://www.instagram.com/p/DeK0m0TmeaY/" target="_blank">
-              <img src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/838650284_18639848518019933_6242040801345127900_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=cTfdUCyLcisQ7kNvwGPuvew&_nc_oc=Adqih9db-umoaOUGX2bkw92SnRyJjoV8-WrlixomH_ppXIyO0VmlVd6AhpCTzX--lIw&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AM6HXa8EAAAA&oh=00_AQPPhOM3WPuQ32cyFclRJyOPLMFMjU6qvrRCSuz8Xx-yPg&oe=6AD3F441" class="thumb" onerror="this.style.opacity=0.1" alt="post">
-            </a>
-          </td>
-          <td>4</td>
-          <td>06/10</td>
-          <td><span class="type-badge">CAROUSEL</span></td>
-          <td><a href="https://www.instagram.com/p/DeK0m0TmeaY/" target="_blank" class="post-link">ME LO MEREZCO 💖 by Stephanie Demner, Ari &amp; Jaz — Ya podés encontrar su elección in stores &amp; online</a></td>
-          <td class="num">1,313,228</td>
-          <td class="num">14,627</td>
-          <td class="num">5,251</td>
-          <td class="num">249</td>
-          <td class="num">162</td>
-          <td class="num">505,030</td>
-          <td class="num">1.55%</td>
-        </tr>
-        <!-- Row 5 -->
-        <tr>
-          <td class="thumb-cell">
-            <a href="https://www.instagram.com/p/DeW0soOGZ63/" target="_blank">
-              <img src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/843449475_18641291107019933_315767414369263682_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=5RVLb8eqgvQQ7kNvwEtlZDp&_nc_oc=AdpL_ZdQcF7SqleNiUo3k5Yf03mVJlaoEguUkH9KRKRh-r6y9rhY-5g_6XOgX6w3JXk&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AM6HXa8EAAAA&oh=00_AQPJoYCCsWp0iIk7AyukifHU1GmBjq1VuAReBae225HqCA&oe=6AD3ED31" class="thumb" onerror="this.style.opacity=0.1" alt="post">
-            </a>
-          </td>
-          <td>5</td>
-          <td>11/10</td>
-          <td><span class="type-badge">CAROUSEL</span></td>
-          <td><a href="https://www.instagram.com/p/DeW0soOGZ63/" target="_blank" class="post-link">ME LO MEREZCO 🩵 by Cale Ruggeri &amp; Vita — Sus favoritos ya los encontrás in stores &amp; online</a></td>
-          <td class="num">579,920</td>
-          <td class="num">6,569</td>
-          <td class="num">34</td>
-          <td class="num">35</td>
-          <td class="num">136</td>
-          <td class="num">250,736</td>
-          <td class="num">1.17%</td>
-        </tr>
-        <!-- Row 6 -->
-        <tr>
-          <td class="thumb-cell">
-            <a href="https://www.instagram.com/p/DeSbL6TmYKk/" target="_blank">
-              <img src="https://scontent-fra5-1.cdninstagram.com/v/t51.82787-15/841978551_18640863310019933_4109212103794081993_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=3wqmb5eQMgYQ7kNvwGwkaqg&_nc_oc=AdoyZQg6RL6Yunawz5uq6yt9hjePKLfJFUG7ip3XoRFMJYHtsc1MGlnL8-LFabghh3U&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&edm=AM6HXa8EAAAA&oh=00_AQOYBbftKgKvs63gVpQxo6_T-d99_h5i0NZFneNaHQ9KvA&oe=6AD4061D" class="thumb" onerror="this.style.opacity=0.1" alt="post">
-            </a>
-          </td>
-          <td>6</td>
-          <td>09/10</td>
-          <td><span class="type-badge">CAROUSEL</span></td>
-          <td><a href="https://www.instagram.com/p/DeSbL6TmYKk/" target="_blank" class="post-link">ME LO MEREZCO 🌼 by Yaz Jaureguy &amp; Gemma — Sus elegidos in stores &amp; online</a></td>
-          <td class="num">387,855</td>
-          <td class="num">13,220</td>
-          <td class="num">42</td>
-          <td class="num">212</td>
-          <td class="num">245</td>
-          <td class="num">162,645</td>
-          <td class="num">3.54%</td>
-        </tr>
-        <!-- Row 7 -->
-        <tr>
-          <td class="thumb-cell">
-            <a href="https://www.instagram.com/p/DeaCuc5lSG5/" target="_blank">
-              <img src="https://scontent-fra3-1.cdninstagram.com/v/t51.82787-15/843103995_18640717978019933_5010541246726784377_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=2M0QrSzP98wQ7kNvwHd2lQX&_nc_oc=AdqTNzrFqWe1jH2fgnQKrR4VcnyMhYygi4iuJvyLaQq0xpDfFnR5lWkrL-nrWV8d9po&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=AM6HXa8EAAAA&oh=00_AQOe1mfn06m34Ceo_HVtpnXtrF3kANIhSiT1egcaRQoyIw&oe=6AD3DEE2" class="thumb" onerror="this.style.opacity=0.1" alt="post">
-            </a>
-          </td>
-          <td>7</td>
-          <td>12/10</td>
-          <td><span class="type-badge">CAROUSEL</span></td>
-          <td><a href="https://www.instagram.com/p/DeaCuc5lSG5/" target="_blank" class="post-link">You can pick mom's favorite color 🖤🤎💚 Plataforma Juki — In stores &amp; online</a></td>
-          <td class="num">327,955</td>
-          <td class="num">4,378</td>
-          <td class="num">113</td>
-          <td class="num">539</td>
-          <td class="num">310</td>
-          <td class="num">124,187</td>
-          <td class="num">1.63%</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- TIKTOK -->
-<div class="section">
-  <div class="section-title">
-    🎵 TikTok @ricky.sarkany
-    <span class="platform-badge tiktok">TIKTOK</span>
-  </div>
-
-  <!-- KPI Cards -->
-  <div class="kpi-grid">
-    <div class="kpi-card tiktok">
-      <div class="kpi-label">Views</div>
-      <div class="kpi-value">586,968</div>
-      <div class="kpi-var up">↑ 382.0%</div>
-      <div class="kpi-prev">Sem. ant.: 121,779</div>
-    </div>
-    <div class="kpi-card tiktok">
-      <div class="kpi-label">Likes</div>
-      <div class="kpi-value">31,907</div>
-      <div class="kpi-var up">↑ 617.1%</div>
-      <div class="kpi-prev">Sem. ant.: 4,449</div>
-    </div>
-    <div class="kpi-card tiktok">
-      <div class="kpi-label">Shares</div>
-      <div class="kpi-value">1,197</div>
-      <div class="kpi-var up">↑ 540.1%</div>
-      <div class="kpi-prev">Sem. ant.: 187</div>
-    </div>
-    <div class="kpi-card tiktok">
-      <div class="kpi-label">Engagement Rate</div>
-      <div class="kpi-value">5.66%</div>
-      <div class="kpi-var up">↑ 46.3%</div>
-      <div class="kpi-prev">Sem. ant.: 3.87%</div>
-    </div>
-  </div>
-
-  <!-- Mejor Video & Mejor ER -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;">
-    <div class="highlight-box">
-      <div class="hl-label">🏆 Mejor Video — Mayor Views</div>
-      <div class="hl-title">Las favoritas de Baltu 😂 Bota Geni ♥️ @Micaela Vazquez</div>
-      <div class="hl-stats">108,917 views · 4,175 likes · 65 shares · Avg watch 11.03s · ER 3.90%</div>
-    </div>
-    <div class="highlight-box" style="border-color:#4CAF50;">
-      <div class="hl-label" style="color:#4CAF50;">🎯 Mejor ER</div>
-      <div class="hl-title">campaña para el día de la madre - Sarkany, me lo merezco 💋👠♥️</div>
-      <div class="hl-stats">104,119 views · 16,413 likes · 672 shares · Avg watch 9.35s · <strong style="color:#4CAF50;">ER 16.45%</strong></div>
-    </div>
-  </div>
-
-  <!-- Top 7 Videos -->
-  <h3 style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px;">Top 7 Videos — Últimos 14 días (por Views)</h3>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="thumb-cell">Link</th>
-          <th>Fecha</th>
-          <th>Caption</th>
-          <th class="num">Views</th>
-          <th class="num">Likes</th>
-          <th class="num">Coments</th>
-          <th class="num">Shares</th>
-          <th class="num">Reach</th>
-          <th class="num">Avg Watch</th>
-          <th class="num">ER %</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="row-gold">
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7695388036560981268?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" style="font-size:18px;text-decoration:none;">▶️</a></td>
-          <td>11/10 12:35</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7695388036560981268?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">Las favoritas de Baltu 😂 Bota Geni ♥️ @Micaela Vazquez</a></td>
-          <td class="num">108,917</td>
-          <td class="num">4,175</td>
-          <td class="num">8</td>
-          <td class="num">65</td>
-          <td class="num">87,087</td>
-          <td class="num">11.03s</td>
-          <td class="num">3.90%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7694778287872281876?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" style="font-size:18px;text-decoration:none;">▶️</a></td>
-          <td>09/10</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7694778287872281876?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">campaña para el día de la madre - Sarkany, me lo merezco 💋👠♥️</a></td>
-          <td class="num">104,119</td>
-          <td class="num">16,413</td>
-          <td class="num">42</td>
-          <td class="num">672</td>
-          <td class="num">78,742</td>
-          <td class="num">9.35s</td>
-          <td class="num er-highlight">16.45%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7695376521350941972?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" style="font-size:18px;text-decoration:none;">▶️</a></td>
-          <td>11/10 11:51</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7695376521350941972?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">el bailecito del final 😂 @Micaela Vezquez Baltu el mejor Sarkany Friend</a></td>
-          <td class="num">80,899</td>
-          <td class="num">11,869</td>
-          <td class="num">26</td>
-          <td class="num">385</td>
-          <td class="num">55,252</td>
-          <td class="num">8.97s</td>
-          <td class="num">15.17%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7695154852560784661?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" style="font-size:18px;text-decoration:none;">▶️</a></td>
-          <td>10/10</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7695154852560784661?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">Me lo merezco by @Camila Homs ♥️ Sarkany - día de la madre</a></td>
-          <td class="num">42,389</td>
-          <td class="num">1,819</td>
-          <td class="num">17</td>
-          <td class="num">48</td>
-          <td class="num">8,330</td>
-          <td class="num">7.52s</td>
-          <td class="num">4.45%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7691788537162763527?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" style="font-size:18px;text-decoration:none;">▶️</a></td>
-          <td>01/10</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7691788537162763527?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">@valen ramos @emily fly 🗡️ 🫣🫪🤭❤️</a></td>
-          <td class="num">38,702</td>
-          <td class="num">1,088</td>
-          <td class="num">15</td>
-          <td class="num">16</td>
-          <td class="num">30,627</td>
-          <td class="num">8.71s</td>
-          <td class="num">2.89%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7692880402331159828?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" style="font-size:18px;text-decoration:none;">▶️</a></td>
-          <td>04/10</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7692880402331159828?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">ME LO MEREZCO 🌸 día de la madre con Aitu y @Camila Homs</a></td>
-          <td class="num">18,203</td>
-          <td class="num">459</td>
-          <td class="num">8</td>
-          <td class="num">9</td>
-          <td class="num">15,653</td>
-          <td class="num">16.95s</td>
-          <td class="num">2.61%</td>
-        </tr>
-        <tr>
-          <td class="thumb-cell"><a href="https://www.tiktok.com/@ricky.sarkany/video/7695781368998972692?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" style="font-size:18px;text-decoration:none;">▶️</a></td>
-          <td>12/10</td>
-          <td><a href="https://www.tiktok.com/@ricky.sarkany/video/7695781368998972692?utm_campaign=tt4d_open_api&utm_source=7288613544411529218" target="_blank" class="post-link">@Micaela Vazquez ya tiene su regalito. Sandalias appa ♥️</a></td>
-          <td class="num">15,300</td>
-          <td class="num">1,056</td>
-          <td class="num">3</td>
-          <td class="num">8</td>
-          <td class="num">—</td>
-          <td class="num">8.66s</td>
-          <td class="num">7.00%</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- BENCHMARK -->
-<div class="section">
-  <div class="section-title">
-    📊 Benchmark Competidoras — Instagram
-    <span class="platform-badge bench">BENCHMARK</span>
-  </div>
-
-  <div class="bench-grid">
-    <!-- Sarkany -->
-    <div class="bench-card">
-      <div class="brand-name">@rickysarkany</div>
-      <div class="bench-row"><span class="bench-key">Seguidores</span><span class="bench-val">N/D (privado)</span></div>
-      <div class="bench-row"><span class="bench-key">Posts (semana)</span><span class="bench-val">6</span></div>
-      <div class="bench-row"><span class="bench-key">Avg Likes/Post</span><span class="bench-val">13,504</span></div>
-      <div class="bench-row"><span class="bench-key">ER (sobre views)</span><span class="bench-val" style="color:#4CAF50;font-weight:800;">1.15% 🥇</span></div>
-    </div>
-    <!-- Mishka -->
-    <div class="bench-card p2">
-      <div class="bench-name" style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px;border-top:3px solid #9B59B6;padding-top:14px;">@mishkabuenosaires</div>
-      <div class="bench-row"><span class="bench-key">Seguidores</span><span class="bench-val">389,485</span></div>
-      <div class="bench-row"><span class="bench-key">Posts (semana)</span><span class="bench-val">4</span></div>
-      <div class="bench-row"><span class="bench-key">Avg Likes/Post</span><span class="bench-val">460</span></div>
-      <div class="bench-row"><span class="bench-key">ER (sobre seguidores)</span><span class="bench-val">0.121%</span></div>
-    </div>
-    <!-- Paruolo -->
-    <div class="bench-card p3">
-      <div class="bench-name" style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px;border-top:3px solid #3498DB;padding-top:14px;">@paruolo</div>
-      <div class="bench-row"><span class="bench-key">Seguidores</span><span class="bench-val">739,288</span></div>
-      <div class="bench-row"><span class="bench-key">Posts (semana)</span><span class="bench-val">4</span></div>
-      <div class="bench-row"><span class="bench-key">Avg Likes/Post</span><span class="bench-val">271</span></div>
-      <div class="bench-row"><span class="bench-key">ER (sobre seguidores)</span><span class="bench-val">0.037%</span></div>
-    </div>
-    <!-- Prune -->
-    <div class="bench-card p4">
-      <div class="bench-name" style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px;border-top:3px solid #E67E22;padding-top:14px;">@pruneoficial</div>
-      <div class="bench-row"><span class="bench-key">Seguidores</span><span class="bench-val">1,738,188</span></div>
-      <div class="bench-row"><span class="bench-key">Posts (semana)</span><span class="bench-val">10</span></div>
-      <div class="bench-row"><span class="bench-key">Avg Likes/Post</span><span class="bench-val">519</span></div>
-      <div class="bench-row"><span class="bench-key">ER (sobre seguidores)</span><span class="bench-val">0.030%</span></div>
-    </div>
-  </div>
-
-  <div class="bench-note">
-    <strong style="color:#E8C170;">Nota metodológica:</strong> El ER de @rickysarkany está calculado sobre views (datos privados de cuenta propia), mientras que el de las competidoras se calcula sobre seguidores (datos públicos). Las métricas no son directamente comparables, pero confirman la posición de liderazgo de Sarkany en engagement real por impresión. Mishka lidera entre competidoras con 0.121% ER sobre seguidores.
-  </div>
-</div>
-
-<!-- CONCLUSIONES -->
-<div class="section">
-  <div class="section-title">
-    💡 Conclusiones Accionables
-  </div>
-
-  <div class="insights-grid">
-    <div class="insight-card">
-      <div class="insight-icon">🌟</div>
-      <div class="insight-title">Efecto Celebridades — IG</div>
-      <div class="insight-text">La campaña <strong>"ME LO MEREZCO"</strong> con Cami Homs generó 3.29M views y ER 3.59% — el mejor post del mes. La fórmula celebridad + narrativa emocional de Día de la Madre es el motor de alcance de esta semana. Sostenerla es prioridad.</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-icon">🎵</div>
-      <div class="insight-title">TikTok en Explosión</div>
-      <div class="insight-text">Semana histórica en TikTok: <strong>+382% views</strong> y ER de <strong>16.45%</strong> en el mejor video. El contenido con Mica Vazquez y Baltu funcionó con formato divertido/cercano. Replicar el eje humor + producto es la palanca más inmediata de crecimiento.</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-icon">📉</div>
-      <div class="insight-title">Baja IG — Contexto</div>
-      <div class="insight-text">Las caídas en IG (-29% views, -50% likes) son relativas al pico viral de la semana anterior (Cami Homs: 3.29M views). El volumen absoluto sigue siendo sólido: 7.46M views y 1,707 nuevos seguidores. No es retroceso, es regreso a la línea de base post-viral.</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-icon">🏆</div>
-      <div class="insight-title">Formato Ganador IG</div>
-      <div class="insight-text">El 100% de los posts publicados son CAROUSEL. El ER promedio supera el 1%, con picos del 3.5%+ en colaboraciones con influencers. Mantener la estructura CAROUSEL + celebridad + copy emocional como estándar de formato.</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-icon">🗓️</div>
-      <div class="insight-title">Próximos Pasos</div>
-      <div class="insight-text">• <strong>Día de la Madre (18/10):</strong> Última semana de campaña. Maximizar posting (2 posts/día) con mix de celeb + producto. <br>• <strong>TikTok:</strong> Replicar el formato "amigas probando zapatos" de Baltu que generó 15%+ ER.<br>• <strong>Apertura Canning:</strong> Continuar cobertura de la nueva tienda para traffic local.</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-icon">📊</div>
-      <div class="insight-title">Benchmark — Posición</div>
-      <div class="insight-text">Sarkany lidera la categoría en engagement real por impresión. Entre competidoras, <strong>Mishka</strong> es la más eficiente con 0.121% ER sobre seguidores, seguida de <strong>Paruolo</strong> (0.037%) y <strong>Prune</strong> (0.030%). La brecha es amplia — Sarkany no tiene competencia real en engagement.</div>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <p>Próximo reporte: <strong>Lunes 20 de octubre de 2026</strong></p>
-  <p style="margin-top:8px;">Sarkany Digital · <a href="mailto:camezaga@rickysarkany.com">camezaga@rickysarkany.com</a></p>
-  <p style="margin-top:6px;color:#333;">Datos: Windsor.ai · Generado automáticamente por Sarkany Social Report Bot</p>
-</footer>
+</div><!-- end container -->
 
 <script>
-// Tendencia 4 Semanas IG
-const trendCtx = document.getElementById('trendChart').getContext('2d');
-new Chart(trendCtx, {
+// ── IG TREND CHART ─────────────────────────────────────────
+const igTrendCtx = document.getElementById('igTrendChart').getContext('2d');
+new Chart(igTrendCtx, {
   type: 'line',
   data: {
-    labels: ['W1 (Sep16-22)', 'W2 (Sep23-29)', 'W3 (Sep30-Oct6)', 'W4 (Oct7-13)'],
+    labels: ['W1 (21-27 Sep)', 'W2 (28 Sep - 4 Oct)', 'W3 (5-11 Oct)', 'W4 (12-18 Oct)'],
     datasets: [{
       label: 'Views IG',
-      data: [3463135, 4924291, 10555306, 7461853],
+      data: [4532794, 9571967, 8600361, 6160349],
       borderColor: '#C13584',
-      backgroundColor: 'rgba(193,53,132,0.1)',
+      backgroundColor: 'rgba(193,53,132,0.12)',
       fill: true,
       tension: 0.4,
       pointBackgroundColor: '#C13584',
       pointRadius: 5,
-      pointHoverRadius: 7
+      pointHoverRadius: 7,
+      borderWidth: 2.5
     }]
   },
   options: {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { labels: { color: '#888', font: { size: 11 } } }
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1a1a1a',
+        borderColor: '#2a2a2a',
+        borderWidth: 1,
+        titleColor: '#888',
+        bodyColor: '#fff',
+        callbacks: {
+          label: ctx => ' ' + ctx.parsed.y.toLocaleString('es-AR') + ' views'
+        }
+      }
     },
     scales: {
-      x: { ticks: { color: '#666', font: { size: 10 } }, grid: { color: '#1a1a1a' } },
+      x: {
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        ticks: { color: '#888', font: { size: 11 } }
+      },
       y: {
-        ticks: { color: '#666', font: { size: 10 }, callback: v => (v/1000000).toFixed(1)+'M' },
-        grid: { color: '#1a1a1a' }
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        ticks: {
+          color: '#888',
+          font: { size: 11 },
+          callback: v => (v / 1000000).toFixed(1) + 'M'
+        }
       }
     }
   }
 });
 
-// Mix de Contenido Donut
-const mixCtx = document.getElementById('mixChart').getContext('2d');
-new Chart(mixCtx, {
+// ── MIX CONTENT DONUT ──────────────────────────────────────
+const igMixCtx = document.getElementById('igMixChart').getContext('2d');
+new Chart(igMixCtx, {
   type: 'doughnut',
   data: {
-    labels: ['CAROUSEL', 'REEL', 'IMAGE'],
+    labels: ['Carousel', 'Reel', 'Image'],
     datasets: [{
-      data: [100, 0, 0],
-      backgroundColor: ['#C13584', '#E8C170', '#FE2C55'],
+      data: [14, 0, 0],
+      backgroundColor: ['#C13584', '#FE2C55', '#E8C170'],
       borderColor: '#0C0C0C',
-      borderWidth: 3
+      borderWidth: 3,
+      hoverOffset: 6
     }]
   },
   options: {
@@ -644,12 +937,25 @@ new Chart(mixCtx, {
     plugins: {
       legend: {
         position: 'bottom',
-        labels: { color: '#888', font: { size: 11 }, padding: 12 }
+        labels: {
+          color: '#888',
+          font: { size: 11 },
+          padding: 12,
+          boxWidth: 12
+        }
+      },
+      tooltip: {
+        backgroundColor: '#1a1a1a',
+        borderColor: '#2a2a2a',
+        borderWidth: 1,
+        callbacks: {
+          label: ctx => ` ${ctx.label}: ${ctx.parsed} posts`
+        }
       }
-    }
+    },
+    cutout: '65%'
   }
 });
 </script>
-
 </body>
 </html>
